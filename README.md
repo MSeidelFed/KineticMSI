@@ -9,10 +9,23 @@ The function depends mainly on Cardinal R package. The function uses percentages
 example_kMSI <- Kinetic_MSI(file = "Imaging_File_Directory", MSI_type = "MSImageSet", Enrichment_File = Enrichment_File_Directory)
 ``` 
 
-
 ## drawing the SCC image and selecting an specific cluster as output
+
+There is one mandatory parameter in the function, file_name_WO_extension, which refers to the directory and name of your .ibd and .imzML files. Furthermore there are four optional parameters; type, refers to the kind of Cardinal object that the workflow will use (options are "MSImageSet" and "MSImagingExperiment"). Then you can tune the mathematical parameters of your partitions r, k and s. And the last parameter refers to the cluster_Nr that you want to obtain a data matrix of. Specially usefull to isolate a matrix of your experimental segment
 
 ``` 
 example_SSC <- segmentation_initial_steps(file_name_WO_extension = "Imaging_File_Directory", type = "MSImageSet", r = 1, k = 5, s = 3, cluster_Nr = 2)
 ``` 
 
+The output is a segmented image of your file and a data matrix containing the information of your selected cluster.
+
+``` 
+example_SSC[1:5,1:3]
+
+                             x = 49, y = 2, z = 1         x = 50, y = 2, z = 1          x = 40, y = 3, z = 1
+286.984753095237             7.712556                     8.307419                      7.192391
+289.058499875001             5.743113                     5.350798                      5.144504
+290.100985837298             0.000000                     0.000000                      3.810359
+315.017782775377             0.000000                     0.000000                      0.000000
+325.13129680233              0.000000                     0.000000                      0.000000
+``` 
