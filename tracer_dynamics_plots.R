@@ -1,5 +1,5 @@
 tracer_dynamics <- function(file,
-                        MSI_type = MSImageSet,
+                        MSI_type = "MSImageSet",
                         Enrichment_File)
   
   {
@@ -41,7 +41,7 @@ common_mzs <- as.numeric(rownames(File_Mat))
 mycol <- gradient.colors(100, start="white", end="black") 
 
 
-pdf(file = "Best_mzs.pdf")
+pdf(file = paste0("out2_",strsplit(x = file, split = "/")[[1]][length(strsplit(x = file, split = "/")[[1]])],".pdf"))
 
 for (i in 2:length(common_mzs)) {
   image(msset, mz= common_mzs[i], col.regions=mycol, smooth.image="gaussian")
@@ -54,7 +54,7 @@ Enrichment <- read.csv(file = Enrichment_File, header = T, dec = ".", row.names 
 df <- as.data.frame(rbind(xAxis = File_coords$x, yAxis = File_coords$y))
 colnames(df) <- rownames(File_coords)
 
-pdf(file = "Enrichment_Reconstructions.pdf")
+pdf(file = paste0("out3_",strsplit(x = file, split = "/")[[1]][length(strsplit(x = file, split = "/")[[1]])],".pdf"))
 
 for (i in 1:dim(Enrichment)[1]) {
   
