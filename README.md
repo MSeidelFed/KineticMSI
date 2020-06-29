@@ -68,7 +68,7 @@ Subsequently, the output table can be directly used by IsoCor following the publ
 
 ## Step 2 - Spatial dynamics of the tracer
 
-Following the enrichment calculation procedure, and aiming at taking advantage of the gained spatial dimensions provided by MSI, we explored the kinetics of the tracer in the tissue. To do that we built a fuction that uses percentages of enrichment from specific mass features to reconstruct the tissue slide gaining insigths on which areas, if at all, of the tissue have incorporated more tracer. The function has a dependency to the Cardinal R package (https://www.bioconductor.org/packages/release/bioc/html/Cardinal.html).
+Following the enrichment calculation procedure, and aiming at taking advantage of the gained spatial dimensions provided by MSI, we explored the kinetics of the tracer in the tissue. To do that we built a fuction that uses percentages of enrichment from specific mass features to reconstruct the tissue slide gaining insigths on which tissue areas, if at all, have incorporated more tracer. The function has a dependency to the Cardinal R package (https://www.bioconductor.org/packages/release/bioc/html/Cardinal.html).
 
 ``` 
 if(!require(Cardinal)) {BiocManager::install("Cardinal"); require(Cardinal)}
@@ -77,7 +77,9 @@ library(Cardinal)
 example_kMSI <- Kinetic_MSI(file = "Imaging_File_Directory", MSI_type = "MSImageSet", Enrichment_File = Enrichment_File_Directory)
 ``` 
 
-## Step 3 - Clustering regions of differential enrichment 
+The outcome from this visual evaluation is a prioritization of peptides or metabolites for the subsequent steps.
+
+## Step 3 - Clustering active regions with differential tracer incorporation 
 
 ### drawing the SCC image and selecting an specific cluster as output
 
