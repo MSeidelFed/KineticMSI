@@ -23,7 +23,23 @@ Enrichment percentages are calculated using the algorithms described in
 which correct the endogenous metabolite or peptide pools for the natural isotopic abundance (NIA) according to the chemical formula before calculating via a simple A0 to An division. The IsoCorrectoR is used in R to obtain percentages of enrichment of molecular species with less than 100 hydrogens, and the IsoCor is used in python to obtain percentages of enrichment of molecular species with 100 or more hydrogens (this is due to an intrinsic software limitation within the IsoCorrectoR)
 
 ### IsoCorrectoR workflow
+IsoCorrectoR has been installed and used according to the instructions provided upon releasing of the package in BioConductor (https://www.bioconductor.org/packages/release/bioc/html/IsoCorrectoR.html) as follows:
 
+```
+Enrichment <- IsoCorrectoR::IsoCorrection(MeasurementFile = "Data/MeasurementFile_HD_D8.csv",
+                                     ElementFile = "Data/ElementFile.csv",
+                                     MoleculeFile = "Data/MoleculeFile_WT_D8.csv",
+                                     CorrectTracerImpurity = T,
+                                     CorrectTracerElementCore = T,
+                                     CalculateMeanEnrichment = T,
+                                     UltraHighRes = F,
+                                     FileOut = "trial.csv",
+                                     FileOutFormat = "csv",
+                                     ReturnResultsObject = T,
+                                     CorrectAlsoMonoisotopic = T)
+```
+
+For MSI, each column in the input table "MeasurementFile.csv" belongs to a single coordinate on the original image where the isotopologues could be measured and mined out.
 
 ### IsoCor workflow
 
