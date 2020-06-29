@@ -27,6 +27,28 @@ which correct the endogenous metabolite or peptide pools for the natural isotopi
 
 ### IsoCor workflow
 
+Python version: 
+```
+module add devel/Python-3.8.0
+```
+
+IsoCor input tables have the following format:
+
+ sample              | metabolite | derivative | isotopologue  | area           | resolution  |
+ ------------------- | ------------------------| --------------| ---------------| ------------|
+  [1,] "Sample_X"    | "PIP2492"  | ""         | "0"           |  "52335.21982" | "70000"     |
+  [2,] "Sample_X"    | "PIP2492"  | ""         | "1"           |  "75684.458"   | "70000"     |
+  [3,] "Sample_X"    | "PIP2492"  | ""         | "2"           |  "0"           | "70000"     |
+  [4,] "Sample_X"    | "PIP2492"  | ""         | "3"           |  "0"           | "70000"     |
+  [5,] "Sample_X"    | "PIP2492"  | ""         | "4"           |  "0"           | "70000"     |
+  [6,] "Sample_X"    | "PIP2492"  | ""         | "5"           |  "0"           | "70000"     |
+
+and can be obtained from our universal input csv format (DATA_XXXX) using the function ProduceIsoCorTables as follows:
+
+```
+WT1 <- ProduceIsoCorTables(PathToCSV_file = "Replicate 1/Pyr layer replicate1  29WT.csv")
+```
+Subsequently, the output table can be directly used by IsoCor following the published instructions (https://github.com/MetaSys-LISBP/IsoCor).
 
 ## Step 2 - Spatial dynamics of the tracer
 
