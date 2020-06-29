@@ -14,6 +14,18 @@ kineticMSI has been divided in several steps:
 
 ## Step 1 - Enrichment percentages
 
+Enrichment percentages are calculated using the algorithms described in 
+
+  *Heinrich, P., Kohler, C., Ellmann, L., Kuerner, P., Spang, R., Oefner, P. J., and Dettmer, K. (2018). Correcting for natural isotope abundance and tracer impurity in MS-, MS/MS- and high-resolution-multiple-tracer-data from stable isotope labeling experiments with IsoCorrectoR. Sci. Rep. 8.*
+  
+  *Millard, P., Delépine, B., Guionnet, M., Heuillet, M., Bellvert, F., Létisse, F., and Wren, J. (2019). IsoCor: Isotope correction for high-resolution MS labeling experiments. Bioinformatics 35:4484–4487.*
+
+which correct the endogenous metabolite or peptide pools for the natural isotopic abundance (NIA) according to the chemical formula before calculating via a simple A0 to An division. The IsoCorrectoR is used in R to obtain percentages of enrichment of molecular species with less than 100 hydrogens, and the IsoCor is used in python to obtain percentages of enrichment of molecular species with 100 or more hydrogens (this is due to an intrinsic software limitation within the IsoCorrectoR)
+
+### IsoCorrectoR workflow
+
+
+### IsoCor workflow
 
 
 ## Step 2 - Spatial dynamics of the tracer
