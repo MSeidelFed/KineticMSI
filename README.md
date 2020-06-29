@@ -39,7 +39,7 @@ Enrichment <- IsoCorrectoR::IsoCorrection(MeasurementFile = "Data/MeasurementFil
                                      CorrectAlsoMonoisotopic = T)
 ```
 
-For MSI, each column in the input table "MeasurementFile.csv" belongs to a single coordinate on the original image where the isotopologues could be measured and mined out.
+For MSI, each column in the input table "MeasurementFile.csv" belongs to a single coordinate on the original image where the isotopologues could be measured and mined out. The files were built manually from our own universal input csv format file (Data/Universal_Isotopologue_File.csv).
 
 ### IsoCor workflow
 
@@ -59,7 +59,7 @@ IsoCor input tables have the following format:
   [5,] "Sample_X"    | "PIP2492"  | ""         | "4"           |  "0"           | "70000"     |
   [6,] "Sample_X"    | "PIP2492"  | ""         | "5"           |  "0"           | "70000"     |
 
-and can be obtained from our universal input csv format (DATA_XXXX) using the function ProduceIsoCorTables as follows:
+and can be obtained from our universal input csv format file (Data/Universal_Isotopologue_File.csv) using the function ProduceIsoCorTables as follows:
 
 ```
 WT1 <- ProduceIsoCorTables(PathToCSV_file = "Replicate 1/Pyr layer replicate1  29WT.csv")
