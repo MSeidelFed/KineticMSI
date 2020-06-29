@@ -1,7 +1,22 @@
 # kinteticMSI
 functions to interpret stable isotope assisted mass spec imaging experiments
 
-## Distribution of the tracer across the tissue
+## Usage Instructions
+kineticMSI has been divided in several steps:
+
+1.  The first step is a calculation of enrichment percentages from the molecular species of interest.
+
+1.  The second step is meant to reconstruct MSI images based on the derived proxies of isotope enrichment.
+
+1.  The third step classifies subclasses inside images based on the enrichment percentages and compares them to anatomical regions of interest obtained thorugh unsupervised statsitcal methods.
+
+1.  The fourth step entails an integrated user-assisted relative quantitation and comparison analyses of the enrichment dynamics of the labelled metabolic targets.
+
+## Step 1 - Enrichment percentages
+
+
+
+## Step 2 - Spatial dynamics of the tracer
 
 The function depends mainly on Cardinal R package. The function uses percentages of enrichments of specific mass features to reconstruct the tissue slide gaining insigths on which areas of the tissue have incorporated more tracer.
 
@@ -9,7 +24,9 @@ The function depends mainly on Cardinal R package. The function uses percentages
 example_kMSI <- Kinetic_MSI(file = "Imaging_File_Directory", MSI_type = "MSImageSet", Enrichment_File = Enrichment_File_Directory)
 ``` 
 
-## drawing the SCC image and selecting an specific cluster as output
+## Step 3 - Clustering regions of differential enrichment 
+
+### drawing the SCC image and selecting an specific cluster as output
 
 There is one mandatory parameter in the function, file_name_WO_extension, which refers to the directory and name of your .ibd and .imzML files. Furthermore there are four optional parameters; type, refers to the kind of Cardinal object that the workflow will use (options are "MSImageSet" and "MSImagingExperiment"). Then you can tune the mathematical parameters of your partitions r, k and s. And the last parameter refers to the cluster_Nr that you want to obtain a data matrix of. Specially usefull to isolate a matrix of your experimental segment
 
@@ -29,3 +46,8 @@ example_SSC[1:5,1:3]
 315.017782775377             0.000000                     0.000000                      0.000000
 325.13129680233              0.000000                     0.000000                      0.000000
 ``` 
+
+## Step 4 - Relative quantitation
+
+
+
