@@ -1,4 +1,4 @@
-# kinteticMSI
+# kineticMSI
 Functions to interpret stable isotope assisted mass spec imaging experiments
 
 ## Usage Instructions
