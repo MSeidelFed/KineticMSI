@@ -8,7 +8,7 @@ kineticMSI has been divided in several steps:
 
 1.  The second step is meant to reconstruct MSI images based on the derived proxies of isotope enrichment.
 
-1.  The third step classifies subclasses inside images based on the enrichment percentages and compares them to anatomical regions of interest obtained thorugh unsupervised statsitcal methods.
+1.  The third step classifies the coordinates from individual molecular species in subclasses based on the enrichment percentages and compares them to anatomical regions of interest obtained thorugh unsupervised statistical methods.
 
 1.  The fourth step entails an integrated user-assisted relative quantitation and comparison analyses of the enrichment dynamics of the labelled metabolic targets.
 
