@@ -4,21 +4,18 @@ Functions to interpret stable isotope assisted mass spec imaging experiments
 ## Usage Instructions
 kineticMSI has been divided in several steps:
 
-1.   Step 1 – data preprocessing: preprocessing is meant to delete potentially confounding pixels which might be missinterpreted as enriched if left on the datasets during natural isotopic enrichment corrections.
+1.   Data preprocessing: The procedure is meant to delete potentially confounding pixels which might be missinterpreted as enriched if left on the datasets during natural isotopic enrichment corrections.
 
- * Filtering step 1 – All pixels with M0 = 0 are deleted (replaced with NA).
- 
- * Filtering step 2 – All pixels with all isotopologues = 0 are deleted (replaced with NA).
+1. Correcting for natural isotopic abundance (NIA): from the corrected isotopologue pools the enrichment percentages can be easily derived.
 
+1. Determning the best proxy of enrichment: the used proxy can vary with diverse experimental strategies, i.e., tracer used, metabolic targets , detected isotopologues, enrichment percentages, isotopic envelope shifts.
 
-# unoptimized
-1. The first step is a calculation of enrichment percentages from the molecular species of interest.
+1. Analyses of the tracer spatial dynamics and incorporation rates: This step is meant to reconstruct MSI images based on the derived proxies of isotope enrichment.
 
-1.  The second step is meant to reconstruct MSI images based on the derived proxies of isotope enrichment.
+1. Comparing mean incorporation among mathematical quartiles instead of averaging: This crucial step classifies the coordinates from individual molecular species in subclasses based on the enrichment percentages in order to prevent dilution of the biology by averaging an entire region. Additionally, the procedure enables comparison to anatomical regions of interest obtained thorugh unsupervised statistical methods (From Cardinal SSC or SCiLS k-Means clustering).
 
-1.  The third step classifies the coordinates from individual molecular species in subclasses based on the enrichment percentages and compares them to anatomical regions of interest obtained thorugh unsupervised statistical methods.
+1. Enrichment relative quantitation: The final step entails an integrated user-assisted relative quantitation and comparison analyses of the enrichment dynamics of the labelled metabolic targets. The procedure uses the classes discovered in the previous step.
 
-1.  The fourth step entails an integrated user-assisted relative quantitation and comparison analyses of the enrichment dynamics of the labelled metabolic targets.
 
 ## Step 1 - Enrichment calculations
 
