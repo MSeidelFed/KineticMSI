@@ -19,10 +19,10 @@ kineticMSI has been divided in several steps:
 
 ## Step 1 - Preparing the dataset
 
-1. Filtering step 1 – All pixels with M0 = 0 are deleted (replaced
+* Filtering step 1 – All pixels with M0 = 0 are deleted (replaced
 with NA).
 
-1. Filtering step 2 – All pixels with all isotopologues = 0 are
+* Filtering step 2 – All pixels with all isotopologues = 0 are
 deleted (replaced with NA).
 
 
