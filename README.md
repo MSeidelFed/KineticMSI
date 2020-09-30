@@ -6,9 +6,9 @@ kineticMSI has been divided in several steps:
 
 1.   Step 1 – data preprocessing
 
-* Filtering step 1 – All pixels with M0 = 0 are deleted (replaced with NA).
+ * Filtering step 1 – All pixels with M0 = 0 are deleted (replaced with NA).
  
-* Filtering step 2 – All pixels with all isotopologues = 0 are deleted (replaced with NA).
+ * Filtering step 2 – All pixels with all isotopologues = 0 are deleted (replaced with NA).
 
 
 # unoptimized
