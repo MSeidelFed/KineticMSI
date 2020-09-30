@@ -4,7 +4,15 @@ Functions to interpret stable isotope assisted mass spec imaging experiments
 ## Usage Instructions
 kineticMSI has been divided in several steps:
 
-1.  The first step is a calculation of enrichment percentages from the molecular species of interest.
+1.   Step 1 – data preprocessing
+
+ 1. Filtering step 1 – All pixels with M0 = 0 are deleted (replaced with NA).
+ 
+ 1. Filtering step 2 – All pixels with all isotopologues = 0 are deleted (replaced with NA).
+
+
+# unoptimized
+1. The first step is a calculation of enrichment percentages from the molecular species of interest.
 
 1.  The second step is meant to reconstruct MSI images based on the derived proxies of isotope enrichment.
 
