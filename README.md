@@ -1,7 +1,7 @@
 # KineticMSI
 **Functions to interpret stable isotope assisted mass spec imaging experiments**
 ## Introduction
-IntCryOmics is a collection of scripts to randomly select spatial neighborhoods of proteins from a multiprotein complex in order to test whether these neighbors characterize a region within the complex that becomes significantly enriched upon any experimental procedure. The procedure has been detailed in XXXXX and XXXXX publication.
+KineticMSI is a collection of scripts to assist in accurate data preparing and analyses of stable isotope assisted Mass Spectrometry Imaging experiments in order to derive functional biological interpretations. The procedure has been detailed in XXXXX and XXXXX publication.
 
 The repo follows this file structure, in order of relevance:
 
