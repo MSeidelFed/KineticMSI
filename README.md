@@ -4,7 +4,7 @@ Functions to interpret stable isotope assisted mass spec imaging experiments
 ## Usage Instructions
 kineticMSI has been divided in several steps:
 
-1.   Step 1 – data preprocessing
+1.   Step 1 – data preprocessing: preprocessing is meant to delete potentially confounding pixels which might be missinterpreted as enriched if left on the datasets during natural isotopic enrichment corrections.
 
  * Filtering step 1 – All pixels with M0 = 0 are deleted (replaced with NA).
  
