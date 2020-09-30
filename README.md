@@ -17,7 +17,16 @@ kineticMSI has been divided in several steps:
 1. Enrichment relative quantitation: The final step entails an integrated user-assisted relative quantitation and comparison analyses of the enrichment dynamics of the labelled metabolic targets. The procedure uses the classes discovered in the previous step.
 
 
-## Step 1 - Enrichment calculations
+## Step 1 - Preparing the dataset
+
+1. Filtering step 1 – All pixels with M0 = 0 are deleted (replaced
+with NA).
+
+1. Filtering step 2 – All pixels with all isotopologues = 0 are
+deleted (replaced with NA).
+
+
+## Step 2 - Natural Isotopic Abundace Correction
 
 Enrichment percentages are calculated using the algorithms described in 
 
