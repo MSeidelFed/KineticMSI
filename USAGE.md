@@ -4,7 +4,7 @@ Functions to interpret stable isotope assisted mass spec imaging experiments
 ## Usage Instructions
 kineticMSI has been divided in several steps:
 
-1.   Data preprocessing: The procedure is meant to delete potentially confounding pixels which might be missinterpreted as enriched if left on the datasets during natural isotopic enrichment corrections.
+1.   Data preprocessing: The procedure is meant to delete potentially confounding pixels which might be misinterpreted as enriched if left on the datasets during natural isotopic enrichment corrections.
 
 1. Correcting for natural isotopic abundance (NIA): from the corrected isotopologue pools the enrichment percentages can be easily derived.
 
