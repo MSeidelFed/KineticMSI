@@ -46,7 +46,7 @@ Enrichment percentages are calculated using the algorithms described in
   
   *Millard, P., Delépine, B., Guionnet, M., Heuillet, M., Bellvert, F., Létisse, F., and Wren, J. (2019). IsoCor: Isotope correction for high-resolution MS labeling experiments. Bioinformatics 35:4484–4487.*
 
-which correct the endogenous metabolite or peptide pools for the natural isotopic abundance (NIA) according to the chemical formula before calculating via a simple A0 to An division. The IsoCorrectoR is used in R to obtain percentages of enrichment of any molecular species, and the IsoCor is used in python to obtain equvalent percentages of enrichment and NIA correction of molecular species.
+The procedures correct the endogenous metabolite or peptide pools for the natural isotopic abundance (NIA) according to the chemical formula before calculating via a simple A0 to An division. The IsoCorrectoR can be used and the IsoCor in python to obtain equivalent percentages of enrichment and NIA correction of molecular species with cross validation from both platforms.
 
 ### IsoCorrectoR workflow
 IsoCorrectoR has been installed and used according to the instructions provided upon releasing of the package in BioConductor (https://www.bioconductor.org/packages/release/bioc/html/IsoCorrectoR.html) as follows:
