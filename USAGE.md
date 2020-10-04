@@ -44,7 +44,13 @@ deleted (replaced with NA).
 
 ```{r}
 
+### keep output files in the R environment
+
 NullPixel_rm_test <- NullPixel_rm(MeasurementFile_dir = "Data/", return_csv = T)
+
+### only produce files outside the R environment without keeping data in the environment
+
+NullPixel_rm(MeasurementFile_dir = "Data/", return_csv = T)
 
 ```
 
@@ -67,6 +73,7 @@ IsoCorrectoR has been installed and used according to the instructions provided 
 For MSI, each column in the input table "MeasurementFile.csv" belongs to a single coordinate on the original image where the isotopologues could be measured and mined out.
 
 ```{r}
+
 library(IsoCorrectoR)
 
 Enrichment <- IsoCorrectoR::IsoCorrection(MeasurementFile = "Data/WT_rep1_rm0.csv",
@@ -80,11 +87,13 @@ Enrichment <- IsoCorrectoR::IsoCorrection(MeasurementFile = "Data/WT_rep1_rm0.cs
                                      FileOutFormat = "csv",
                                      ReturnResultsObject = T,
                                      CorrectAlsoMonoisotopic = T)
+
 ```
 
 Alternatively, we are providing a function to pipe all the "rm0" files through IsoCorrectoR for bash correction, for our function to work, all csv input files must be in a subdirectory one level below the main workspace.
 
 ``` {r}
+
 library(IsoCorrectoR)
 
 NIA_correctionMSI(rm0_dir = "Data/",
@@ -92,6 +101,7 @@ NIA_correctionMSI(rm0_dir = "Data/",
                   ElementFile_dir = "Data/IsoCorectoR_Files/ElementFile.csv",
                   MoleculeFile_dir = "Data/IsoCorectoR_Files/MoleculeFile.csv", 
                   out_dir = "Data/IsoCorectoR_Files/")
+
 ```
 
 The output are folders containing csv files with NIA corrected isotopologue abundances, enrichment percentage calculations and other relevant values in the *k*MSI context.
