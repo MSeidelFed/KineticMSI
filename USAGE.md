@@ -19,11 +19,23 @@ kineticMSI has been divided in several steps:
 
 ## Step 1 - Preparing the dataset
 
+Procedure to crop pixels that could cause missinterpretation of the enrichment percentages from each lipid and pixel across datasets.
+
+The function takes an entire directory or a single file, it grabs either all the csv files within the provided directory or the single csv file. In both cases the function grabs each lipid isotopologue and sets to NA all of those pixels that would produce a missinterpretation of the NIA correction leading to missinterpreted enrichment percentages. The directory must contain only the csv that want to be corrected, additional csv in the directory will cause errors.
+
 * Filtering step 1 – All pixels with M0 = 0 are deleted (replaced
 with NA).
 
 * Filtering step 2 – All pixels with all isotopologues = 0 are
 deleted (replaced with NA).
+
+```{r}
+
+NullPixel_rm_test <- NullPixel_rm(MeasurementFile_dir = "Data/", return_csv = T)
+
+```
+
+If return_csv is set to T The function returns the same number of csv files located in the input directory, corrected and signaled with the addition in the identifier of "_rm0"
 
 
 ## Step 2 - Natural Isotopic Abundace Correction
