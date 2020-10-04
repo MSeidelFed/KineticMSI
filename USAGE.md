@@ -66,25 +66,42 @@ The procedures correct the endogenous metabolite or peptide pools for natural is
 ### IsoCorrectoR workflow
 IsoCorrectoR has been installed and used according to the instructions provided upon releasing of the package in BioConductor (https://www.bioconductor.org/packages/release/bioc/html/IsoCorrectoR.html) as follows:
 
-```
-Enrichment <- IsoCorrectoR::IsoCorrection(MeasurementFile = "Data/MeasurementFile_HD_D8.csv",
-                                     ElementFile = "Data/ElementFile.csv",
-                                     MoleculeFile = "Data/MoleculeFile_WT_D8.csv",
+For MSI, each column in the input table "MeasurementFile.csv" belongs to a single coordinate on the original image where the isotopologues could be measured and mined out.
+
+```{r}
+library(IsoCorrectoR)
+
+Enrichment <- IsoCorrectoR::IsoCorrection(MeasurementFile = "Data/WT_rep1_rm0.csv",
+                                     ElementFile = "Data/IsoCorectoR_Files/ElementFile.csv",
+                                     MoleculeFile = "Data/IsoCorectoR_Files/MoleculeFile.csv",
                                      CorrectTracerImpurity = T,
                                      CorrectTracerElementCore = T,
                                      CalculateMeanEnrichment = T,
                                      UltraHighRes = F,
-                                     FileOut = "trial.csv",
+                                     FileOut = "test",
                                      FileOutFormat = "csv",
                                      ReturnResultsObject = T,
                                      CorrectAlsoMonoisotopic = T)
 ```
 
-For MSI, each column in the input table "MeasurementFile.csv" belongs to a single coordinate on the original image where the isotopologues could be measured and mined out. The files were built manually from our own universal input csv format file (Data/Universal_Isotopologue_File.csv).
+Alternatively, we are providing a function to pipe all the "rm0" files through IsoCorrectoR for bash correction, for our function to work, all csv input files must be in a subdirectory one level below the main workspace.
+
+``` {r}
+library(IsoCorrectoR)
+
+NIA_correctionMSI(rm0_dir = "Data/",
+                  pattern = "_rm0",
+                  ElementFile_dir = "Data/IsoCorectoR_Files/ElementFile.csv",
+                  MoleculeFile_dir = "Data/IsoCorectoR_Files/MoleculeFile.csv", 
+                  out_dir = "Data/IsoCorectoR_Files/")
+```
+
+The output are folders containing csv files with NIA corrected isotopologue abundances, enrichment percentage calculations and other relevant values in the *k*MSI context.
 
 ### IsoCor workflow
+Finally, as a cross validation step of the enricment percentage calculations we provide a function to transform the IsoCorrectoR tables into the format of IsoCor for python.
 
-Python version: 
+Python version when working with a modular system was: 
 ```
 module add devel/Python-3.8.0
 ```
