@@ -61,8 +61,6 @@ Enrichment percentages are calculated using the algorithms described in
 
 The procedures correct the endogenous metabolite or peptide pools for natural isotopic abundance (NIA) according to the chemical formula before calculating enrichment percentages via a simple A0 to An division. The IsoCorrectoR can be used in R and the IsoCor in python to obtain equivalent percentages of enrichment and NIA correction of molecular species with cross validation from both platforms.
 
-# need to write code to iterate through files from previous step________________###########
-
 ### IsoCorrectoR workflow
 IsoCorrectoR has been installed and used according to the instructions provided upon releasing of the package in BioConductor (https://www.bioconductor.org/packages/release/bioc/html/IsoCorrectoR.html) as follows:
 
@@ -97,6 +95,8 @@ NIA_correctionMSI(rm0_dir = "Data/",
 ```
 
 The output are folders containing csv files with NIA corrected isotopologue abundances, enrichment percentage calculations and other relevant values in the *k*MSI context.
+
+# Currently here________________###########
 
 ### IsoCor workflow
 Finally, as a cross validation step of the enricment percentage calculations we provide a function to transform the IsoCorrectoR tables into the format of IsoCor for python.
