@@ -16,6 +16,19 @@ kineticMSI has been divided in several steps:
 
 1. Enrichment relative quantitation: The final step entails an integrated user-assisted relative quantitation and comparison analyses of the enrichment dynamics of the labelled metabolic targets. The procedure uses the classes discovered in the previous step.
 
+## Step 0 - Input files
+
+Peak picking is performed according to the user preference and the tables must be produced from the peak picking process. The input table must contain all metbolites or peptide mass features to be corrected along with their respective isotopologue envelopes. In the first column the metabolite identifiers are followed through a floor dash to the isotopologue number starting with 0 that represents the monoisotopic peak. Each column after the first contains the peak abundance across measured pixels in a MSI experiment. 
+
+ Measurements/Samples| Pixel1     | Pixel2     | Pixel3        | Pixel4         | Pixel5      |
+ ------------------- | -----------|------------| --------------| ---------------| ------------|
+  [1,] "Met1_a0"     | "423677.9" | "387294.2" | "358360.2"    |  "430919.2"    | "314496.2"  |
+  [2,] "Met1_a1"     | "112808.7" | "92034.8"  | "96068.4"     |  "118169.6"    | "102262.4"  |
+  [3,] "Met1_a2"     | "40512.8"  | "38767.2"  | "31836.4"     |  "54474.4"     | "27531.1"   |
+  [4,] "Met1_a3"     | "11019.2"  | "4510.01"  | "8081.9"      |  "13790.2"     | "10385.5"   |
+  [5,] "Met2_a0"     | "117202.1" | "122309.3" | "90600.6"     |  "88196.6"     | "115123.8"  |
+  [6,] "Met2_a1"     | "54163.9"  | "44717.6"  | "43496.6"     |  "149206.6"    | "59616.02"  |
+  
 
 ## Step 1 - Preparing the dataset
 
