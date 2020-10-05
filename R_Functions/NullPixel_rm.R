@@ -99,7 +99,7 @@ NullPixel_rm <- function(MeasurementFile_dir,
     for (i in 1:length(zero_rm_MatList)) {
       
       test_print <- cbind(rownames(zero_rm_MatList[[i]]), zero_rm_MatList[[i]])
-      colnames(test_print) <- c("Measurements/samples", colnames(zero_rm_MatList[[i]]))
+      colnames(test_print) <- c("Measurements/Samples", colnames(zero_rm_MatList[[i]]))
       
       file_name_spl <- strsplit(reps[i], split = "\\.")[[1]]
       
