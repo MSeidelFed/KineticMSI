@@ -106,8 +106,6 @@ NIA_correctionMSI(rm0_dir = "Data/",
 
 The output are folders containing csv files with NIA corrected isotopologue abundances, enrichment percentage calculations and other relevant values in the *k*MSI context.
 
-# Currently here________________###########
-
 ### IsoCor workflow
 Finally, as a cross validation step of the enricment percentage calculations we provide a function to transform the IsoCorrectoR tables into the format of IsoCor for python.
 
@@ -134,7 +132,27 @@ WT1 <- ProduceIsoCorTables(PathToCSV_file = "Replicate 1/Pyr layer replicate1  2
 ```
 Subsequently, the output table can be directly used by IsoCor following the published instructions (https://github.com/MetaSys-LISBP/IsoCor).
 
-## Step 2 - Spatial dynamics of the tracer
+## Step 3 - Determining which incorporation proxy matches the biology
+
+here we derive several isotope incorporation proxies from the IsoCorrectoR produced tables and determine which one resembles better the biology on the system and thus is a legitimate proxy to enrichment percentage.
+
+1. First a function is provided in order to produce:
+
+A file with the corrected M0s
+
+A file with the corrected M1s
+
+A file with the M1 M0 ratios
+
+A file with the M1 fraction relative to a steady state pool calculated only based on the sum of M1 + M0
+
+1. Second.....
+
+```{r}
+IncorporationProxys(Parent_dir = "Data/IsoCorectoR_Files/")
+```
+
+## Step 4 - Spatial dynamics of the tracer
 
 Following the enrichment calculation procedure, and aiming at taking advantage of the gained spatial dimensions provided by MSI, we explored the kinetics of the tracer in the tissue. To do that we built a fuction that uses percentages of enrichment from specific mass features to reconstruct the tissue slide gaining insigths on which tissue areas, if at all, have incorporated more tracer. The function has a dependency to the Cardinal R package (https://www.bioconductor.org/packages/release/bioc/html/Cardinal.html).
 
