@@ -136,17 +136,17 @@ Subsequently, the output table can be directly used by IsoCor following the publ
 
 here we derive several isotope incorporation proxies from the IsoCorrectoR produced tables and determine which one resembles better the biology on the system and thus is a legitimate proxy to enrichment percentage.
 
-1. First a function is provided in order to produce:
+* First a function is provided in order to produce:
 
-A file with the corrected M0s
+    * A file with the corrected M0s
 
-A file with the corrected M1s
+    * A file with the corrected M1s
 
-A file with the M1 M0 ratios
+    * A file with the M1 M0 ratios
 
-A file with the M1 fraction relative to a steady state pool calculated only based on the sum of M1 + M0
+    * A file with the M1 fraction relative to a steady state pool calculated only based on the sum of M1 + M0
 
-1. Second.....
+* Second.....
 
 ```{r}
 IncorporationProxys(Parent_dir = "Data/IsoCorectoR_Files/")
