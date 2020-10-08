@@ -3,12 +3,32 @@
 
 
 
-IncorporationProxys <- function(Parent_dir) {
+IncorporationProxys <- function(Parent_dir, SteadyStatePools_dir = NULL) {
+  
+  ## functions
+  
+  split_ <- function(x) {strsplit(x = x, split = "_")[1]}
+  
+  ## main
   
   if (length(strsplit(Parent_dir,split = "/")[[1]]) == 2) {
     
     Enrichment_files <- list.files(path = Parent_dir, pattern = "Corrected.csv",
                                    full.names = T, recursive = T)
+    
+    MolecularSpecies <- unique(apply(list2df(sapply(X = rownames(read.csv(Enrichment_files[1],
+                                                                   header = T, row.names = 1)),
+                                                      FUN = split_))[1,],
+                                       MARGIN = 2,
+                                       FUN = as.character))
+    
+    SteadyStatePoolsM1M0 <- matrix(NA, nrow = length(Enrichment_files),
+                                   ncol = length(MolecularSpecies))
+      
+    SteadyStatePoolsM1Mn <- matrix(NA, nrow = length(Enrichment_files),
+                                   ncol = length(MolecularSpecies))
+    
+    treatment_names <- c()
     
     for (i in 1:length(Enrichment_files)) {
       
@@ -18,9 +38,20 @@ IncorporationProxys <- function(Parent_dir) {
       
       File_i <- read.csv(file = Enrichment_file_runner, header = T, row.names = 1)
       
-      name_i <- strsplit(strsplit(Enrichment_file_runner, split = "/")[[1]][5], split = "\\.")[[1]][1]
+      MolecularSpecies_i <- unique(apply(list2df(sapply(X = rownames(File_i) , FUN = split_))[1,],
+                                         MARGIN = 2,FUN = as.character))
       
-      out_path_i <- paste0(Parent_dir, "/", strsplit(Enrichment_file_runner, split = "/")[[1]][4], "/")
+      name_i <- strsplit(strsplit(Enrichment_file_runner, split = "/")[[1]][5],
+                         split = "\\.")[[1]][1]
+      
+      treatment_i <- strsplit(strsplit(strsplit(Enrichment_file_runner, split = "/")[[1]][5],
+                              split = "\\.")[[1]][1], split = "_")[[1]][2]
+      
+      rep_i <- strsplit(strsplit(strsplit(Enrichment_file_runner, split = "/")[[1]][5],
+                                 split = "\\.")[[1]][1], split = "_")[[1]][3]
+      
+      out_path_i <- paste0(Parent_dir, "/", strsplit(Enrichment_file_runner,
+                                                     split = "/")[[1]][4], "/")
       
       ### generating new files
       
@@ -40,14 +71,59 @@ IncorporationProxys <- function(Parent_dir) {
       
       write.csv(M1fraction, paste0(out_path_i, name_i, "M1fraction.csv"))
       
+      ## need to grab isotopologues per lipid and then build steady state pools 
+      ## either from M0+M1 or from M0+...+Mn
+      
+      means_isotopologues <- c()
+      
+      means_M1M0 <- c()
+      
+      for (j in 1:length(MolecularSpecies_i)) {
+        
+        #print(MolecularSpecies_i[j])
+        
+        lipid_i <- File_i[grep(pattern = MolecularSpecies_i[j], x = rownames(File_i)),]
+        
+        means_isotopologues[j] <- mean(colSums(lipid_i))
+        
+        means_M1M0[j] <- mean(colSums(lipid_i[1:2,]))
+        
+      }
+      
+      SteadyStatePoolsM1Mn[i,] <- means_isotopologues
+      
+      SteadyStatePoolsM1M0[i,] <- means_M1M0
+      
+      treatment_names[i] <- paste0(treatment_i, "_", rep_i)
+      
     }
+    
+    colnames(SteadyStatePoolsM1Mn) <- MolecularSpecies
+    colnames(SteadyStatePoolsM1M0) <- MolecularSpecies
+    rownames(SteadyStatePoolsM1Mn) <- treatment_names
+    rownames(SteadyStatePoolsM1M0) <- treatment_names
+    
+    if (is.null(SteadyStatePools_dir)) {
+      
+      write.csv(SteadyStatePoolsM1Mn, file = "SteadyStatePoolsM1Mn.csv")
+      
+      write.csv(SteadyStatePoolsM1M0, file = "SteadyStatePoolsM1M0.csv")
       
     } else {
       
-      print("IsoCorrectoR directories must be three levels below, e.g.: ParentDir/xx/20...")
+      write.csv(SteadyStatePoolsM1Mn, file = paste0(SteadyStatePools_dir,
+                                                    "/", "SteadyStatePoolsM1Mn.csv"))
       
+      write.csv(SteadyStatePoolsM1M0, file = paste0(SteadyStatePools_dir,
+                                                    "/", "SteadyStatePoolsM1M0.csv"))
     }
+    
+      
+  } else {
+      
+    print("IsoCorrectoR directories must be three levels below, e.g.: ParentDir/xx/20...")
+      
+  }
     
     
 }
-
