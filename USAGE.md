@@ -145,11 +145,18 @@ here we derive several isotope incorporation proxies from the IsoCorrectoR produ
     * A file with the M1 M0 ratios
 
     * A file with the M1 fraction relative to a steady state pool calculated only based on the sum of M1 + M0
-
-* Second.....
+    
+    * Finally and more importantly two files containing the steady state pools as calculated from the M0 + M1 sum or the M0+....+Mn sum to determine which one resembles the biology best. In order to do this step one requires additionally a matrix with the non-labelled steady states which will be used as comparison in the next step.
 
 ```{r}
-IncorporationProxys(Parent_dir = "Data/IsoCorectoR_Files/")
+IncorporationProxys2(Parent_dir = "Data/IsoCorectoR_Files/", SteadyStatePools_dir = "Data/Steady_state_pools/")
+```
+The steady state files contain the mean across pixels from each moelcular species across all datasets. Thus the are allocated into a new directory that defaults to the current workspace if not specified.
+
+* Second the actual comparison between non-labelled and labelled steady state pools is built:
+
+```{r}
+
 ```
 
 ## Step 4 - Spatial dynamics of the tracer
