@@ -9,6 +9,14 @@ IncorporationProxys <- function(Parent_dir, SteadyStatePools_dir = NULL) {
   
   split_ <- function(x) {strsplit(x = x, split = "_")[1]}
   
+    list2df <- function(x) 
+  { 
+    MAX.LEN <- max(sapply(x, length), na.rm = TRUE) 
+    DF <- data.frame(lapply(x, function(x) c(x, rep(NA, MAX.LEN - length(x))))) 
+    colnames(DF) <- paste("V", seq(ncol(DF)), sep = "")   
+    DF 
+  }
+  
   ## main
   
   if (length(strsplit(Parent_dir,split = "/")[[1]]) == 2) {
