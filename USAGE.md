@@ -154,7 +154,7 @@ IncorporationProxys(Parent_dir = "Data/IsoCorectoR_Files/", SteadyStatePools_dir
 The steady state files contain the mean across pixels from each molecular species across datasets. Thus, since these are not related to a single preexisting IsoCorrectoR folder but to all folder, these are allocated into a new directory that defaults to the current workspace if not specified.
 
 * Second the actual comparison between non-labelled and labelled steady state pools is built:
-(*as an example we have provided a [file] <https://github.com/MSeidelFed/KineticMSI/blob/master/Data/Steady_state_pools/SteadyStatePoolsM1M0_NL.csv> containing the steady state pools from non-labelled controls compared to the labelled exemplary datasets*)
+(*as an example we have provided a [file](https://github.com/MSeidelFed/KineticMSI/blob/master/Data/Steady_state_pools/SteadyStatePoolsM1M0_NL.csv) containing the steady state pools from non-labelled controls compared to the labelled exemplary datasets*)
 
 ```{r}
 
