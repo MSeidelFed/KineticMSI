@@ -183,7 +183,7 @@ e.g., batch correction necessities in M1 + M0 steady state pools:
 
 ![Batch_correction](images/Batch_correction.png)
 
-After Batch correction, only non-empty rows remain, and that means that if the matrices contain many missing values, not all molecular species be in the resulting file. In our example only 50 lipids remain after batch correction. These 50 lipids are then used to compare the biology.
+After Batch correction, only non-empty rows remain, and that means that if the matrices contain many missing values, not all molecular species will be in the resulting file. In our example only 50 lipids remain after batch correction. These 50 lipids are then used to compare the biology. The non-labelled steady state exemplary [file](https://github.com/MSeidelFed/KineticMSI/blob/master/Data/Steady_state_pools/SteadyStatePoolsM1M0_NL.csv) is already batch corrected for the easing the reproducibility in our example.
 
 ## Step 4 - Spatial dynamics of the tracer
 
