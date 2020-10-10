@@ -153,12 +153,21 @@ IncorporationProxys(Parent_dir = "Data/IsoCorectoR_Files/", SteadyStatePools_dir
 ```
 The steady state files contain the mean across pixels from each molecular species across datasets. Thus, since these are not related to a single preexisting IsoCorrectoR folder but to all folder, these are allocated into a new directory that defaults to the current workspace if not specified.
 
-* Second the actual comparison between non-labelled and labelled steady state pools is built:
-(*as an example we have provided a [file](https://github.com/MSeidelFed/KineticMSI/blob/master/Data/Steady_state_pools/SteadyStatePoolsM1M0_NL.csv) containing the steady state pools from non-labelled controls compared to the labelled exemplary datasets*)
+* Second the actual comparison between non-labelled and labelled steady state pools is built: (*as an example we have provided a [file](https://github.com/MSeidelFed/KineticMSI/blob/master/Data/Steady_state_pools/SteadyStatePoolsM1M0_NL.csv) containing the steady state pools from non-labelled controls compared to the labelled exemplary datasets*)
+
+    * The first step is to remove any batch effect from the steady state pools. To achieve that we provide the BatchCorrection function, which depends on ComBat correction as detailed in the [SVA package](https://rdrr.io/bioc/sva/man/ComBat.html). The procedure was defined for microarray data to correct for between chip variation. Similarly MSI data from different days may suffer from batch effects that systemically affect abundances either positively or negatively. The function is interactive and must be run from the command line in order to take advantage of its interactive features, i.e., The function progressively shows the user how the data is distributed among batches in order to decide if batch correction is actually needed. There is an option to duplicate data in case not enough Batch members exist and that precludes the correction, defauts to FALSE.
 
 ```{r}
+## Batch correction
+NC_norm_Ln_Transformed <- BatchCorrection(array_dir = "Data/Steady_state_pools/SteadyStatePoolsM1M0.csv",
+                                          Treatments_dir = "Data/Steady_state_pools/Treatments_L.csv", 
+                                          Duplicate = F)
 
 ```
+
+e.g., batch correction necessities in M1 + M0 steady state pools:
+
+![Batch_correction](images/Batch_correction.png)
 
 ## Step 4 - Spatial dynamics of the tracer
 
