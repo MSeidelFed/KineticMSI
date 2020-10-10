@@ -156,18 +156,34 @@ The steady state files contain the mean across pixels from each molecular specie
 * Second the actual comparison between non-labelled and labelled steady state pools is built: (*as an example we have provided a [file](https://github.com/MSeidelFed/KineticMSI/blob/master/Data/Steady_state_pools/SteadyStatePoolsM1M0_NL.csv) containing the steady state pools from non-labelled controls compared to the labelled exemplary datasets*)
 
     * The first step is to remove any batch effect from the steady state pools. To achieve that we provide the BatchCorrection function, which depends on ComBat correction as detailed in the [SVA package](https://rdrr.io/bioc/sva/man/ComBat.html). The procedure was defined for microarray data to correct for between chip variation. Similarly MSI data from different days may suffer from batch effects that systemically affect abundances either positively or negatively. The function is interactive and must be run from the command line in order to take advantage of its interactive features, i.e., The function progressively shows the user how the data is distributed among batches in order to decide if batch correction is actually needed. There is an option to duplicate data in case not enough Batch members exist and that precludes the correction, defauts to FALSE.
+    
+    * The second step is to compare both the non-labelled and the labelled steady state pools in order to determine which isotopologue envelope mimics best the biology of the actual pool changes.
 
 ```{r}
-## Batch correction
-NC_norm_Ln_Transformed <- BatchCorrection(array_dir = "Data/Steady_state_pools/SteadyStatePoolsM1M0.csv",
-                                          Treatments_dir = "Data/Steady_state_pools/Treatments_L.csv", 
-                                          Duplicate = F)
+library(reshape2)
+library(ggplot2)
+library(ggridges)
+library(sva)
+
+## 1 Batch correction
+
+NC_norm_Ln_Transformed_M1M0 <- BatchCorrection(array_dir = "Data/Steady_state_pools/SteadyStatePoolsM1M0.csv",
+                                               Treatments_dir = "Data/Steady_state_pools/Treatments_L.csv", 
+                                               Duplicate = F)
+
+NC_norm_Ln_Transformed_M1Mn <- BatchCorrection(array_dir = "Data/Steady_state_pools/SteadyStatePoolsM1Mn.csv",
+                                               Treatments_dir = "Data/Steady_state_pools/Treatments_L.csv", 
+                                               Duplicate = F)
+                                          
+## 2 Comparing the biology
 
 ```
 
 e.g., batch correction necessities in M1 + M0 steady state pools:
 
 ![Batch_correction](images/Batch_correction.png)
+
+After Batch correction, only non-empty rows remain, and that means that if the matrices contain many missing values, not all molecular species be in the resulting file. In our example only 50 lipids remain after batch correction. These 50 lipids are then used to compare the biology.
 
 ## Step 4 - Spatial dynamics of the tracer
 
