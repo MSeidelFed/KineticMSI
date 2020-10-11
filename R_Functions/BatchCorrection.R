@@ -64,11 +64,11 @@ BatchCorrection <- function(array_dir = "Data/Steady_state_pools/SteadyStatePool
     array <-  cbind(rbind(Condition = TreatmentFile$Sample,
                           Batch = TreatmentFile$Batch,
                           Treatment = rownames(TreatmentFile),
-                          t(SteadyStatePools_LM0Mn)),
+                          t(BatchCor_array)),
                     rbind(Condition = TreatmentFile$Sample,
                           Batch = TreatmentFile$Batch,
                           Treatment = rownames(TreatmentFile),
-                          t(SteadyStatePools_LM0Mn)))
+                          t(BatchCor_array)))
     
     colnames(array) <- c(rownames(BatchCor_array), rownames(BatchCor_array))
     
@@ -77,7 +77,7 @@ BatchCorrection <- function(array_dir = "Data/Steady_state_pools/SteadyStatePool
     array <-  rbind(Condition = TreatmentFile$Sample,
                     Batch = TreatmentFile$Batch,
                     Treatment = rownames(TreatmentFile),
-                    t(SteadyStatePools_LM0Mn))
+                    t(BatchCor_array))
     
     colnames(array) <- rownames(BatchCor_array)
     
