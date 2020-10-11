@@ -157,7 +157,7 @@ The steady state files contain the mean across pixels from each molecular specie
 
     * The first step is to remove any batch effect from the steady state pools. To achieve that we provide the BatchCorrection function, which depends on ComBat correction as detailed in the [SVA package](https://rdrr.io/bioc/sva/man/ComBat.html). The procedure was defined for microarray data to correct for between chip variation. Similarly MSI data from different days may suffer from batch effects that systemically affect abundances either positively or negatively. The function is interactive and must be run from the command line in order to take advantage of its interactive features, i.e., The function progressively shows the user how the data is distributed among batches in order to decide if batch correction is actually needed. There is an option to duplicate data in case not enough Batch members exist and that precludes the correction, defauts to FALSE.
     
-    * The second step is to compare both the non-labelled and the labelled steady state pools in order to determine which isotopologue envelope mimics best the biology of the actual pool changes.
+    * The second step is to compare both the non-labelled and the labelled steady state pools in order to determine which isotopologue envelope mimics best the biology of the actual pool changes. To achieve that we provide the *LvsNLpools* function, which needs as input the batch corrected datasets, a factor indicating the treatments to be compared, and a logical value indicating whether the treatments are averaged. The function then calculates the ratios between equivalent labelled and non-labelled steady states and plots the ratios as a heatmap. An ideal scenario would be steady state pools with a ratio of 1, which would indicate that the biology between the labelled and non-labelled dataset is fully preserved across treatments. Thus, this function provides an efficient filter to decide which molecular species to further consider for evaluation.
 
 ```{r}
 library(reshape2)
@@ -177,6 +177,26 @@ NC_Transformed_M1Mn <- BatchCorrection(array_dir = "Data/Steady_state_pools/Stea
                                           
 ## 2 Comparing the biology
 
+### Importing the steady state pools to compare the biology
+
+SteadyStatePools_NL <- t(read.csv(file = "Data/Steady_state_pools/SteadyStatePoolsM1M0_NL.csv",
+                                  header = T, row.names = 1))
+
+### Importing the treatments file to define the factors for the heatmap
+
+Treatments_L <- read.csv(file = "Data/Steady_state_pools/Treatments_L.csv",
+                         header = T, row.names = 1)
+
+### Using the function 
+
+library(ComplexHeatmap)
+library(RColorBrewer)
+library(circlize)
+
+LvsNLpools(DF_L = NC_Transformed_M1M0,
+           DF_NL = SteadyStatePools_NL,
+           Treatment = as.factor(Treatments_L$Genotype),
+           Treatment_means = F)
 ```
 
 e.g., batch correction necessities in M1 + M0 steady state pools:
@@ -184,6 +204,11 @@ e.g., batch correction necessities in M1 + M0 steady state pools:
 ![Batch_correction](images/Batch_correction.png)
 
 After Batch correction, only non-empty rows remain, and that means that if the matrices contain many missing values, not all molecular species will be in the resulting file. In our example only 50 lipids remain after batch correction. These 50 lipids are then used to compare the biology. The non-labelled steady state exemplary [file](https://github.com/MSeidelFed/KineticMSI/blob/master/Data/Steady_state_pools/SteadyStatePoolsM1M0_NL.csv) is already batch corrected.
+
+The following is the Heatmap of the labelled / non-labelled steady state pools. and the results indicate that for some lipids the biology is fully preserved (i.e., ratios around 1, whereas for others, abundances might be over or underestimated in a dataset as compared to the other):
+
+![Heatmap_LvsNL](images/Heatmap_LvsNL.png)
+
 
 ## Step 4 - Spatial dynamics of the tracer
 
