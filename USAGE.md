@@ -167,11 +167,11 @@ library(sva)
 
 ## 1 Batch correction
 
-NC_norm_Ln_Transformed_M1M0 <- BatchCorrection(array_dir = "Data/Steady_state_pools/SteadyStatePoolsM1M0.csv",
+NC_Transformed_M1M0 <- BatchCorrection(array_dir = "Data/Steady_state_pools/SteadyStatePoolsM1M0.csv",
                                                Treatments_dir = "Data/Steady_state_pools/Treatments_L.csv", 
                                                Duplicate = F)
 
-NC_norm_Ln_Transformed_M1Mn <- BatchCorrection(array_dir = "Data/Steady_state_pools/SteadyStatePoolsM1Mn.csv",
+NC_Transformed_M1Mn <- BatchCorrection(array_dir = "Data/Steady_state_pools/SteadyStatePoolsM1Mn.csv",
                                                Treatments_dir = "Data/Steady_state_pools/Treatments_L.csv", 
                                                Duplicate = F)
                                           
