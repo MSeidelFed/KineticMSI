@@ -205,10 +205,11 @@ e.g., batch correction necessities in M1 + M0 steady state pools:
 
 After Batch correction, only non-empty rows remain, and that means that if the matrices contain many missing values, not all molecular species will be in the resulting file. In our example only 50 lipids remain after batch correction. These 50 lipids are then used to compare the biology. The non-labelled steady state exemplary [file](https://github.com/MSeidelFed/KineticMSI/blob/master/Data/Steady_state_pools/SteadyStatePoolsM1M0_NL.csv) is already batch corrected.
 
-The following is the Heatmap of the labelled / non-labelled steady state pools. and the results indicate that for some lipids the biology is fully preserved (i.e., ratios around 1, whereas for others, abundances might be over or underestimated in a dataset as compared to the other):
+The following is the Heatmap of the labelled / non-labelled steady state pools. and the results indicate that for some lipids the biology is fully preserved (i.e., ratios around 1, whereas for others, abundances might be underestimated in one dataset as compared to the other, i.e., yellow abundances):
 
 ![Heatmap_LvsNL](images/Heatmap_LvsNL.png)
 
+Note that the Heatmap built on the sum from M0 to M1 contains fewer extreme values and thus can be regarded as a better proxy to the actual biology in our dataset.
 
 ## Step 4 - Spatial dynamics of the tracer
 
