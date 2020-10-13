@@ -192,6 +192,7 @@ Treatments_L <- read.csv(file = "Data/Steady_state_pools/Treatments_L.csv",
 library(ComplexHeatmap)
 library(RColorBrewer)
 library(circlize)
+library(reshape2)
 
 LvsNLpools(DF_L = NC_Transformed_M1M0,
            DF_NL = SteadyStatePools_NL,
