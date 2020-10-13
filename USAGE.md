@@ -211,6 +211,10 @@ The following is the Heatmap of the labelled / non-labelled steady state pools. 
 
 Note that the Heatmap built on the sum from M0 to M1 contains fewer extreme values and thus can be regarded as a better proxy to the actual biology in our dataset.
 
+As an example we continue our analyses only using lipids with a ratio between 0.6 and 1.4, with this range we allow for biological variation and get rid of lipids with low abundances that are further diluted during the deutirium labelling and cause a drop in the ratio. The upper range of the ratio does not contain outliers.
+
+# ______________EDIT HERE________________
+
 ## Step 4 - Spatial dynamics of the tracer
 
 Following the enrichment calculation procedure, and aiming at taking advantage of the gained spatial dimensions provided by MSI, we explored the kinetics of the tracer in the tissue. To do that we built a fuction that uses percentages of enrichment from specific mass features to reconstruct the tissue slide gaining insigths on which tissue areas, if at all, have incorporated more tracer. The function has a dependency to the Cardinal R package (https://www.bioconductor.org/packages/release/bioc/html/Cardinal.html).
