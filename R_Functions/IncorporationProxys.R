@@ -95,13 +95,11 @@ IncorporationProxys <- function(Parent_dir, SteadyStatePools_dir = NULL) {
       
       for (j in 1:length(MolecularSpecies_i)) {
         
-        #print(MolecularSpecies_i[j])
-        
         lipid_i <- Raw_File_i[grep(pattern = MolecularSpecies_i[j], x = rownames(File_i)),]
         
-        means_isotopologues[j] <- mean(colSums(lipid_i))
+        means_isotopologues[j] <- mean(colSums(lipid_i), na.rm = T)
         
-        means_M1M0[j] <- mean(colSums(lipid_i[1:2,]))
+        means_M1M0[j] <- mean(colSums(lipid_i[1:2,]), na.rm = T)
         
       }
       
