@@ -3,11 +3,6 @@
 
 
 
-
-
-
-
-
 LvsNLpools <- function(DF_L,
                        DF_NL,
                        Treatment,
@@ -42,6 +37,7 @@ LvsNLpools <- function(DF_L,
   
   ratio_L_NL[is.na(ratio_L_NL)] <- 0
   ratio_L_NL[ratio_L_NL == Inf] <- 0
+  ratio_L_NL[ratio_L_NL == -Inf] <- 0
   
   if (Treatment_means == T) {
     
@@ -71,7 +67,7 @@ LvsNLpools <- function(DF_L,
   h<- Heatmap(matrix = ratio_L_NL,
               name = "Intensities",
               km = 1,
-              col = colorRamp2(as.numeric(summary(melt(ratio_L_NL)$value)[-3]),
+              col = colorRamp2(c(0.5, 0.75, 1, 1.25, 1.5),
                                c("yellow", "white", "white", "white", "grey")),
               show_column_names = F,
               show_row_names = T,
@@ -79,5 +75,7 @@ LvsNLpools <- function(DF_L,
               cluster_rows = T,
               top_annotation = ha)
   print(h)
+   
+  return(ratio_L_NL[row_order(h),])
   
 }
