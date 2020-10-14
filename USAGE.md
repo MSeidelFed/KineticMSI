@@ -194,23 +194,28 @@ library(RColorBrewer)
 library(circlize)
 library(reshape2)
 
-LvsNLpools(DF_L = NC_Transformed_M1M0,
-           DF_NL = SteadyStatePools_NL,
-           Treatment = as.factor(Treatments_L$Genotype),
-           Treatment_means = F)
+h_M0M1 <- LvsNLpools(DF_L = NC_Transformed_M0M1,
+                      DF_NL = SteadyStatePools_NL,
+                      Treatment = as.factor(Treatments_L$Genotype),
+                      Treatment_means = T)
+
+h_M0Mn <- LvsNLpools(DF_L = NC_Transformed_M0Mn,
+                     DF_NL = SteadyStatePools_NL,
+                     Treatment = as.factor(Treatments_L$Genotype),
+                     Treatment_means = T)
 ```
 
 e.g., batch correction necessities in M1 + M0 steady state pools:
 
 ![Batch_correction](images/Batch_correction.png)
 
-After Batch correction, only non-empty rows remain, and that means that if the matrices contain many missing values, not all molecular species will be in the resulting file. In our example only 50 lipids remain after batch correction. These 50 lipids are then used to compare the biology. The non-labelled steady state exemplary [file](https://github.com/MSeidelFed/KineticMSI/blob/master/Data/Steady_state_pools/SteadyStatePoolsM1M0_NL.csv) is already batch corrected.
+After Batch correction, only non-empty rows remain, and that means that if the matrices contain many missing values, not all molecular species will be in the resulting file. In our example the 85 lipids remain after batch correction. These 85 lipids are then used to compare the biology. The non-labelled steady state exemplary [file](https://github.com/MSeidelFed/KineticMSI/blob/master/Data/Steady_state_pools/SteadyStatePoolsM1M0_NL.csv) is already batch corrected.
 
 The following is the Heatmap of the labelled / non-labelled steady state pools. and the results indicate that for some lipids the biology is fully preserved (i.e., ratios around 1, whereas for others, abundances might be underestimated in one dataset as compared to the other, i.e., yellow abundances):
 
 ![Heatmap_LvsNL](images/Heatmap_LvsNL.png)
 
-Note that the Heatmap built on the sum from M0 to M1 contains fewer extreme values and thus can be regarded as a better proxy to the actual biology in our dataset.
+Note that the Heatmap built on the sum from M0 to M1 contains fewer extreme values and thus can be regarded as a better proxy to the actual biology in our dataset. This can be observed in the returned ordered matrices that the function returns, which are equivalent to the actual heatmap.
 
 As an example we continue our analyses only using lipids with a ratio between 0.6 and 1.4, with this range we allow for biological variation and get rid of lipids with low abundances that are further diluted during the deutirium labelling and cause a drop in the ratio. The upper range of the ratio does not contain outliers.
 
