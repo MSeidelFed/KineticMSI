@@ -215,7 +215,9 @@ The following is the Heatmap of the labelled / non-labelled steady state pools. 
 
 ![Heatmap_LvsNL](images/Heatmap_LvsNL.png)
 
-Note that the Heatmap built on the sum from M0 to M1 contains fewer extreme values and thus can be regarded as a better proxy to the actual biology in our dataset. This can be observed in the returned ordered matrices that the function returns, which are equivalent to the actual heatmap.
+# write about the selection proceudre of the isotopologue peaks...........
+
+Note that the Heatmap built on the sum from M0 to Mn contains fewer extreme values and thus can be regarded as a better proxy to the actual biology in our dataset. This can be observed in the returned ordered matrices that the function returns, which are equivalent to the actual heatmap.
 
 As an example we continue our analyses only using lipids with a ratio between 0.6 and 1.4, with this range we allow for biological variation and get rid of lipids with low abundances that are further diluted during the deutirium labelling and cause a drop in the ratio. The upper range of the ratio does not contain outliers.
 
