@@ -89,21 +89,25 @@ IncorporationProxys <- function(Parent_dir, SteadyStatePools_dir = NULL) {
       ## need to grab isotopologues per lipid from the raw data and then build steady state pools 
       ## either from M0+M1 or from M0+...+Mn
       
-      means_isotopologues <- c()
+      means_isotopologues_Raw <- c()
       
       means_M1M0 <- c()
       
       for (j in 1:length(MolecularSpecies_i)) {
         
-        lipid_i <- Raw_File_i[grep(pattern = MolecularSpecies_i[j], x = rownames(File_i)),]
+        lipid_i_Raw <- Raw_File_i[grep(pattern = MolecularSpecies_i[j], x = rownames(File_i)),]
         
-        means_isotopologues[j] <- mean(colSums(lipid_i), na.rm = T)
+        lipid_i_corr <- File_i[grep(pattern = MolecularSpecies_i[j], x = rownames(File_i)),]
         
-        means_M1M0[j] <- mean(colSums(lipid_i[1:2,]), na.rm = T)
+        M0_L <- rbind(lipid_i_Raw[1,], lipid_i_corr[2:dim(lipid_i_corr)[1],])
+        
+        means_isotopologues_Raw[j] <- mean(colSums(M0_L), na.rm = T)
+        
+        means_M1M0[j] <- mean(colSums(lipid_i_Raw[1:2,]), na.rm = T)
         
       }
       
-      SteadyStatePoolsM1Mn[i,] <- means_isotopologues
+      SteadyStatePoolsM1Mn[i,] <- means_isotopologues_Raw
       
       SteadyStatePoolsM1M0[i,] <- means_M1M0
       
