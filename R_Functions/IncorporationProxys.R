@@ -103,7 +103,9 @@ IncorporationProxys <- function(Parent_dir, SteadyStatePools_dir = NULL) {
         
         means_isotopologues_Raw[j] <- mean(colSums(M0_L), na.rm = T)
         
-        means_M1M0[j] <- mean(colSums(lipid_i_Raw[1:2,]), na.rm = T)
+        M1_L <- rbind(lipid_i_Raw[1,], lipid_i_corr[2,])
+        
+        means_M1M0[j] <- mean(colSums(M1_L), na.rm = T)
         
       }
       
