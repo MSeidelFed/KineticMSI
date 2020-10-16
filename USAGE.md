@@ -4,21 +4,22 @@ Functions to interpret stable isotope assisted mass spec imaging experiments
 ## Usage Instructions
 kineticMSI has been divided in several steps:
 
-1.   Data preprocessing: The procedure is meant to delete potentially confounding pixels which might be misinterpreted as enriched if left on the datasets during natural isotopic enrichment corrections.
+1.   Data preprocessing: The procedure is meant to delete potentially confounding pixels, which might be misinterpreted as enriched if left on the datasets during natural isotopic enrichment corrections.
 
-1. Correcting for natural isotopic abundance (NIA): from the corrected isotopologue pools the enrichment percentages can be easily derived.
+1. Correcting for natural isotopic abundance (NIA): from the corrected isotopologue pools, the enrichment percentages can be easily derived.
 
-1. Determning the best proxy of enrichment: the used proxy can vary with diverse experimental strategies, i.e., tracer used, metabolic targets , detected isotopologues, enrichment percentages, isotopic envelope shifts.
+1. Determining the best proxy of enrichment: the used proxy can vary with diverse experimental strategies, i.e., tracer used, metabolic targets, detected isotopologues, enrichment percentages, isotopic envelope shifts.
 
 1. Analyses of the tracer spatial dynamics and incorporation rates: This step is meant to reconstruct MSI images based on the derived proxies of isotope enrichment.
 
-1. Comparing mean incorporation among mathematical quartiles instead of averaging: This crucial step classifies the coordinates from individual molecular species in subclasses based on the enrichment percentages in order to prevent dilution of the biology by averaging an entire region. Additionally, the procedure enables comparison to anatomical regions of interest obtained thorugh unsupervised statistical methods (From Cardinal SSC or SCiLS k-Means clustering).
+1. Comparing mean incorporation among mathematical quartiles instead of averaging: This crucial step classifies the coordinates from individual molecular species in subclasses based on the enrichment percentages in order to prevent dilution of the biology by averaging an entire region. Additionally, the procedure enables comparison to anatomical regions of interest obtained through unsupervised statistical methods (From Cardinal SSC or SCiLS k-Means clustering).
 
 1. Enrichment relative quantitation: The final step entails an integrated user-assisted relative quantitation and comparison analyses of the enrichment dynamics of the labelled metabolic targets. The procedure uses the classes discovered in the previous step.
 
 ## Step 0 - Input files
 
-Peak picking is performed according to the user preference and the tables must be produced from the peak picking process. The input table must contain all metbolites or peptide mass features to be corrected along with their respective isotopologue envelopes. In the first column the metabolite identifiers are followed through a floor dash to the isotopologue number starting with 0 that represents the monoisotopic peak. Each column after the first contains the peak abundance across measured pixels in a MSI experiment. 
+Peak picking is performed according to the user preference and the tables must be produced from the peak picking process. The input table must contain all metabolites or peptide mass features to be corrected along with their respective isotopologue envelopes. In the first column, the metabolite identifiers are followed through a floor dash to the isotopologue number starting with 0 that represents the monoisotopic peak. Each column after the first contains the peak abundance across measured pixels in a MSI experiment.
+
 
  Measurements/Samples| Pixel1     | Pixel2     | Pixel3        | Pixel4         | Pixel5      |
  ------------------- | -----------|------------| --------------| ---------------| ------------|
@@ -32,15 +33,14 @@ Peak picking is performed according to the user preference and the tables must b
 
 ## Step 1 - Preparing the dataset
 
-*Procedure to crop pixels that could cause missinterpretation of the enrichment percentages from each lipid and pixel across datasets*
+*Procedure to crop pixels that could cause misinterpretation of the enrichment percentages from each lipid and pixel across datasets*
 
-The function takes an entire directory or a single file, it grabs either all the csv files within the provided directory or a single csv file. In both cases the function grabs each lipid isotopologue and sets to NA all of those pixels that would produce a missinterpretation of the NIA correction leading to missinterpreted enrichment percentages. The directory must contain only the csv files that want to be corrected, additional csv in the directory will cause errors.
+The function takes an entire directory or a single file; it grabs either all the csv files within the provided directory or a single csv file. In both cases the function grabs each lipid isotopologue and sets to NA all of those pixels that would produce a misinterpretation of the NIA correction leading to misinterpreted enrichment percentages. The directory must contain only the csv files that want to be corrected, additional csv in the directory will cause errors.
 
-* Filtering step 1 – All pixels with M0 = 0 are deleted (replaced
-with NA).
+* Filtering step 1 – All pixels with M0 = 0 are deleted (replaced with NA).
 
-* Filtering step 2 – All pixels with all isotopologues = 0 are
-deleted (replaced with NA).
+* Filtering step 2 – All pixels with all isotopologues = 0 are deleted (replaced with NA).
+
 
 ```{r}
 
@@ -134,9 +134,9 @@ Subsequently, the output table can be directly used by IsoCor following the publ
 
 ## Step 3 - Determining which incorporation proxy matches the biology
 
-here we derive several isotope incorporation proxies from the IsoCorrectoR produced tables and determine which one resembles better the biology on the system and thus is a legitimate proxy to enrichment percentage.
+Here we derive several isotope incorporation proxies from the IsoCorrectoR produced tables and determine which one resembles better the biology on the system and thus is a legitimate proxy to enrichment percentage.
 
-* First a function is provided in order to produce:
+* First, a function is provided in order to produce:
 
     * A file with the corrected M0s
 
@@ -146,7 +146,8 @@ here we derive several isotope incorporation proxies from the IsoCorrectoR produ
 
     * A file with the M1 fraction relative to a steady state pool calculated only based on the sum of M1 + M0
     
-    * Finally and more importantly two files containing the steady state pools as calculated from the M0 + M1 sum or the M0+....+Mn sum to determine which one resembles the biology best. In order to do this step one requires additionally a matrix with the non-labelled steady states which will be used as comparison in the next step.
+    * Finally and more importantly two files containing the steady state pools as calculated from the M0 + M1 sum or the M0+....+Mn sum to determine which one resembles the biology best. In order to do this step one requires additionally a matrix with the non-labelled steady states, which will be used as comparison in the next step. For comparison we provide a non-labelled examplary [matrix](https://github.com/MSeidelFed/KineticMSI/blob/master/Data/Steady_state_pools/SteadyStatePoolsM1M0_NL.csv), which was built based on the picked monoisotopic peak, as are most of the peaks that one is able to mine out during any MSI experiment. Thus for the peak comparison to be legitimate, the derived labelled steady states are built in this step by summing together the M0 abundance from the non-corrected "raw.csv" file plus the corrected isotopologue (M1....Mn or only M1) abundances from the "corrected.csv" file. The corrected M0 contains the NIA and thus summing it up with the isotopologues would not be equivalent to the non-labelled picked M0 peaks.
+
 
 ```{r}
 IncorporationProxys(Parent_dir = "Data/IsoCorectoR_Files/", SteadyStatePools_dir = "Data/Steady_state_pools/")
@@ -155,9 +156,10 @@ The steady state files contain the mean across pixels from each molecular specie
 
 * Second the actual comparison between non-labelled and labelled steady state pools is built: (*as an example we have provided a [file](https://github.com/MSeidelFed/KineticMSI/blob/master/Data/Steady_state_pools/SteadyStatePoolsM1M0_NL.csv) containing the steady state pools from non-labelled controls compared to the labelled exemplary datasets*)
 
-    * The first step is to remove any batch effect from the steady state pools. To achieve that we provide the BatchCorrection function, which depends on ComBat correction as detailed in the [SVA package](https://rdrr.io/bioc/sva/man/ComBat.html). The procedure was defined for microarray data to correct for between chip variation. Similarly MSI data from different days may suffer from batch effects that systemically affect abundances either positively or negatively. The function is interactive and must be run from the command line in order to take advantage of its interactive features, i.e., The function progressively shows the user how the data is distributed among batches in order to decide if batch correction is actually needed. There is an option to duplicate data in case not enough Batch members exist and that precludes the correction, defauts to FALSE.
+    * The first step is to remove any batch effect from the steady state pools. To achieve that we provide the BatchCorrection function, which depends on ComBat correction as detailed in the [SVA package](https://rdrr.io/bioc/sva/man/ComBat.html). The procedure was defined for microarray data to correct for between chip variations. Similarly, MSI data from different days may suffer from batch effects that systemically affect abundances either positively or negatively. The function is interactive and must be run from the command line in order to take advantage of its interactive features, i.e., the function progressively shows the user how the data is distributed among batches in order to decide if batch correction is actually needed. There is an option to duplicate data in case not enough Batch members exist and that precludes the correction, defaults to FALSE.
     
     * The second step is to compare both the non-labelled and the labelled steady state pools in order to determine which isotopologue envelope mimics best the biology of the actual pool changes. To achieve that we provide the *LvsNLpools* function, which needs as input the batch corrected datasets, a factor indicating the treatments to be compared, and a logical value indicating whether the treatments are averaged. The function then calculates the ratios between equivalent labelled and non-labelled steady states and plots the ratios as a heatmap. An ideal scenario would be steady state pools with a ratio of 1, which would indicate that the biology between the labelled and non-labelled dataset is fully preserved across treatments. Thus, this function provides an efficient filter to decide which molecular species to further consider for evaluation.
+
 
 ```{r}
 library(reshape2)
@@ -209,17 +211,15 @@ e.g., batch correction necessities in M1 + M0 steady state pools:
 
 ![Batch_correction](images/Batch_correction.png)
 
-After Batch correction, only non-empty rows remain, and that means that if the matrices contain many missing values, not all molecular species will be in the resulting file. In our example the 85 lipids remain after batch correction. These 85 lipids are then used to compare the biology. The non-labelled steady state exemplary [file](https://github.com/MSeidelFed/KineticMSI/blob/master/Data/Steady_state_pools/SteadyStatePoolsM1M0_NL.csv) is already batch corrected.
+After Batch correction, only non-empty rows remain, and that means that if the matrices contain many missing values, not all molecular species will be in the resulting file. In our example, the 85 lipids remain after batch correction. These 85 lipids are then used to compare the biology. The non-labelled steady state exemplary [file](https://github.com/MSeidelFed/KineticMSI/blob/master/Data/Steady_state_pools/SteadyStatePoolsM1M0_NL.csv) is already batch corrected.
 
-The following is the Heatmap of the labelled / non-labelled steady state pools. and the results indicate that for some lipids the biology is fully preserved (i.e., ratios around 1, whereas for others, abundances might be underestimated in one dataset as compared to the other, i.e., yellow abundances):
+The following is the Heatmap of the labelled / non-labelled steady state pools. The results indicate that for some lipids the biology is fully preserved (i.e., ratios around 1, whereas for others, abundances might be underestimated in one dataset as compared to the other, i.e., yellow abundances):
 
 ![Heatmap_LvsNL](images/Heatmap_LvsNL.png)
 
-# write about the selection proceudre of the isotopologue peaks...........
-
 Note that the Heatmap built on the sum from M0 to Mn contains fewer extreme values and thus can be regarded as a better proxy to the actual biology in our dataset. This can be observed in the returned ordered matrices that the function returns, which are equivalent to the actual heatmap.
 
-As an example we continue our analyses only using lipids with a ratio between 0.6 and 1.4, with this range we allow for biological variation and get rid of lipids with low abundances that are further diluted during the deutirium labelling and cause a drop in the ratio. The upper range of the ratio does not contain outliers.
+As an example, we continue our analyses using all lipids but interpreted with caution isotope tracer results that are derived from species with a labelled / non-labelled ratio that lies outside a 0.6 - 1.4 range. Using a range, we allow for biological variation while getting rid of lipids with low abundances that are further diluted by deuterium causing a drop in the ratio. The upper range of the ratio does not contain outliers, but outliers in this area might indicate lipids with more isotopologues found during peak picking, which would contain "extra" biased abundances in the labelled treatments due to partial accurateness in NIA correction.
 
 # ______________EDIT HERE________________
 
