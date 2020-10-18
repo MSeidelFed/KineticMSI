@@ -95,7 +95,7 @@ reconstruct_kMSI <- function(path = "Data/",
                                 dec = ".", 
                                 row.names = 1)
     
-    coords_file <- readImzML(name = MSI_file_m, as = "MSImageSet")
+    coords_file <- readImzML(name = MSI_file_m, as = as)
     
     coords_ <- coord(coords_file)
     
