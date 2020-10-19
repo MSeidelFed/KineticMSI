@@ -95,12 +95,35 @@ reconstruct_kMSI <- function(path = "Data/",
                                 dec = ".", 
                                 row.names = 1)
     
-    coords_file <- readImzML(name = MSI_file_m, as = as)
-    
-    coords_ <- coord(coords_file)
-    
-    df_coords_ <- as.data.frame(rbind(xAxis = coords_$x, yAxis = coords_$y))
-    colnames(df_coords_) <- rownames(coords_)
+    if (as == "MSImageSet") {
+      
+      coords_file <- readImzML(name = MSI_file_m, as = "MSImageSet")
+      
+      coords_ <- coord(coords_file)
+      
+      df_coords_ <- as.data.frame(rbind(xAxis = coords_$x, yAxis = coords_$y))
+      colnames(df_coords_) <- rownames(coords_)
+      
+    } else if (as == "MSImagingExperiment") {
+      
+      coords_file <- readImzML(name = "Data/HD_rep1", as = "MSImagingExperiment")
+      
+      File_coords1 <- coord(coords_file)
+      
+      df_coords_ <- as.data.frame(cbind(x = File_coords1$x, y = File_coords1$y),
+                               row.names = paste0("x =" , ", ",
+                                                  File_coords1$x,
+                                                  "y =" , ", ",
+                                                  File_coords1$y,
+                                                  "z =" , ", ",
+                                                  File_coords1$z))
+      
+      
+    } else {
+      
+      stop("only MSImagingExperiment or MSImageSet formats are supported")
+      
+    }
     
     ### procedure
     
