@@ -110,6 +110,14 @@ reconstruct_kMSI <- function(path = "Data/",
       
       File_coords1 <- coord(coords_file)
       
+      coords_ <- as.data.frame(cbind(x = File_coords1$x, y = File_coords1$y),
+                               row.names = paste0("x =" , ", ",
+                                                  File_coords1$x,
+                                                  "y =" , ", ",
+                                                  File_coords1$y,
+                                                  "z =" , ", ",
+                                                  File_coords1$z))
+      
       df_coords_ <- as.data.frame(cbind(x = File_coords1$x, y = File_coords1$y),
                                row.names = paste0("x =" , ", ",
                                                   File_coords1$x,
