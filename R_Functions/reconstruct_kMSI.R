@@ -103,7 +103,7 @@ reconstruct_kMSI <- function(path = "Data/",
       
     } else if (as == "MSImagingExperiment") {
       
-      coords_file <- readImzML(name = "Data/HD_rep1", as = "MSImagingExperiment")
+      coords_file <- readImzML(name = MSI_file_m, as = "MSImagingExperiment")
       
       File_coords1 <- coord(coords_file)
       
