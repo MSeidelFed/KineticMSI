@@ -7,11 +7,8 @@
 
 
 
-
-
-
 reconstruct_kMSI <- function(path = "Data/", 
-                             as = "MSImageSet" ,
+                             as = "MSImageSet",
                              position_intensities_legend = "topright",
                              position_cluster_legend = "bottomleft",
                              clust_method = "average",
@@ -118,20 +115,16 @@ reconstruct_kMSI <- function(path = "Data/",
                                                   "z =" , ", ",
                                                   File_coords1$z))
       
-      df_coords_ <- as.data.frame(cbind(x = File_coords1$x, y = File_coords1$y),
-                               row.names = paste0("x =" , ", ",
-                                                  File_coords1$x,
-                                                  "y =" , ", ",
-                                                  File_coords1$y,
-                                                  "z =" , ", ",
-                                                  File_coords1$z))
-      
+      df_coords_ <- as.data.frame(rbind(x = File_coords1$x, y = File_coords1$y))
+      colnames(df_coords_) <- rownames(coords_)
+                        
       
     } else {
       
       stop("only MSImagingExperiment or MSImageSet formats are supported")
       
     }
+    
     
     ### procedure
     
