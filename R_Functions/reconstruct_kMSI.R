@@ -146,7 +146,10 @@ reconstruct_kMSI <- function(path = "Data/",
                                                      km = k_means)) == "error") == "error") {
         
         plot(1,1, main = rownames(enrichment_file[i,]))
-        plot(1,1, main = rownames(enrichment_file[i,]))}
+        plot(1,1, main = rownames(enrichment_file[i,]))
+        cluster_out <- as.data.frame(matrix(NA, nrow = 1, ncol = k_means))
+        
+        }
       
       else {
         
@@ -236,11 +239,10 @@ reconstruct_kMSI <- function(path = "Data/",
                                  round(x = as.numeric(summary(as.numeric(enrichment_file[i,]))),
                                        digits = 2))))
         
-        #### return object part 1
-        
-        cluster_list[[i]] <- cluster_out
-        
       }
+      
+      #### return object part 1
+      cluster_list[[i]] <- cluster_out
       
     }
     
