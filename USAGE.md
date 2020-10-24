@@ -231,7 +231,16 @@ library(ComplexHeatmap)
 library(circlize)
 library(matrixStats)
 
-example_reconstruct <- reconstruct_kMSI(path = "Data/", as = "MSImageSet" , position_intensities_legend = "topright", position_cluster_legend = "bottomleft",  clust_method = "average", clust_distance = "euclidean", Km_bootstrap = 10, k_means = 5)
+example_reconstruct <- reconstruct_kMSI(path = "Data/",
+                                        as = "MSImagingExperiment",
+                                        position_intensities_legend = "topright",
+                                        position_cluster_legend = "bottomleft",
+                                        clust_method = "average",
+                                        clust_distance = "euclidean",
+                                        Km_bootstrap = 10,
+                                        k_means = 5,
+                                        RevOrdinates = T,
+                                        RevOrdinates = F)
 
 ``` 
 
