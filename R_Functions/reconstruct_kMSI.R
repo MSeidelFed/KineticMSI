@@ -14,7 +14,9 @@ reconstruct_kMSI <- function(path = "Data/",
                              clust_method = "average",
                              clust_distance = "euclidean",
                              Km_bootstrap = 10,
-                             k_means = 5)
+                             k_means = 5,
+                             RevAbscissas = F,
+                             RevOrdinates = F)
   
 {
   
@@ -117,7 +119,7 @@ reconstruct_kMSI <- function(path = "Data/",
       
       df_coords_ <- as.data.frame(rbind(x = File_coords1$x, y = File_coords1$y))
       colnames(df_coords_) <- rownames(coords_)
-                        
+      
       
     } else {
       
@@ -149,7 +151,7 @@ reconstruct_kMSI <- function(path = "Data/",
         plot(1,1, main = rownames(enrichment_file[i,]))
         cluster_out <- as.data.frame(matrix(NA, nrow = 1, ncol = k_means))
         
-        }
+      }
       
       else {
         
@@ -203,13 +205,33 @@ reconstruct_kMSI <- function(path = "Data/",
         }
         
         #### plots
+        
+        ##### defining coords
+        
+        if (RevAbscissas == F) {
+          Abscissas = c(min(as.numeric(df_coords_[1,])) - 10,
+                        max(as.numeric(df_coords_[1,])) + 30)
+        } else {
+          Abscissas = c(max(as.numeric(df_coords_[1,])) + 30,
+                        min(as.numeric(df_coords_[1,])) - 10)
+        }
+        
+        if (RevOrdinates == F) {
+          Ordinates = c(min(as.numeric(df_coords_[2,])),
+                        max(as.numeric(df_coords_[2,])))
+        } else {
+          Ordinates = c(max(as.numeric(df_coords_[2,])),
+                        min(as.numeric(df_coords_[2,])))
+        }
+  
+        
         ##### clustered
         
         plot(x = plot_coords_ordered[,"x"], y = plot_coords_ordered[,"y"],
              col = plot_colors_ordered, pch = 18,
              main = paste0("Cluster (#)", " - ", rownames(enrichment_file)[i]),
-             xlim = c(min(as.numeric(df_coords_[1,])) - 10,
-                      max(as.numeric(df_coords_[1,])) + 30),
+             xlim = Abscissas,
+             ylim = Ordinates,
              xlab = "Abscissa coordinates", ylab = "Ordinate coordinates") 
         
         legend(position_cluster_legend, col = unique(plot_colors_ordered), pch = 18,
@@ -223,8 +245,8 @@ reconstruct_kMSI <- function(path = "Data/",
              bty = "n",
              type = 'p',
              pch = 15,
-             xlim = c(min(as.numeric(df_coords_[1,])) - 10,
-                      max(as.numeric(df_coords_[1,])) + 30),
+             xlim = Abscissas,
+             ylim = Ordinates,
              main = paste0("Enrichment (%)", " - ", rownames(enrichment_file)[i]),
              xlab = "Abscissa coordinates", ylab = "Ordinate coordinates")
         
