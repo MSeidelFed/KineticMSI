@@ -248,11 +248,22 @@ The outcome from this visual evaluation is a PDF containing the spatial dynamics
 
 ![Tracer_dynamics](images/Tracer_dynamics.png)
 
-Note.....
+Note that clusters K-means partitions signal areas of tracer incorporation when those are spatially constrained.
+
+## Step 5 - Clustering active regions with differential tracer incorporation
+
+This step takes advantage of the gained resolution provided by Mass Spectrometry Imaging to bypass the limitation of averaging a intensity from a metabolite of interest across a large tissue area. Instead we provide options to rationalize the tissue segmentation based on the tracer dynamics, and this allows us to gain insight into metabolic hotspots for the target compounds.
+
+* Option 1: Mean comparison of deuterium enrichment from randomly sampled equal number of pixels between datasets using a generalized linear regression model. Users are given an option to assess the correctness of random sampling by plotting the ratio between the mean and StDev from the random samples against the full dataset.
+
+* Option 2: The number of K-mean clusters is determined for individual lipids based on the bootstrapped dendrograms (customizable alpha - AU *P* value) and stats are performed to compare the means from significant clusters between experimental conditions. The number of Ks is tailored individually for each metabolite.
 
 # ______________EDIT HERE________________
 
-## Step 3 - Clustering active regions with differential tracer incorporation 
+
+``` 
+
+``` 
 
 ### drawing the SCC image and selecting an specific cluster as output
 
@@ -275,7 +286,7 @@ example_SSC[1:5,1:3]
 325.13129680233              0.000000                     0.000000                      0.000000
 ``` 
 
-## Step 4 - Relative quantitation
+## Step 6 - Relative quantitation
 
 
 
