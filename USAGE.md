@@ -90,7 +90,7 @@ Enrichment <- IsoCorrectoR::IsoCorrection(MeasurementFile = "Data/WT_rep1_rm0.cs
 
 ```
 
-Alternatively, we are providing a function to pipe all the "rm0" files through IsoCorrectoR for bash correction, for our function to work, all csv input files must be in a subdirectory one level below the main workspace.
+Alternatively, we are providing a function to pipe all the "rm0" files through IsoCorrectoR for batch correction, for our function to work, all csv input files must be in a subdirectory one level below the main workspace.
 
 ``` {r}
 
