@@ -248,6 +248,8 @@ The outcome from this visual evaluation is a PDF containing the spatial dynamics
 
 ![Tracer_dynamics](images/Tracer_dynamics.png)
 
+# USE THE SpatialRandomSampling_MSI TO SHOW THE SPATIAL CONSTRAINTS AS AN EXAMPLE HERE ###########################################################
+
 Note that clusters K-means partitions signal areas of tracer incorporation when those are spatially constrained.
 
 ## Step 5 - Clustering active regions with differential tracer incorporation
