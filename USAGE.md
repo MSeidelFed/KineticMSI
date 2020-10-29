@@ -256,14 +256,30 @@ Note that clusters K-means partitions signal areas of tracer incorporation when 
 
 This step takes advantage of the gained resolution provided by Mass Spectrometry Imaging to bypass the limitation of averaging a intensity from a metabolite of interest across a large tissue area. Instead we provide options to rationalize the tissue segmentation based on the tracer dynamics, and this allows us to gain insight into metabolic hotspots for the target compounds.
 
-* Option 1: Mean comparison of deuterium enrichment from randomly sampled equal number of pixels between datasets using a generalized linear regression model. Users are given an option to assess the correctness of random sampling by plotting the ratio between the mean and StDev from the random samples against the full dataset.
+* Main procedure: Mean comparison of deuterium enrichment from randomly sampled equal number of pixels between datasets using a generalized linear regression model or an ANOVA followed by Tukey HSD posthoc test. The number of K-mean clusters is determined for individual metabolites based on bootstrapped dendrograms (customizable alpha - AU *P* value) and stats are performed to compare the means from significant clusters between experimental conditions.
 
-* Option 2: The number of K-mean clusters is determined for individual lipids based on the bootstrapped dendrograms (customizable alpha - AU *P* value) and stats are performed to compare the means from significant clusters between experimental conditions. The number of Ks is tailored individually for each metabolite.
+* Optional feature: Users are given an option to assess the correctness of random sampling by plotting the ratio between the mean and StDev from the random samples against the full dataset.
 
-# ______________EDIT HERE________________
-
+The function takes the main path to IsoCorrectoR folders and grabs the files to perfomr mean comparison from there. The files are selected based on the "pattern" feature that defaults to MeanEnrichment.csv. Mean comparison is performed alphabetically and thus factorVector needs to be a simple vector containing the replicated factors in your design. There are to options for class comparison, either a GLM or an ANOVA. If GLM is selected the number of experimental factors must be inputed as well as a vector containing a number of colors names equal to the number of factors, in this case the boxplots will be colored with the defined colors. Clustering options include the distance used as measure to build the clusters and inherits the classes allowed by pvclust. Additionally the bootstrapp iteration number "nboot", which is recommended to be set at least to 1000, the alpha corresponds to the boundary that the user sets to determine if a cluster is significant. If only one cluster is found the function will try to reduce the alpha until finding more clusters, the alphas and dendrograms are outputed in a PDF file. A second PDF contains the boxplots that feature the mean comparisons. Finally the user can define the type of function used to sort before the clustering takes place, i.e., parameter "fun_to_clust", the options are to sort the joint dataset by enrichment percentages or by spatial coordinates. Both functions serve different experimental questions. In the latter case if there are spatial contraints in the mean enrichemnt percentages significant grouping will be found, whereas the first function suits the purpose of finding high versus low enriched states that can be randomly distributed across the entire ion image.
 
 ``` 
+library(reshape2)
+library(multcompView)
+library(testthat)
+library(pvclust)
+
+ClassComparison_mat <- ClassComparison_kMSI(FilesPath = "Data/IsoCorectoR_Files/", 
+                                            factorVector = c(rep("_HD", 6),
+                                                             rep("_WT", 6)),
+                                            colorVector = c("tomato3", "peachpuff3"),
+                                            FactorNumber = 2, 
+                                            ClassComparison = "ANOVA",
+                                            method.dist = "abscor", 
+                                            nboot = 100, 
+                                            return_SigClustHist = T, 
+                                            fun_to_clust = "Enrichment", 
+                                            pattern = "MeanEnrichment.csv",
+                                            alpha = 0.9)
 
 ``` 
 
