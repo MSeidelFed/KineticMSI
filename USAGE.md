@@ -127,7 +127,7 @@ IsoCor input tables have the following format:
 
 and can be obtained from our universal input csv format file (Data/Universal_Isotopologue_File.csv) using the function ProduceIsoCorTables as follows:
 
-```
+```{r}
 WT1 <- ProduceIsoCorTables(PathToCSV_file = "Replicate 1/Pyr layer replicate1  29WT.csv")
 ```
 Subsequently, the output table can be directly used by IsoCor following the published instructions (https://github.com/MetaSys-LISBP/IsoCor).
@@ -225,7 +225,7 @@ As an example, we continue our analyses using all lipids but interpreted with ca
 
 Following the enrichment calculation procedure, and aiming at taking advantage of the gained spatial dimensions provided by MSI, we explored the kinetics of the tracer in the tissue. To do that we built a fuction that uses percentages of enrichment from specific mass features to reconstruct the tissue slide gaining insigths on which tissue areas, if at all, have incorporated more tracer. The function has a dependency to the Cardinal R package (https://www.bioconductor.org/packages/release/bioc/html/Cardinal.html). Additionally the function partitions the pixels in every reconstruction using the k-means algorithm with a predefined k by the user.
 
-``` 
+```{r}
 library(Cardinal)
 library(ComplexHeatmap)
 library(circlize)
@@ -262,7 +262,7 @@ This step takes advantage of the gained resolution provided by Mass Spectrometry
 
 The function takes the main path to IsoCorrectoR folders and grabs the files to perfomr mean comparison from there. The files are selected based on the "pattern" feature that defaults to MeanEnrichment.csv. Mean comparison is performed alphabetically and thus factorVector needs to be a simple vector containing the replicated factors in your design. There are to options for class comparison, either a GLM or an ANOVA. If GLM is selected the number of experimental factors must be inputed as well as a vector containing a number of colors names equal to the number of factors, in this case the boxplots will be colored with the defined colors. Clustering options include the distance used as measure to build the clusters and inherits the classes allowed by pvclust. Additionally the bootstrapp iteration number "nboot", which is recommended to be set at least to 1000, the alpha corresponds to the boundary that the user sets to determine if a cluster is significant. If only one cluster is found the function will try to reduce the alpha until finding more clusters, the alphas and dendrograms are outputed in a PDF file. A second PDF contains the boxplots that feature the mean comparisons. Finally the user can define the type of function used to sort before the clustering takes place, i.e., parameter "fun_to_clust", the options are to sort the joint dataset by enrichment percentages or by spatial coordinates. Both functions serve different experimental questions. In the latter case if there are spatial contraints in the mean enrichemnt percentages significant grouping will be found, whereas the first function suits the purpose of finding high versus low enriched states that can be randomly distributed across the entire ion image.
 
-``` 
+```{r}
 library(reshape2)
 library(multcompView)
 library(testthat)
@@ -286,6 +286,11 @@ ClassComparison_mat <- ClassComparison_kMSI(FilesPath = "Data/IsoCorectoR_Files/
 ### drawing the SCC image and selecting an specific cluster as output
 
 There is one mandatory parameter in the function, file_name_WO_extension, which refers to the directory and name of your .ibd and .imzML files. Furthermore there are four optional parameters; type, refers to the kind of Cardinal object that the workflow will use (options are "MSImageSet" and "MSImagingExperiment"). Then you can tune the mathematical parameters of your partitions r, k and s. And the last parameter refers to the cluster_Nr that you want to obtain a data matrix of. Specially usefull to isolate a matrix of your experimental segment
+
+
+
+# EDITING HERE _____________#######################
+
 
 ``` 
 example_SSC <- segmentation_initial_steps(file_name_WO_extension = "Imaging_File_Directory", type = "MSImageSet", r = 1, k = 5, s = 3, cluster_Nr = 2)
