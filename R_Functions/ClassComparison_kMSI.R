@@ -399,7 +399,7 @@ ClassComparison_kMSI <- function(FilesPath,
         
         #### plotting
         
-        par(mar=c(10,2,2,2))
+        par(mar=c(10,5,2,2))
         
         boxplot(Variable ~ factor_glm,
                 ylim = c(0, (max(Variable) + mean(Variable))), 
@@ -484,13 +484,14 @@ ClassComparison_kMSI <- function(FilesPath,
                         rgb(165,103,40,maxColorValue = 255))
           
           ##### Draw the basic boxplot
-          par(mar=c(5,2,2,2))
+          par(mar=c(10,5,2,2))
           a = boxplot(data$value ~ data$treatment,
                       ylim =  c(0, (max(Variable) + mean(Variable))),
-                      col=my_colors[as.numeric(LABELS[,1])],
+                      col = my_colors[as.numeric(LABELS[,1])],
                       main = names(list_out)[m],
                       las = 2,
-                      cex.axis = 1) 
+                      cex.axis = 1,
+                      xlab = NULL) 
           
           ##### automatic axis = ylim=c(min(data$value) , 1.1*max(data$value))
           
