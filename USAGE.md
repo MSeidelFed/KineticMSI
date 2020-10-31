@@ -248,17 +248,17 @@ The outcome from this visual evaluation is a PDF containing the spatial dynamics
 
 ![Tracer_dynamics](images/Tracer_dynamics.png)
 
-# USE THE SpatialRandomSampling_MSI TO SHOW THE SPATIAL CONSTRAINTS AS AN EXAMPLE HERE ###########################################################
+Note that K-mean partitions signal areas of tracer incorporation when those are spatially constrained.
 
-Note that clusters K-means partitions signal areas of tracer incorporation when those are spatially constrained.
-
-## Step 5 - Clustering active regions with differential tracer incorporation
+## Step 5 & 6 - Clustering active regions with differential tracer incorporation
 
 This step takes advantage of the gained resolution provided by Mass Spectrometry Imaging to bypass the limitation of averaging a intensity from a metabolite of interest across a large tissue area. Instead we provide options to rationalize the tissue segmentation based on the tracer dynamics, and this allows us to gain insight into metabolic hotspots for the target compounds.
 
 * Main procedure: Mean comparison of deuterium enrichment from randomly sampled equal number of pixels between datasets using a generalized linear regression model or an ANOVA followed by Tukey HSD posthoc test. The number of K-mean clusters is determined for individual metabolites based on bootstrapped dendrograms (customizable alpha - AU *P* value) and stats are performed to compare the means from significant clusters between experimental conditions.
 
+# NEED TO DO THIS STILL
 * Optional feature: Users are given an option to assess the correctness of random sampling by plotting the ratio between the mean and StDev from the random samples against the full dataset.
+#
 
 The function takes the main path to IsoCorrectoR folders and grabs the files to perfomr mean comparison from there. The files are selected based on the "pattern" feature that defaults to MeanEnrichment.csv. Mean comparison is performed alphabetically and thus factorVector needs to be a simple vector containing the replicated factors in your design. There are to options for class comparison, either a GLM or an ANOVA. If GLM is selected the number of experimental factors must be inputed as well as a vector containing a number of colors names equal to the number of factors, in this case the boxplots will be colored with the defined colors. Clustering options include the distance used as measure to build the clusters and inherits the classes allowed by pvclust. Additionally the bootstrapp iteration number "nboot", which is recommended to be set at least to 1000, the alpha corresponds to the boundary that the user sets to determine if a cluster is significant. If only one cluster is found the function will try to reduce the alpha until finding more clusters, the alphas and dendrograms are outputed in a PDF file. A second PDF contains the boxplots that feature the mean comparisons. Finally the user can define the type of function used to sort before the clustering takes place, i.e., parameter "fun_to_clust", the options are to sort the joint dataset by enrichment percentages or by spatial coordinates. Both functions serve different experimental questions. In the latter case if there are spatial contraints in the mean enrichemnt percentages significant grouping will be found, whereas the first function suits the purpose of finding high versus low enriched states that can be randomly distributed across the entire ion image.
 
@@ -283,14 +283,13 @@ ClassComparison_mat <- ClassComparison_kMSI(FilesPath = "Data/IsoCorectoR_Files/
 
 ``` 
 
-### drawing the SCC image and selecting an specific cluster as output
-
-There is one mandatory parameter in the function, file_name_WO_extension, which refers to the directory and name of your .ibd and .imzML files. Furthermore there are four optional parameters; type, refers to the kind of Cardinal object that the workflow will use (options are "MSImageSet" and "MSImagingExperiment"). Then you can tune the mathematical parameters of your partitions r, k and s. And the last parameter refers to the cluster_Nr that you want to obtain a data matrix of. Specially usefull to isolate a matrix of your experimental segment
-
-
+# USE THE SpatialRandomSampling_MSI TO SHOW THE SPATIAL CONSTRAINTS AS AN EXAMPLE HERE AS OPPOSED TO THE ENRICHMENT SORTED RESULTS ###########################################################
 
 # EDITING HERE _____________#######################
 
+### drawing the SCC image and selecting an specific cluster as output
+
+There is one mandatory parameter in the function, file_name_WO_extension, which refers to the directory and name of your .ibd and .imzML files. Furthermore there are four optional parameters; type, refers to the kind of Cardinal object that the workflow will use (options are "MSImageSet" and "MSImagingExperiment"). Then you can tune the mathematical parameters of your partitions r, k and s. And the last parameter refers to the cluster_Nr that you want to obtain a data matrix of. Specially usefull to isolate a matrix of your experimental segment
 
 ``` 
 example_SSC <- segmentation_initial_steps(file_name_WO_extension = "Imaging_File_Directory", type = "MSImageSet", r = 1, k = 5, s = 3, cluster_Nr = 2)
@@ -308,8 +307,6 @@ example_SSC[1:5,1:3]
 315.017782775377             0.000000                     0.000000                      0.000000
 325.13129680233              0.000000                     0.000000                      0.000000
 ``` 
-
-## Step 6 - Relative quantitation
 
 
 
