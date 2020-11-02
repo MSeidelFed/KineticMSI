@@ -225,19 +225,7 @@ reconstruct_kMSI <- function(path = "Data/",
         }
   
         
-        ##### clustered
-        
-        plot(x = plot_coords_ordered[,"x"], y = plot_coords_ordered[,"y"],
-             col = plot_colors_ordered, pch = 18,
-             main = paste0("Cluster (#)", " - ", rownames(enrichment_file)[i]),
-             xlim = Abscissas,
-             ylim = Ordinates,
-             xlab = "Abscissa coordinates", ylab = "Ordinate coordinates") 
-        
-        legend(position_cluster_legend, col = unique(plot_colors_ordered), pch = 18,
-               legend = names(sort(colMeans(na.omit(cluster_out)), decreasing = T)))
-        
-        ##### enrichment
+       ##### enrichment
         
         plot(x = as.numeric(df_coords_[1,]),
              y = as.numeric(df_coords_[2,]), 
@@ -260,6 +248,19 @@ reconstruct_kMSI <- function(path = "Data/",
                                  " ",
                                  round(x = as.numeric(summary(as.numeric(enrichment_file[i,]))),
                                        digits = 2))))
+        
+        
+        ##### clustered
+        
+        plot(x = plot_coords_ordered[,"x"], y = plot_coords_ordered[,"y"],
+             col = plot_colors_ordered, pch = 18,
+             main = paste0("Cluster (#)", " - ", rownames(enrichment_file)[i]),
+             xlim = Abscissas,
+             ylim = Ordinates,
+             xlab = "Abscissa coordinates", ylab = "Ordinate coordinates") 
+        
+        legend(position_cluster_legend, col = unique(plot_colors_ordered), pch = 18,
+               legend = names(sort(colMeans(na.omit(cluster_out)), decreasing = T)))
         
       }
       
