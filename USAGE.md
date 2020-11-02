@@ -281,7 +281,9 @@ ClassComparison_mat <- ClassComparison_kMSI(FilesPath = "Data/IsoCorectoR_Files/
                                             pattern = "MeanEnrichment.csv",
                                             alpha = 0.9)
 
-``` 
+```
+
+Test if gender is a confounding variable, if yes, add it as a covariate and run an ANCOVA.
 
 # USE THE SpatialRandomSampling_MSI TO SHOW THE SPATIAL CONSTRAINTS AS AN EXAMPLE HERE AS OPPOSED TO THE ENRICHMENT SORTED RESULTS ###########################################################
 
