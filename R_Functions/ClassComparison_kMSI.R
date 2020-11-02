@@ -179,11 +179,20 @@ ClassComparison_kMSI <- function(FilesPath,
                      full.names = T, recursive = T,
                      ignore.case = FALSE, include.dirs = FALSE, no.. = FALSE)
   
-  file_test <- read.csv(file = reps[1], header = T, row.names = 1)
+  ### getting the common lipid_Nr for all datasets
+
+  lipid_Nr <- list()
+
+  for (i in 1:length(reps)) {
   
-  lipid_Nr <- unique(rownames(file_test))
+    file_test <- read.csv(file = reps[i], header = T, row.names = 1)
   
+   lipid_Nr[[i]] <- unique(rownames(file_test))
   
+  }
+  
+  lipid_Nr = Reduce(intersect, lipid_Nr)
+    
   ### all the rep files need to be in the same directory
   
   #### finding a significant number of partitions in joined datasets across metabolites and samples
