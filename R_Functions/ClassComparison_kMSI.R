@@ -180,18 +180,49 @@ ClassComparison_kMSI <- function(FilesPath,
                      ignore.case = FALSE, include.dirs = FALSE, no.. = FALSE)
   
   ### getting the common lipid_Nr for all datasets
-
+  
   lipid_Nr <- list()
-
+  
+  lipid_Nr_vec <- c()
+  
   for (i in 1:length(reps)) {
-  
+    
     file_test <- read.csv(file = reps[i], header = T, row.names = 1)
-  
-   lipid_Nr[[i]] <- unique(rownames(file_test))
-  
+    
+    lipid_Nr[[i]] <- unique(rownames(file_test))
+    
+    lipid_Nr_vec <- c(lipid_Nr_vec, unique(rownames(file_test)))
+    
   }
   
   lipid_Nr = Reduce(intersect, lipid_Nr)
+  
+  lipid_Nr_vec = unique(lipid_Nr_vec)
+  
+  if (length(which((lipid_Nr == lipid_Nr_vec) == F)) > 0) {
+    
+    for (i in 1:length(reps)) {
+      
+      file_test <- read.csv(file = reps[i], header = T, row.names = 1)
+      
+      out_dir <- paste0(strsplit(reps[i],
+                                 "/")[[1]][-c(length(strsplit(reps[i],
+                                                              "/")[[1]]))], collapse = "/")
+      
+      file_name <- paste0(strsplit(strsplit(reps[i],
+                                            "/")[[1]][length(strsplit(reps[i],
+                                                                      "/")[[1]])],
+                                   "\\.")[[1]][1], "_SharedFeatures",
+                          ".csv")
+      
+      write.csv(file_test[lipid_Nr,], file = paste0(out_dir, "/", file_name),
+                quote = F)
+      
+    }
+    
+    pattern = "_SharedFeatures.csv"
+    
+  }
     
   ### all the rep files need to be in the same directory
   
