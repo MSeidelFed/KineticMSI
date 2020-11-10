@@ -50,11 +50,14 @@ NullPixel_rm_test <- NullPixel_rm(MeasurementFile_dir = "Data/", return_csv = T)
 
 ### only produce files outside the R environment without keeping data in the environment
 
-NullPixel_rm(MeasurementFile_dir = "Data/", return_csv = T)
+NullPixel_rm_test <- NullPixel_rm(MeasurementFile_dir = "Data/",
+                                  return_csv = T, verbose = T, verboseFeature = T)
 
 ```
 
-If return_csv is set to T The function returns the same number of csv files located in the input directory, corrected and signaled with the addition in the identifier of "_rm0"
+If return_csv is set to T The function returns the same number of csv files located in the input directory, corrected and signaled with the addition in the identifier of "_rm0".
+
+To spot errors in the input files set verbose to TRUE and to spot errors in the feature number set verboseFeature to TRUE. This allows easily location of errors in the input tables.
 
 
 ## Step 2 - Natural Isotopic Abundace Correction
