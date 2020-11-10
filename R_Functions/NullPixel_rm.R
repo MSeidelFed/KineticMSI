@@ -5,11 +5,14 @@
 
 
 NullPixel_rm <- function(MeasurementFile_dir,
-                         return_csv){
+                         return_csv,
+                         verbose = F,
+                         verboseFeature = F){
   
   ### functions needed
   
-  NullPixel_deplet <- function(MeasurementFile_dir) {
+  NullPixel_deplet <- function(MeasurementFile_dir,
+                               verbose = F) {
     
     list2df <- function(x) 
     { 
@@ -28,7 +31,19 @@ NullPixel_rm <- function(MeasurementFile_dir,
     
     list_isotopologs <- list()
     
+    count = 0
+    
     for (i in 1:length(lipids)) {
+      
+      count = count + 1
+      
+      if (verbose == T) {
+        
+        cat("...", "\n")
+        cat("Processing Feature No. :", i, "i.e.,", lipids[i])
+        cat("...", "\n")
+        
+      }
       
       isotopolog_envelope <- MeasurementFile[grep(pattern = lipids[i],
                                                   x = rownames(MeasurementFile)),]
@@ -80,15 +95,29 @@ NullPixel_rm <- function(MeasurementFile_dir,
                        full.names = T, recursive = FALSE,
                        ignore.case = FALSE, include.dirs = FALSE, no.. = FALSE)
     
+    count = 0
+    
     for (i in 1:length(reps)) {
       
-      zero_rm_MatList[[i]] <- NullPixel_deplet(reps[i])
+      count = count + 1
+      
+      if (verbose == T) {
+        
+        cat("...", "\n")
+        cat("Processing File No. :", i, "i.e.,", reps[i])
+        cat("...", "\n")
+        
+      }
+      
+      zero_rm_MatList[[i]] <- NullPixel_deplet(reps[i],
+                                               verbose = verboseFeature)
       
     }
     
   } else {
     
-    zero_rm_MatList[[1]] <- NullPixel_deplet(MeasurementFile_dir = MeasurementFile_dir)
+    zero_rm_MatList[[1]] <- NullPixel_deplet(MeasurementFile_dir = MeasurementFile_dir,
+                                             verbose = verboseFeature)
     
   }
   
