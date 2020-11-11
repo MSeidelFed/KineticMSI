@@ -230,6 +230,8 @@ ClassComparison_kMSI <- function(FilesPath,
   
   pdf(file = "Bootstrapped_Dendrograms.pdf")
   
+  par(mfrow = c(2,1))                        
+  
   list_out <- list()
   
   sig_clust_Nr <- c()
@@ -300,6 +302,8 @@ ClassComparison_kMSI <- function(FilesPath,
         plot(x = HCA_boot_lipid, print.pv = "au", print.num = T, cex = 1, lwd = 2, main = lipid_Nr[i])
         
         pvrect(HCA_boot_lipid, alpha = alpha, pv="au")
+        
+        hist(rowMeans(runner_WO_zeros), main = lipid_Nr[i], xlab = "Density")
         
         #### building matrices using significant clusters as factors
         
