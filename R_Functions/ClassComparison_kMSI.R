@@ -1,9 +1,6 @@
 
 
 
-
-
-
 ClassComparison_kMSI <- function(FilesPath,
                                  factorVector,
                                  colorVector = c("tomato3", "peachpuff3"),
@@ -13,7 +10,7 @@ ClassComparison_kMSI <- function(FilesPath,
                                  nboot = 100,
                                  return_SigClustHist = T,
                                  fun_to_clust = c("Enrichment", "Spatial"),
-                                 pattern = "MeanEnrichment",
+                                 pattern = "MeanEnrichment.csv",
                                  alpha = 0.9) {
   
   ## functions needed for the main
@@ -44,7 +41,7 @@ ClassComparison_kMSI <- function(FilesPath,
   ### EnrichmentSorted_RandomSampling_MSI
   
   EnrichmentSorted_RandomSampling_MSI <- function(FilesPath,
-                                                  pattern = "MeanEnrichment",
+                                                  pattern = "MeanEnrichment.csv",
                                                   feature_choice = 0) {
     #### choosing a lipid
     
@@ -103,8 +100,9 @@ ClassComparison_kMSI <- function(FilesPath,
   ### SpatialRandomSampling_MSI
   
   SpatialRandomSampling_MSI <- function(FilesPath,
-                                        pattern = "MeanEnrichment",
+                                        pattern = "MeanEnrichment.csv",
                                         feature_choice = 0) {
+    
     #### choosing a lipid
     
     reps <- list.files(path = FilesPath, pattern = pattern, all.files = FALSE,
@@ -121,8 +119,7 @@ ClassComparison_kMSI <- function(FilesPath,
       
       lipid_choice <- readline(prompt="Enter index of lipid of interest: ")
       
-    } else {lipid_choice = feature_choice}
-    
+    } else  { lipid_choice = feature_choice }
     
     #### defining the minimum set length
     
@@ -223,14 +220,15 @@ ClassComparison_kMSI <- function(FilesPath,
     pattern = "_SharedFeatures.csv"
     
   }
-    
+  
+  
   ### all the rep files need to be in the same directory
   
   #### finding a significant number of partitions in joined datasets across metabolites and samples
   
   pdf(file = "Bootstrapped_Dendrograms.pdf")
   
-  par(mfrow = c(2,1))                        
+  par(mfrow = c(1,1))
   
   list_out <- list()
   
@@ -303,7 +301,7 @@ ClassComparison_kMSI <- function(FilesPath,
         
         pvrect(HCA_boot_lipid, alpha = alpha, pv="au")
         
-        hist(rowMeans(runner_WO_zeros), main = lipid_Nr[i], xlab = "Density")
+        plot(density(runner_WO_zeros), main = lipid_Nr[i], xlab = "Enrichment Proportion")
         
         #### building matrices using significant clusters as factors
         
@@ -443,7 +441,7 @@ ClassComparison_kMSI <- function(FilesPath,
         
         #### plotting
         
-        par(mar=c(10,5,2,2))
+        par(mar=c(10,2,2,2))
         
         boxplot(Variable ~ factor_glm,
                 ylim = c(0, (max(Variable) + mean(Variable))), 
@@ -528,16 +526,13 @@ ClassComparison_kMSI <- function(FilesPath,
                         rgb(165,103,40,maxColorValue = 255))
           
           ##### Draw the basic boxplot
-          par(mar=c(10,5,2,2))
+          par(mar=c(5,2,2,2))
           a = boxplot(data$value ~ data$treatment,
                       ylim =  c(0, (max(Variable) + mean(Variable))),
-                      col = my_colors[as.numeric(LABELS[,1])],
+                      col=my_colors[as.numeric(LABELS[,1])],
                       main = names(list_out)[m],
                       las = 2,
-                      cex.axis = 1,
-                      xlab = NULL) 
-          
-          ##### automatic axis = ylim=c(min(data$value) , 1.1*max(data$value))
+                      cex.axis = 1) 
           
           ##### I want to write the letter over each box. Over is how high I want to write it.
           over = 0.1*max(a$stats[nrow(a$stats),])
@@ -565,5 +560,3 @@ ClassComparison_kMSI <- function(FilesPath,
   return(list_out)
   
 }
-
-
