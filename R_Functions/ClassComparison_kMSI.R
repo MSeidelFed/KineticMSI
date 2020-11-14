@@ -370,7 +370,9 @@ ClassComparison_kMSI <- function(FilesPath,
   if (return_SigClustHist == T) {
     
     png(filename = "SigClustHist.png")
-    hist(sig_clust_Nr)
+    plot(density(na.omit(as.numeric(ClassComparison_mat))),
+         xlab = "Significant Cluster No.",
+         main = "Cluster No. across features")
     dev.off()
     
   }
