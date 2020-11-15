@@ -5,7 +5,7 @@ ClassComparison_kMSI <- function(FilesPath,
                                  factorVector,
                                  colorVector = c("tomato3", "peachpuff3"),
                                  FactorNumber = 2,
-                                 ClassComparison = c("GLM", "ANOVA"),
+                                 ClassComparison = c(FALSE, "GLM", "ANOVA"),
                                  method.dist = "abscor",
                                  nboot = 100,
                                  return_SigClustHist = T,
@@ -301,6 +301,8 @@ ClassComparison_kMSI <- function(FilesPath,
         
         pvrect(HCA_boot_lipid, alpha = alpha, pv="au")
         
+        #hist(rowMeans(runner_WO_zeros), main = , xlab = "Density")
+        
         plot(density(runner_WO_zeros), main = lipid_Nr[i], xlab = "Enrichment Proportion")
         
         #### building matrices using significant clusters as factors
@@ -411,7 +413,13 @@ ClassComparison_kMSI <- function(FilesPath,
                            rep(factorVector, length(unique(melt(mat_to_melt)$Var2))))
       
       
-      if (ClassComparison == "GLM") {
+      if (ClassComparison == FALSE) {
+        
+        cat("Only dendrograms and density plots were produced, No class comparison made.")
+        
+        plot(1)
+        
+        } else if (ClassComparison == "GLM") {
         
         #### getting out the glm P-values
         
@@ -459,7 +467,6 @@ ClassComparison_kMSI <- function(FilesPath,
              y = (max(Variable) + (mean(Variable))/2),
              labels = stars_out)
         
-        
         #### Add data points (https://www.r-graph-gallery.com/96-boxplot-with-jitter.html)
         
         data <- data.frame(names = factor_glm, value = Variable)
@@ -484,8 +491,64 @@ ClassComparison_kMSI <- function(FilesPath,
         
         if (length(unique(melt(mat_to_melt)$Var2)) < 2) {
           
+          ## one factor mat
+          
+          data = cbind.data.frame(treatment = as.factor(factor_glm),
+                                  value = as.numeric(Variable))
+          
+          model=lm(data$value ~ data$treatment)
+          ANOVA=aov(model)
+          
+          P_value = summary(ANOVA)[[1]][["Pr(>F)"]]
+          
+          #### assigning stars to P-values, ° = +inf:0.1, * = 0.1:0.05, ** 0.05:0.01, *** 0.01:0
+          
+          stars_out <- c()
+          
+          for (i in 1:length(P_value)) {
+            
+            if (is.na(P_value[i])) {
+              
+            } else if (P_value[i] < 0.1 & P_value[i] > 0.05) {
+              runner = "*"
+            } else if (P_value[i] < 0.05 & P_value[i] > 0.01) {
+              runner = "**"
+            } else if (P_value[i] < 0.01) {
+              runner = "***"
+            } else {
+              runner = "°"
+            }
+            
+            stars_out[i] <- runner 
+            
+          }
+          
+          stars_out[1] <- "C"
+          
+          #### plotting
+          
+          color_plot <- rep(colorVector, (length(P_value)/FactorNumber))
+          
+          par(mar=c(10,2,2,2))
+          
+          boxplot(Variable ~ factor_glm,
+                  ylim = c(0, (max(Variable) + mean(Variable))), 
+                  main = names(list_out)[m],
+                  las = 2,
+                  col = color_plot,
+                  xlab = "Factors")
+          
+          text(x = c(1:length(unique(factor_glm))),
+               y = (max(Variable) + mean(Variable)),
+               labels = c(NA, round(P_value, 2)))
+          
+          text(x = c(1:length(unique(factor_glm))),
+               y = (max(Variable) + (mean(Variable))/2),
+               labels = stars_out)
           
         } else {
+          
+          ## multiple factor mat
           
           data = cbind.data.frame(treatment = as.factor(factor_glm),
                                   value = as.numeric(Variable))
@@ -549,7 +612,7 @@ ClassComparison_kMSI <- function(FilesPath,
         
       } else {
         
-        cat("Error: Input a Class Comparison method")
+        cat("Error: Input a correct Class Comparison method (ANOVA or GLM)")
         
       }
       
