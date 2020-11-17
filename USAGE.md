@@ -290,7 +290,22 @@ ClassComparison_mat <- ClassComparison_kMSI(FilesPath = "Data/IsoCorectoR_Files/
 
 Test if gender is a confounding variable, if yes, add it as a covariate and run an ANCOVA.
 
-# USE THE SpatialRandomSampling_MSI TO SHOW THE SPATIAL CONSTRAINTS AS AN EXAMPLE HERE AS OPPOSED TO THE ENRICHMENT SORTED RESULTS ###########################################################
+We also provide the option to test for changed proportions of enriched pixels less, greater or equal to a user predefined limit. The function returns a heatmap with the annotated features that isgnificantly change the proportion of x enrichment value between the conditions inputted in factorVector. The factorVector has to alphabetically coincide with the files provided just as the previous class comparison function
+
+```{r}
+test_proportions <- EnrichmentProportions_comparison(FilesPath = "Data/IsoCorectoR_Files/",
+                                                     pattern = "MeanEnrichment.csv",
+                                                     ProportionOperator = "equal",
+                                                     ProportionLimit = 0,
+                                                     factorVector = c(rep("_HD", 6),
+                                                                      rep("_WT", 6)),
+                                                     k = 5,
+                                                     n_boot = 100,
+                                                     ClustMethod = "average",
+                                                     returnProprotionsHeatmap = T)
+```
+
+
 
 # EDITING HERE _____________#######################
 
