@@ -5,7 +5,6 @@
 
 
 
-
 EnrichmentProportions_comparison <- function(FilesPath,
                                              pattern = "MeanEnrichment.csv",
                                              ProportionOperator = c("equal", "less", "greater"),
@@ -22,7 +21,9 @@ EnrichmentProportions_comparison <- function(FilesPath,
                      full.names = T, recursive = T,ignore.case = FALSE,
                      include.dirs = FALSE, no.. = FALSE)
   
-  out_mat <- matrix(NA, nrow = 85, ncol = length(reps))
+  test_dim <- read.csv(file = reps[1], header = T, row.names = 1)
+  
+  out_mat <- matrix(NA, nrow = dim(test_dim)[1], ncol = length(reps))
   
   for (j in 1:length(reps)) {
     
