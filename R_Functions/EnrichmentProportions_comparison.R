@@ -2,9 +2,6 @@
 
 
 
-
-
-
 EnrichmentProportions_comparison <- function(FilesPath,
                                              pattern = "MeanEnrichment.csv",
                                              ProportionOperator = c("equal", "less", "greater"),
@@ -15,15 +12,61 @@ EnrichmentProportions_comparison <- function(FilesPath,
                                              ClustMethod = "average",
                                              returnProprotionsHeatmap = T) {
   
-  ## main
+  ### data
   
   reps <- list.files(path = FilesPath, pattern = pattern, all.files = FALSE,
                      full.names = T, recursive = T,ignore.case = FALSE,
                      include.dirs = FALSE, no.. = FALSE)
   
-  test_dim <- read.csv(file = reps[1], header = T, row.names = 1)
+  ### getting the common lipid_Nr for all datasets
   
-  out_mat <- matrix(NA, nrow = dim(test_dim)[1], ncol = length(reps))
+  lipid_Nr <- list()
+  
+  lipid_Nr_vec <- c()
+  
+  for (i in 1:length(reps)) {
+    
+    file_test <- read.csv(file = reps[i], header = T, row.names = 1)
+    
+    lipid_Nr[[i]] <- unique(rownames(file_test))
+    
+    lipid_Nr_vec <- c(lipid_Nr_vec, unique(rownames(file_test)))
+    
+  }
+  
+  lipid_Nr = Reduce(intersect, lipid_Nr)
+  
+  lipid_Nr_vec = unique(lipid_Nr_vec)
+  
+  if (length(which((lipid_Nr == lipid_Nr_vec) == F)) > 0) {
+    
+    for (i in 1:length(reps)) {
+      
+      file_test <- read.csv(file = reps[i], header = T, row.names = 1)
+      
+      out_dir <- paste0(strsplit(reps[i],
+                                 "/")[[1]][-c(length(strsplit(reps[i],
+                                                              "/")[[1]]))], collapse = "/")
+      
+      file_name <- paste0(strsplit(strsplit(reps[i],
+                                            "/")[[1]][length(strsplit(reps[i],
+                                                                      "/")[[1]])],
+                                   "\\.")[[1]][1], "_SharedFeatures",
+                          ".csv")
+      
+      write.csv(file_test[lipid_Nr,], file = paste0(out_dir, "/", file_name),
+                quote = F)
+      
+    }
+    
+    pattern = "_SharedFeatures.csv"
+    
+  }
+  
+  
+  ## main
+  
+  out_mat <- matrix(NA, nrow = length(lipid_Nr), ncol = length(reps))
   
   for (j in 1:length(reps)) {
     
