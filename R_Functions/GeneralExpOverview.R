@@ -7,7 +7,8 @@
 GeneralExpOverview <- function(ClassDiscovery_List,
                                ClassComparison_list,
                                ControlSample = "_WT",
-                               returnHeatmaps = T) {
+                               returnHeatmaps = T,
+                               factorVector) {
   
   
   ## functions needed
