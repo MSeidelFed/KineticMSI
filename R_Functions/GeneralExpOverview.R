@@ -13,6 +13,14 @@ GeneralExpOverview <- function(ClassDiscovery_List,
   
   ## functions needed
   
+  function(x) 
+  { 
+    MAX.LEN <- max(sapply(x, length), na.rm = TRUE) 
+    DF <- data.frame(lapply(x, function(x) c(x, rep(NA, MAX.LEN - length(x))))) 
+    colnames(DF) <- paste("V", seq(ncol(DF)), sep = "")   
+    DF 
+  }
+  
   VolcanoPlots <- function(in_mat,
                            ControlSample,
                            FactorCols = F,
