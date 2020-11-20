@@ -13,7 +13,7 @@ GeneralExpOverview <- function(ClassDiscovery_List,
   
   ## functions needed
   
-  function(x) 
+  list2df <- function(x) 
   { 
     MAX.LEN <- max(sapply(x, length), na.rm = TRUE) 
     DF <- data.frame(lapply(x, function(x) c(x, rep(NA, MAX.LEN - length(x))))) 
