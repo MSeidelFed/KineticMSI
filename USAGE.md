@@ -263,7 +263,7 @@ This step takes advantage of the gained resolution provided by Mass Spectrometry
 * Optional feature: Users are given an option to assess the correctness of random sampling by plotting the ratio between the mean and StDev from the random samples against the full dataset.
 #
 
-The function takes the main path to IsoCorrectoR folders and grabs the files to perfomr mean comparison from there. The files are selected based on the "pattern" feature that defaults to MeanEnrichment.csv. Mean comparison is performed alphabetically and thus factorVector needs to be a simple vector containing the replicated factors in your design. There are to options for class comparison, either a GLM or an ANOVA. If GLM is selected the number of experimental factors must be inputed as well as a vector containing a number of colors names equal to the number of factors, in this case the boxplots will be colored with the defined colors. Clustering options include the distance used as measure to build the clusters and inherits the classes allowed by pvclust. Additionally the bootstrapp iteration number "nboot", which is recommended to be set at least to 1000, the alpha corresponds to the boundary that the user sets to determine if a cluster is significant. If only one cluster is found the function will try to reduce the alpha until finding more clusters, the alphas and dendrograms are outputed in a PDF file. A second PDF contains the boxplots that feature the mean comparisons. Finally the user can define the type of function used to sort before the clustering takes place, i.e., parameter "fun_to_clust", the options are to sort the joint dataset by enrichment percentages or by spatial coordinates. Both functions serve different experimental questions. In the latter case if there are spatial contraints in the mean enrichemnt percentages significant grouping will be found, whereas the first function suits the purpose of finding high versus low enriched states that can be randomly distributed across the entire ion image.
+The functions take the main path to IsoCorrectoR folders and grab the files to perform class & mean comparison from there. The files are selected based on the "pattern" feature that defaults to "MeanEnrichment.csv". Mean comparison is performed alphabetically and thus factorVector needs to be a simple vector containing the replicated factors in your design. There are to options for class comparison, either a GLM or an ANOVA. If GLM is selected the number of experimental factors must be inputed as well as a vector containing a number of colors names equal to the number of factors, in this case the boxplots will be colored with the defined colors. Clustering options include the distance used as measure to build the clusters and inherits the classes allowed by pvclust. Additionally the bootstrapp iteration number "nboot", which is recommended to be set at least to 1000, the alpha corresponds to the boundary that the user sets to determine if a cluster is significant. If only one cluster is found the function will try to reduce the alpha until finding more clusters, the alphas and dendrograms are outputed in a PDF file. A second PDF contains the boxplots that feature the mean comparisons. Finally the user can define the type of function used to sort before the clustering takes place, i.e., parameter "fun_to_clust", the options are to sort the joint dataset by enrichment percentages or by spatial coordinates. Both functions serve different experimental questions. In the latter case if there are spatial contraints in the mean enrichemnt percentages significant grouping will be found, whereas the first function suits the purpose of finding high versus low enriched states that can be randomly distributed across the entire ion image.
 
 Note: The order of the factorVector follows the alphabetic order of the files in the IsoCorrector folders.
 
@@ -273,18 +273,21 @@ library(multcompView)
 library(testthat)
 library(pvclust)
 
-ClassComparison_mat <- ClassComparison_kMSI(FilesPath = "Data/IsoCorectoR_Files/", 
+ClassDiscovery_List <- ClassDiscovery_kMSI(FilesPath = "Data/IsoCorectoR_Files/",
+                                           method.dist = "abscor", 
+                                           nboot = 100, 
+                                           return_SigClustHist = T, 
+                                           fun_to_clust = "Enrichment", 
+                                           pattern = "MeanEnrichment.csv",
+                                           alpha = 0.9)
+
+
+ClassComparison_list <- ClassComparison_kMSI(ClassDiscoveryList = ClassDiscovery_List,
                                             factorVector = c(rep("_HD", 6),
                                                              rep("_WT", 6)),
                                             colorVector = c("tomato3", "peachpuff3"),
                                             FactorNumber = 2, 
-                                            ClassComparison = "ANOVA",
-                                            method.dist = "abscor", 
-                                            nboot = 100, 
-                                            return_SigClustHist = T, 
-                                            fun_to_clust = "Enrichment", 
-                                            pattern = "MeanEnrichment.csv",
-                                            alpha = 0.9)
+                                            ClassComparison = "GLM")
 
 ```
 
@@ -305,7 +308,19 @@ test_proportions <- EnrichmentProportions_comparison(FilesPath = "Data/IsoCorect
                                                      returnProprotionsHeatmap = T)
 ```
 
+Finally, we provide a function to gain a general overview of the investigated features that partition into different number of clusters. We group them by significant k number and from there build heatmaps and volcanoes from the resulting matrices in order to interprete in a global context the significant changes of mass features as changed by experimental treatments. The function requires the objects that were produced with "ClassDiscovery_kMSI" & "ClassComparison_kMSI"
 
+
+```{r}
+library(reshape2)
+library(ggplot2)
+library(ggrepel)
+  
+test_Gen <- GeneralExpOverview(ClassDiscovery_List = ClassDiscovery_List,
+                               ClassComparison_list = ClassComparison_list,
+                               ControlSample = "_WT",
+                               returnHeatmaps = T)
+```
 
 # EDITING HERE _____________#######################
 
