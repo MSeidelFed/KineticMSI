@@ -259,9 +259,18 @@ GeneralExpOverview <- function(ClassDiscovery_List,
     
     if (returnHeatmaps == T) {
       
-      png(filename = paste0(names_list_out[i], ".png"))
-      heatmap(t(out_mat))
-      dev.off()
+      if(dim(out_mat)[2] > 1) {
+        
+        png(filename = paste0(names_list_out[i], ".png"))
+        heatmap(t(out_mat))
+        dev.off()
+        
+      } else {
+        
+        cat(names_list_out[i], " only had one feature and Heatmap cannot be done")
+        cat("\n")
+        
+      }
       
     }
     
@@ -275,15 +284,24 @@ GeneralExpOverview <- function(ClassDiscovery_List,
   
   for (i in 1:length(list_out)) {
     
-    test_volcanoes <- VolcanoPlots(in_mat = t(list_out[[i]]),
-                                   FactorCols = T, 
-                                   factor_out = factorVector,
-                                   ControlSample = ControlSample,
-                                   omics_test = list_omics_out[[i]],
-                                   returnPlotsPNGs = T,
-                                   outID = names(list_out)[i])
-    
-    Hawaii <- c(Hawaii, test_volcanoes)
+    if(dim(list_out[[i]])[2] > 1) {
+      
+      test_volcanoes <- VolcanoPlots(in_mat = t(list_out[[i]]),
+                                     FactorCols = T, 
+                                     factor_out = factorVector,
+                                     ControlSample = ControlSample,
+                                     omics_test = list_omics_out[[i]],
+                                     returnPlotsPNGs = T,
+                                     outID = names(list_out)[i])
+      
+      Hawaii <- c(Hawaii, test_volcanoes)
+      
+    } else {
+      
+      cat(names(list_out)[i], " only had one feature and volcano cannot be done")
+      cat("\n")
+      
+    }
     
   }
   
