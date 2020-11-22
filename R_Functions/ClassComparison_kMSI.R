@@ -142,7 +142,7 @@ ClassComparison_kMSI <- function(ClassDiscoveryList,
         
           stars_out[grep("Intercept", names(P_value))] <- "C"
           
-          P_value[grep("Intercept", names(P_value))] <- "-"
+          P_value[grep("Intercept", names(P_value))] <- NA
         
           #### plotting
         
