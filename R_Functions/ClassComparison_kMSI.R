@@ -6,7 +6,8 @@ ClassComparison_kMSI <- function(ClassDiscoveryList,
                                  colorVector = c("tomato3", "peachpuff3"),
                                  FactorNumber = 2,
                                  ClassComparison = c(FALSE, "GLM", "ANOVA"),
-                                 control = NULL) {
+                                 control = NULL,
+                                 confoundingFactor = NULL) {
   
   ## functions needed for the main
   
@@ -109,8 +110,30 @@ ClassComparison_kMSI <- function(ClassDiscoveryList,
           P_value <- c()
           
           for (i in 1:length(cluster_IDs)) {
-          
+            
             glm_indexes <- grep(cluster_IDs[i], factor_glm)
+            
+            if (is.null(confoundingFactor)) {
+              
+            } else {
+              
+              ### testing confounding factor
+              
+              GLM_simple <- glm(Variable[glm_indexes] ~ factor_glm[glm_indexes])
+              
+              extra_factor <- paste0(factor_glm[glm_indexes], confoundingFactor)
+              
+              GLM_extra <- glm(Variable[glm_indexes] ~ extra_factor)
+              
+              cat("Feature: ", names(list_out)[m], "\n")
+              cat("Cluster No. ", cluster_IDs[i], "\n")
+              cat("AIC: Simple GLM ",  GLM_simple[["aic"]],
+                  " ",
+                  "Extra GLM ",  GLM_extra[["aic"]], "\n", "\n")
+              
+            }
+            
+            ### final test (not customized yet to minimum AIC)
           
             P_value <- c(P_value, summary(glm(Variable[glm_indexes] ~ factor_glm[glm_indexes]))$coefficients[,"Pr(>|t|)"])
           
