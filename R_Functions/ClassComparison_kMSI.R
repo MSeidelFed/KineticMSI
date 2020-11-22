@@ -63,13 +63,13 @@ ClassComparison_kMSI <- function(ClassDiscoveryList,
         
         #### when not defined, the control is defined to be the cluster with the lowest enrichment
         
-        control <- which(min(colMeans(list_out[[m]])) == colMeans(list_out[[m]]))
+        controls <- which(min(colMeans(list_out[[m]])) == colMeans(list_out[[m]]))
         
         mat_to_melt <- list_out[[m]]
         
         ##### adding _ to controls to make them first alphabetically
         
-        colnames(mat_to_melt)[control] <- paste0("_", colnames(mat_to_melt)[control])
+        colnames(mat_to_melt)[controls] <- paste0("_", colnames(mat_to_melt)[controls])
         
       } else if (class(control) == "character") {
         
