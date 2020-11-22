@@ -5,7 +5,8 @@ ClassComparison_kMSI <- function(ClassDiscoveryList,
                                  factorVector,
                                  colorVector = c("tomato3", "peachpuff3"),
                                  FactorNumber = 2,
-                                 ClassComparison = c(FALSE, "GLM", "ANOVA")) {
+                                 ClassComparison = c(FALSE, "GLM", "ANOVA"),
+                                 control = NULL) {
   
   ## functions needed for the main
   
@@ -57,19 +58,35 @@ ClassComparison_kMSI <- function(ClassDiscoveryList,
       
     } else {
       
-      #### glm, p values, boxplot with all factors and p values per factor as label for the boxes
-      
-      #### defining the control to be the cluster with the lowest enrichment
-      
-      control <- which(min(colMeans(list_out[[m]])) == colMeans(list_out[[m]]))
-      
-      mat_to_melt <- list_out[[m]]
-      
-      ##### adding 1A to controls to make them first alphabetically
-      
-      colnames(mat_to_melt)[control] <- paste0("111A_", colnames(mat_to_melt)[control])
+      if (is.null(control)) {
+        
+        #### when not defined, the control is defined to be the cluster with the lowest enrichment
+        
+        control <- which(min(colMeans(list_out[[m]])) == colMeans(list_out[[m]]))
+        
+        mat_to_melt <- list_out[[m]]
+        
+        ##### adding _ to controls to make them first alphabetically
+        
+        colnames(mat_to_melt)[control] <- paste0("_", colnames(mat_to_melt)[control])
+        
+      } else if (class(control) == "character") {
+        
+        ##### adding _ to controls to make them first alphabetically
+        
+        factorVector[grep(control, factorVector)] <- paste0(rep("_", length(grep(control, factorVector))), grep(control, factorVector, value = T))
+        
+        mat_to_melt <- list_out[[m]]
+        
+      } else {
+        
+        cat("ERROR... control must be a character")
+        
+      }
       
       #### melting each mat to get the values and fit the glm
+      
+      cluster_IDs <- colnames(mat_to_melt)
       
       Variable <- melt(mat_to_melt)$value
       
@@ -81,79 +98,87 @@ ClassComparison_kMSI <- function(ClassDiscoveryList,
       
       if (ClassComparison == FALSE) {
         
-        cat("Only dendrograms and density plots were produced, No class comparison made.")
+        cat("No class comparison made")
         
         #plot(1)
         
         } else if (ClassComparison == "GLM") {
-        
-        #### getting out the glm P-values
-        
-        P_value <- summary(glm(Variable ~ factor_glm))$coefficients[,"Pr(>|t|)"]
-        
-        P_Values[[m]] <- P_value
-        
-        color_plot <- rep(colorVector, (length(P_value)/FactorNumber))
-        
-        #### assigning stars to P-values, ° = +inf:0.1, * = 0.1:0.05, ** 0.05:0.01, *** 0.01:0
-        
-        stars_out <- c()
-        
-        for (i in 1:length(P_value)) {
           
-          if (P_value[i] < 0.1 & P_value[i] > 0.05) {
-            runner = "*"
-          } else if (P_value[i] < 0.05 & P_value[i] > 0.01) {
-            runner = "**"
-          } else if (P_value[i] < 0.01) {
-            runner = "***"
-          } else {
-            runner = "°"
+          #### getting out the glm P-values for each cluster separately
+          
+          P_value <- c()
+          
+          for (i in 1:length(cluster_IDs)) {
+          
+            glm_indexes <- grep(cluster_IDs[i], factor_glm)
+          
+            P_value <- c(P_value, summary(glm(Variable[glm_indexes] ~ factor_glm[glm_indexes]))$coefficients[,"Pr(>|t|)"])
+          
           }
+        
+          P_Values[[m]] <- P_value
+        
+          color_plot <- rep(colorVector, (length(P_value)/FactorNumber))
+        
+          #### assigning stars to P-values, ° = +inf:0.1, * = 0.1:0.05, ** 0.05:0.01, *** 0.01:0
+        
+          stars_out <- c()
+        
+          for (i in 1:length(P_value)) {
           
-          stars_out[i] <- runner 
+            if (P_value[i] < 0.1 & P_value[i] > 0.05) {
+              runner = "*"
+            } else if (P_value[i] < 0.05 & P_value[i] > 0.01) {
+              runner = "**"
+            } else if (P_value[i] < 0.01) {
+              runner = "***"
+            } else {
+              runner = "°"
+            }
           
-        }
-        
-        stars_out[1] <- "C"
-        
-        #### plotting
-        
-        par(mar=c(10,2,2,2))
-        
-        boxplot(Variable ~ factor_glm,
-                ylim = c(0, (max(Variable) + mean(Variable))), 
-                main = names(list_out)[m],
-                las = 2,
-                col = color_plot)
-        
-        text(x = c(1:length(unique(factor_glm))),
-             y = (max(Variable) + mean(Variable)),
-             labels = round(P_value, 2))
-        
-        text(x = c(1:length(unique(factor_glm))),
-             y = (max(Variable) + (mean(Variable))/2),
-             labels = stars_out)
-        
-        #### Add data points (https://www.r-graph-gallery.com/96-boxplot-with-jitter.html)
-        
-        data <- data.frame(names = factor_glm, value = Variable)
-        
-        #### Add data points (https://www.r-graph-gallery.com/96-boxplot-with-jitter.html)
-        
-        mylevels <- levels(data$names)
-        levelProportions <- summary(data$names)/nrow(data)
-        
-        for(i in 1:length(mylevels)){
+            stars_out[i] <- runner 
           
-          thislevel <- mylevels[i]
-          thisvalues <- data[data$names==thislevel, "value"]
+          }
+        
+          stars_out[grep("Intercept", names(P_value))] <- "C"
+        
+          #### plotting
+        
+          par(mar=c(10,2,2,2))
+        
+          boxplot(Variable ~ factor_glm,
+                  ylim = c(0, (max(Variable) + mean(Variable))), 
+                  main = names(list_out)[m],
+                  las = 2,
+                  col = color_plot)
+        
+          text(x = c(1:length(unique(factor_glm))),
+               y = (max(Variable) + mean(Variable)),
+               labels = round(P_value, 2))
+        
+          text(x = c(1:length(unique(factor_glm))),
+               y = (max(Variable) + (mean(Variable))/2),
+               labels = stars_out)
+        
+          #### Add data points (https://www.r-graph-gallery.com/96-boxplot-with-jitter.html)
+        
+          data <- data.frame(names = factor_glm, value = Variable)
+        
+          #### Add data points (https://www.r-graph-gallery.com/96-boxplot-with-jitter.html)
+        
+          mylevels <- levels(data$names)
+          levelProportions <- summary(data$names)/nrow(data)
+        
+          for(i in 1:length(mylevels)){
           
-          ##### take the x-axis indices and add a jitter, proportional to the N in each level
-          myjitter <- jitter(rep(i, length(thisvalues)), amount=levelProportions[i]/2)
-          points(myjitter, thisvalues, pch=20, col=rgb(0,0,0,.9)) 
+            thislevel <- mylevels[i]
+            thisvalues <- data[data$names==thislevel, "value"]
           
-        }
+            ##### take the x-axis indices and add a jitter, proportional to the N in each level
+            myjitter <- jitter(rep(i, length(thisvalues)), amount=levelProportions[i]/2)
+            points(myjitter, thisvalues, pch=20, col=rgb(0,0,0,.9)) 
+          
+          }
         
       } else if (ClassComparison == "ANOVA") {
         
@@ -294,7 +319,7 @@ ClassComparison_kMSI <- function(ClassDiscoveryList,
   
   dev.off()
   
-  names(P_Values) <- names(ClassDiscovery_List)
+  names(P_Values) <- names(ClassDiscoveryList)
   
   ### start here the volcano plots part
   
