@@ -13,6 +13,8 @@ ClassDiscovery_kMSI <- function(FilesPath,
   
  
   
+  original_alpha = alpha
+  
   ## functions needed for the main
   
   #### Tukey function
@@ -240,6 +242,8 @@ ClassDiscovery_kMSI <- function(FilesPath,
   
   for (i in 1:length(lipid_Nr)) {
     
+    alpha = original_alpha
+    
     if (fun_to_clust == "Enrichment") {
       
       runner <- EnrichmentSorted_RandomSampling_MSI(FilesPath = FilesPath,
@@ -283,35 +287,65 @@ ClassDiscovery_kMSI <- function(FilesPath,
         
         table_lipids <- pvpick(HCA_boot_lipid, alpha = alpha, pv="au")
         
-        #### decreasing the alpha in dendrograms with one significant cluster to enable Tukey test between different means
+        #### changing the alpha in dendrograms with one significant cluster
         
         count = 0
         
+        alpha_out <- alpha
+        
+        if (length(table_lipids$edges) == 1) {
+          
+          cat("k before relaxation: ", length(table_lipids$edges), "\n")
+          
+        }
+        
         ## lower limit until AU = .77
         
-        while (length(table_lipids$edges) == 1 & count < 7) {
+        while (length(table_lipids$edges) == 1) {
           
           count = count + 1
           
-          alpha = alpha-((1-alpha)/8)
-          
-          table_lipids <- pvpick(HCA_boot_lipid, alpha = alpha, pv="au")
+          if (count < 7) {
+            
+            alpha = alpha-((1-alpha)/8)
+            
+            table_lipids <- pvpick(HCA_boot_lipid, alpha = alpha, pv="au")
+            
+            alpha_out = alpha
+            
+          } else {
+            
+            break
+            
+          }
           
         }
         
         ## upper limit until AU = .99
         
-        count = 0
-        
-        while (length(table_lipids$edges) == 1 & count < 30) {
+        while (length(table_lipids$edges) == 1) {
           
           count = count + 1
           
-          alpha = alpha+((1-alpha)/8)
-          
-          table_lipids <- pvpick(HCA_boot_lipid, alpha = alpha, pv="au")
+          if (count < 30) {
+            
+            alpha = alpha+((1-alpha)/8)
+            
+            table_lipids <- pvpick(HCA_boot_lipid, alpha = alpha, pv="au")
+            
+            alpha_out = alpha
+            
+          } else {
+            
+            break
+            
+          }
           
         }
+        
+        cat("Final k : ", length(table_lipids$edges), "\n")
+        
+        cat("Final AU-P: ", alpha_out, "\n")
         
         #### plotting dendrograms with significant clusters
         
