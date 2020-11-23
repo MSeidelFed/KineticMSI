@@ -287,11 +287,27 @@ ClassDiscovery_kMSI <- function(FilesPath,
         
         count = 0
         
-        while (length(table_lipids$edges) == 1 & count < 30) {
+        ## lower limit until AU = .77
+        
+        while (length(table_lipids$edges) == 1 & count < 7) {
           
           count = count + 1
           
           alpha = alpha-((1-alpha)/8)
+          
+          table_lipids <- pvpick(HCA_boot_lipid, alpha = alpha, pv="au")
+          
+        }
+        
+        ## upper limit until AU = .99
+        
+        count = 0
+        
+        while (length(table_lipids$edges) == 1 & count < 30) {
+          
+          count = count + 1
+          
+          alpha = alpha+((1-alpha)/8)
           
           table_lipids <- pvpick(HCA_boot_lipid, alpha = alpha, pv="au")
           
@@ -352,7 +368,7 @@ ClassDiscovery_kMSI <- function(FilesPath,
           
         } else {
           
-          cat(paste0("ommited - too or too few many significant K classes ", lipid_Nr[i]," - ", i, "\n"))
+          cat(paste0("ommited - too few or too many significant K classes ", lipid_Nr[i]," - ", i, "\n"))
           cat("...\n")
           
         }
