@@ -39,12 +39,7 @@ GeneralExpOverview <- function(ClassDiscovery_List,
       
     }
     
-    #print(factor_out)
-    
     in_omics <- omics_test
-    
-    volcanoes_treatments <- unique(factor_out)
-    
     
     ### non-variable data
     
@@ -54,51 +49,48 @@ GeneralExpOverview <- function(ClassDiscovery_List,
       
       #### more than one cluster
       
+      list_plots <- list()
+      
       for (i in 1:length(test)) {
         
         test_names <- strsplit(test[i], ControlSample)[[1]]
         
         out_factor <- c()
         
-        for (i in 1:length(test_names)) {
+        for (j in 1:length(test_names)) {
           
-          runner_test <- strsplit(test_names[i], split = "")[[1]]
+          runner_test <- strsplit(test_names[j], split = "")[[1]]
           
           if (length(runner_test) > 0) {
             
             out_factor <- paste0(out_factor, paste(runner_test, collapse = ""))
             
           }
-          
         }
         
-        control <- as.numeric(rowMeans(in_mat[,grep(out_factor,
-                                                    colnames(in_mat))]))
+        runner_mat <- in_mat[,grep(out_factor,colnames(in_mat))]
         
-        list_plots <- list()
+        volcanoes_treatments <- unique(colnames(runner_mat))
         
         rm_ctrl <- grep(paste0(ControlSample,out_factor), volcanoes_treatments)
         
-        for (i in 1:length(volcanoes_treatments[-rm_ctrl])) {
+        control <- as.numeric(rowMeans(in_mat[,grep(paste0(ControlSample,out_factor), colnames(in_mat))]))
           
-          runner <- volcanoes_treatments[-rm_ctrl][i]
+        runner <- volcanoes_treatments[-rm_ctrl]
           
-          runner_means <- as.numeric(rowMeans(in_mat[,grep(runner,
+        runner_means <- as.numeric(rowMeans(in_mat[,grep(runner,
                                                            colnames(in_mat))]))
           
-          Abscissa <- log2(runner_means/control)
+        Abscissa <- log2(runner_means/control)
           
-          Ordinate <- -log10(as.numeric(in_omics[,intersect(grep(out_factor,
-                                                                 colnames(in_omics)),
-                                                            grep(ControlSample,
-                                                                 colnames(in_omics)))]))
+        Ordinate <- -log10(as.numeric(in_omics[,grep(out_factor,colnames(in_omics))]))
           
-          data <- cbind.data.frame(Abscissa, Ordinate)
+        data <- cbind.data.frame(Abscissa, Ordinate)
           
-          x <- ggplot(data, aes(Abscissa,
-                                Ordinate,
-                                label = apply(list2df(strsplit(rownames(in_mat),
-                                                               "_"))[1,],2,as.character))) +
+        x <- ggplot(data, aes(Abscissa,
+                              Ordinate,
+                              label = apply(list2df(strsplit(rownames(in_mat),
+                                                             "_"))[1,],2,as.character))) +
             geom_text_repel() +
             geom_point(color = 'red') +
             theme_classic(base_size = 12) + 
@@ -107,19 +99,14 @@ GeneralExpOverview <- function(ClassDiscovery_List,
             labs(x = paste0("Log2(", runner, "/", ControlSample, ")"),
                  y = paste0("-log10(Padj-Values [", runner, "])"))
           
+        list_plots[[i]] <- x
           
-          list_plots[[i]] <- x
-          
-          if (returnPlotsPNGs == T) {
+        if (returnPlotsPNGs == T) {
             
-            ggsave(list_plots[[i]], file=paste0("plot_", outID, runner,".png"),
-                   width = 44.45, height = 27.78, units = "cm", dpi=300)
+        ggsave(list_plots[[i]], file=paste0("plot_", outID, runner,".png"),
+               width = 44.45, height = 27.78, units = "cm", dpi=300)
             
-          }
         }
-        
-        return(list_plots)
-        
       }
       
     } else {
@@ -128,6 +115,8 @@ GeneralExpOverview <- function(ClassDiscovery_List,
       
       control <- as.numeric(rowMeans(in_mat[,grep(ControlSample,
                                                   colnames(in_mat))]))
+      
+      volcanoes_treatments <- unique(colnames(in_mat))
       
       list_plots <- list()
       
@@ -169,11 +158,11 @@ GeneralExpOverview <- function(ClassDiscovery_List,
         }
       }
       
-      return(list_plots)
-      
       #### here closes loop of one cluster if
       
     }
+    
+    return(list_plots)
     
   }
   
@@ -183,20 +172,36 @@ GeneralExpOverview <- function(ClassDiscovery_List,
   
   ### assembling in_mat from the out_list of class comparison function
   
-  clustNo <- c()
+  rm_indexes <- c()
   
   for (i in 1:length(ClassDiscovery_List)) {
     
     if (!is.null(ClassDiscovery_List[[i]])) {
       
-      clustNo[i] <- dim(ClassDiscovery_List[[i]])[2]
+    } else {
+      
+      rm_indexes[i] <- i
       
     }
   }
   
-  max_ClustNo <- max(na.omit(clustNo))
+  rm_indexes = as.numeric(na.omit(rm_indexes))
   
-  ClustIndexes <- unique(na.omit(clustNo))
+  ClassDiscovery_List[rm_indexes] <- NULL
+  
+  
+  clustNo <- c()
+  
+  for (i in 1:length(ClassDiscovery_List)) {
+    
+    clustNo[i] <- dim(ClassDiscovery_List[[i]])[2]
+    
+  }
+  
+  
+  max_ClustNo <- max(clustNo)
+  
+  ClustIndexes <- unique(clustNo)
   
   #### for loop to assemble matrices from features with common numbers of k partitions
   
@@ -232,7 +237,22 @@ GeneralExpOverview <- function(ClassDiscovery_List,
     
     for (j in 1:length(runner_list)) {
       
-      out_mat[,j] <- melt(runner_list[j])$value
+      sorted_runner_names <- names(sort(colMeans(runner_list[[j]])))
+      
+      runner_mat = runner_list[[j]][,sorted_runner_names]
+      
+      Alternative_Names <- paste0(c(1:length(sorted_runner_names)),
+                                  rep("_Lowest", length(sorted_runner_names)))
+      
+      if (!is.null(dim(runner_mat))) {
+        
+        ## coping with ClustNo. = 1
+        
+        colnames(runner_mat) <- Alternative_Names
+        
+      }
+      
+      out_mat[,j] <- melt(runner_mat)$value
       
       runner_omics <- ClassComparison_list[which(names(ClassComparison_list) == names(runner_list)[j])][[1]]
       
@@ -244,7 +264,7 @@ GeneralExpOverview <- function(ClassDiscovery_List,
     
     colnames(out_mat) <- namei
     rownames(out_mat) <- paste0(rep(factorVector, ClustIndexes[i]),
-                                melt(runner_list[j])$Var2)
+                                melt(runner_mat)$Var2)
     
     colnames(out_omics_mat) <- names(runner_omics)
     rownames(out_omics_mat) <- namei
