@@ -87,14 +87,33 @@ ClassComparison_kMSI <- function(ClassDiscoveryList,
       
       #### melting each mat to get the values and fit the glm
       
-      cluster_IDs <- colnames(mat_to_melt)
+      sorted_colMeans_names <- names(sort(colMeans(mat_to_melt)))
+      
+      Alternative_colNames <- paste0(c(1:length(sorted_colMeans_names)),
+                                     rep("_Lowest", length(sorted_colMeans_names)))
+      
+      mat_to_melt = mat_to_melt[,sorted_colMeans_names]
+      
+      if (is.null(dim(mat_to_melt))) {
+        
+        cluster_IDs <- "1_Lowest"
+        
+        factor_glm <- factorVector
+        
+      } else {
+        
+        colnames(mat_to_melt) <- Alternative_colNames
+        
+        cluster_IDs <- colnames(mat_to_melt)
+        
+        #### building the factor for the glm based on the user input on the function
+        
+        factor_glm <- paste0(melt(mat_to_melt)$Var2,
+                             rep(factorVector, length(unique(melt(mat_to_melt)$Var2))))
+        
+      }
       
       Variable <- melt(mat_to_melt)$value
-      
-      #### building the factor for the glm based on the user input on the function
-      
-      factor_glm <- paste0(melt(mat_to_melt)$Var2,
-                           rep(factorVector, length(unique(melt(mat_to_melt)$Var2))))
       
       
       if (ClassComparison == FALSE) {
@@ -105,25 +124,25 @@ ClassComparison_kMSI <- function(ClassDiscoveryList,
         
         } else if (ClassComparison == "GLM") {
           
-          #### getting out the glm P-values for each cluster separately
-          
-          P_value <- c()
-          
-          for (i in 1:length(cluster_IDs)) {
+          if (is.null(dim(mat_to_melt))) {
             
-            glm_indexes <- grep(cluster_IDs[i], factor_glm)
+            #### one cluster
             
             if (is.null(confoundingFactor)) {
+              
+              P_value <- c(P_value, summary(glm(Variable ~ factor_glm))$coefficients[,"Pr(>|t|)"])
               
             } else {
               
               ### testing confounding factor
               
-              GLM_simple <- glm(Variable[glm_indexes] ~ factor_glm[glm_indexes])
+              P_value <- c()
               
-              extra_factor <- paste0(factor_glm[glm_indexes], confoundingFactor)
+              GLM_simple <- glm(Variable ~ factor_glm)
               
-              GLM_extra <- glm(Variable[glm_indexes] ~ extra_factor)
+              extra_factor <- paste0(factor_glm, confoundingFactor)
+              
+              GLM_extra <- glm(Variable ~ extra_factor)
               
               cat("Feature: ", names(list_out)[m], "\n")
               cat("Cluster No. ", cluster_IDs[i], "\n")
@@ -131,12 +150,49 @@ ClassComparison_kMSI <- function(ClassDiscoveryList,
                   " ",
                   "Extra GLM ",  GLM_extra[["aic"]], "\n", "\n")
               
+              ### final test (not customized yet to minimum AIC)
+              
+              P_value <- c(P_value, summary(glm(Variable ~ factor_glm))$coefficients[,"Pr(>|t|)"])
+              
             }
             
-            ### final test (not customized yet to minimum AIC)
-          
-            P_value <- c(P_value, summary(glm(Variable[glm_indexes] ~ factor_glm[glm_indexes]))$coefficients[,"Pr(>|t|)"])
-          
+          } else {
+            
+            #### multiple clusters
+            
+            #### getting out the glm P-values for each cluster separately
+            
+            P_value <- c()
+            
+            for (i in 1:length(cluster_IDs)) {
+              
+              glm_indexes <- grep(cluster_IDs[i], factor_glm)
+              
+              if (is.null(confoundingFactor)) {
+                
+                P_value <- c(P_value, summary(glm(Variable[glm_indexes] ~ factor_glm[glm_indexes]))$coefficients[,"Pr(>|t|)"])
+                
+              } else {
+                
+                ### testing confounding factor
+                
+                GLM_simple <- glm(Variable[glm_indexes] ~ factor_glm[glm_indexes])
+                
+                extra_factor <- paste0(factor_glm[glm_indexes], confoundingFactor)
+                
+                GLM_extra <- glm(Variable[glm_indexes] ~ extra_factor)
+                
+                cat("Feature: ", names(list_out)[m], "\n")
+                cat("Cluster No. ", cluster_IDs[i], "\n")
+                cat("AIC: Simple GLM ",  GLM_simple[["aic"]],
+                    " ",
+                    "Extra GLM ",  GLM_extra[["aic"]], "\n", "\n")
+                
+                ### final test (not customized yet to minimum AIC)
+                P_value <- c(P_value, summary(glm(Variable[glm_indexes] ~ factor_glm[glm_indexes]))$coefficients[,"Pr(>|t|)"])
+                
+              }
+            }
           }
         
           P_Values[[m]] <- P_value
