@@ -8,7 +8,9 @@ GeneralExpOverview <- function(ClassDiscovery_List,
                                ClassComparison_list,
                                ControlSample = "_WT",
                                returnHeatmaps = T,
-                               factorVector) {
+                               factorVector,
+                               Padj = F,
+                               PadjMethod = "BY") {
   
   
   ## functions needed
@@ -306,11 +308,21 @@ GeneralExpOverview <- function(ClassDiscovery_List,
     
     if(dim(list_out[[i]])[2] > 1) {
       
+      ## adjusting P values
+      
+      if (Padj == T) {
+        
+        runner_omics <- list_omics_out[[i]]
+        
+        test_padj <- apply(runner_omics, 2, function(x) {p.adjust(x, method = PadjMethod)})
+        
+      }
+      
       test_volcanoes <- VolcanoPlots(in_mat = t(list_out[[i]]),
                                      FactorCols = T, 
                                      factor_out = factorVector,
                                      ControlSample = ControlSample,
-                                     omics_test = list_omics_out[[i]],
+                                     omics_test = test_padj,
                                      returnPlotsPNGs = T,
                                      outID = names(list_out)[i])
       
