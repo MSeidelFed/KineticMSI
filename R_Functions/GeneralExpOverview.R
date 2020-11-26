@@ -316,6 +316,10 @@ GeneralExpOverview <- function(ClassDiscovery_List,
         
         test_padj <- apply(runner_omics, 2, function(x) {p.adjust(x, method = PadjMethod)})
         
+      } else {
+        
+        test_padj <- list_omics_out[[i]]
+        
       }
       
       test_volcanoes <- VolcanoPlots(in_mat = t(list_out[[i]]),
