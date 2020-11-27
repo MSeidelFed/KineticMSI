@@ -327,7 +327,7 @@ GeneralExpOverview <- function(ClassDiscovery_List,
       
       if (ProduceClustMats == T) {
           
-          print(i)
+          #print(names(list_out[i]))
           
           ClustNumber <- strsplit(names(list_out[i]), "_")[[1]][2]
           
@@ -335,7 +335,7 @@ GeneralExpOverview <- function(ClassDiscovery_List,
           
           for (j in 1:ClustNumber) {
             
-            print(j)
+            #print(j)
             
             if (ClustNumber > 1) {
               
