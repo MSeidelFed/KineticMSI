@@ -10,7 +10,8 @@ GeneralExpOverview <- function(ClassDiscovery_List,
                                returnHeatmaps = T,
                                factorVector,
                                Padj = F,
-                               PadjMethod = "BY") {
+                               PadjMethod = "BY",
+                               ProduceClustMats = F) {
   
   
   ## functions needed
@@ -319,6 +320,45 @@ GeneralExpOverview <- function(ClassDiscovery_List,
       } else {
         
         test_padj <- list_omics_out[[i]]
+        
+      }
+      
+      ## produce matrices with clusters
+      
+      if (ProduceClustMats == T) {
+          
+          print(i)
+          
+          ClustNumber <- strsplit(names(list_out[i]), "_")[[1]][2]
+          
+          runner_mat_export <- list_out[[i]]
+          
+          for (j in 1:ClustNumber) {
+            
+            print(j)
+            
+            if (ClustNumber > 1) {
+              
+              runnerrunner_export <- runner_mat_export[grep(j, as.character(rownames(runner_mat_export))),]
+              
+            } else {
+              
+              runnerrunner_export <- runner_mat_export
+            }
+            
+            factors <- list2df(strsplit(rownames(runnerrunner_export), j))
+            
+            Replicates = as.character(factors[1,])
+            
+            Genotypes = as.character(apply(factors[1,], MARGIN = 2, as.character))
+            
+            final_export <- cbind(Replicate = Replicates,
+                                  Genotype = Genotypes,
+                                  runnerrunner_export)
+            
+            write.csv(final_export, paste0(names(list_out)[i], j, "Lowest", ".csv"), row.names = F)
+        }
+        
         
       }
       
