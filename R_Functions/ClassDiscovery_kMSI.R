@@ -8,6 +8,7 @@ ClassDiscovery_kMSI <- function(FilesPath,
                                 nboot = 100,
                                 return_SigClustHist = T,
                                 fun_to_clust = c("Enrichment", "Spatial"),
+                                factorVector,
                                 pattern = "MeanEnrichment.csv",
                                 alpha = 0.9) {
   
@@ -22,7 +23,8 @@ ClassDiscovery_kMSI <- function(FilesPath,
   Class_Distribution <- function(in_mat,
                                  Treatments, 
                                  plots = NULL, 
-                                 returnTable = F) {
+                                 returnTable = F,
+                                 factorVector) {
     
     mydata4.1 <- as.data.frame(t(in_mat))
     colnames(mydata4.1) <- seq(1, dim(mydata4.1)[2])
@@ -34,9 +36,21 @@ ClassDiscovery_kMSI <- function(FilesPath,
     
     mydata4.4 <- mydata4.3[order(mydata4.3$X1_1),]
     
+    unique_factors <- unique(factorVector)
+    
+    out_vec <- c()
+    
+    for (i in 1:length(unique_factors)) {
+      
+      runner <- grep(unique(factorVector)[i], mydata4.4$X1_1)
+      
+      out_vec <- c(out_vec, rep(unique_factors[i], length(runner)))
+      
+    }
+    
     if(plots == T) {
       
-      print(ggplot(mydata4.4, aes(x = as.numeric(value), y = X1_1)) + 
+      print(ggplot(mydata4.4, aes(x = as.numeric(value), y = X1_1, color = out_vec)) + 
               xlim(summary(as.numeric(mydata4.4$value))["Min."] - summary(as.numeric(mydata4.4$value))["Mean"],
                    summary(as.numeric(mydata4.4$value))["Mean"] + summary(as.numeric(mydata4.4$value))["Mean"]) +
               ggtitle ("Test") +
@@ -45,7 +59,7 @@ ClassDiscovery_kMSI <- function(FilesPath,
               theme(axis.title.y = element_blank()))
       
       
-      print(ggplot(mydata4.4, aes(x = as.numeric(value), fill = X1_1)) +
+      print(ggplot(mydata4.4, aes(x = as.numeric(value), fill = X1_1, color = out_vec)) +
               geom_density(alpha = 0.2, position = "identity") +
               xlim(summary(as.numeric(mydata4.4$value))["Min."] - summary(as.numeric(mydata4.4$value))["Mean"],
                    summary(as.numeric(mydata4.4$value))["Mean"] + summary(as.numeric(mydata4.4$value))["Mean"]) +
@@ -407,7 +421,8 @@ ClassDiscovery_kMSI <- function(FilesPath,
                            "_",
                            apply(full_file_names[3,], 2, as.character))
         
-        Class_Distribution(in_mat = t(runner_WO_zeros), Treatments = as.factor(rep_name), plots = T, returnTable = F)
+        Class_Distribution(in_mat = t(runner_WO_zeros), Treatments = as.factor(rep_name),
+                           plots = T, returnTable = F, factorVector = factorVector)
         
         #plot(density(runner_WO_zeros), main = lipid_Nr[i], xlab = "Enrichment Proportion")
         
