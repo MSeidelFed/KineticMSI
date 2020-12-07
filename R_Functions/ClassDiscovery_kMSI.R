@@ -9,6 +9,7 @@ ClassDiscovery_kMSI <- function(FilesPath,
                                 return_SigClustHist = T,
                                 fun_to_clust = c("Enrichment", "Spatial"),
                                 factorVector,
+                                logiTransformation = F,
                                 pattern = "MeanEnrichment.csv",
                                 alpha = 0.9) {
   
@@ -323,6 +324,43 @@ ClassDiscovery_kMSI <- function(FilesPath,
     colnames(runner) <- paste0(rep("X", dim(runner)[2]), c(1:dim(runner)[2]))
     
     runner_WO_zeros <- runner[,as.numeric(colMeans(runner)) != 0]
+    
+    
+    
+    if (logiTransformation == T) {
+      
+      logit_transformation <- function(x){log(x /(1 - x))}
+      
+      #Replace zero with a very small value so it can fit in a model
+      
+      out_mat_DG_wzero <- runner_WO_zeros
+      
+      logit_mat_DG <- matrix(NA, nrow = dim(out_mat_DG_wzero)[1], ncol = dim(out_mat_DG_wzero)[2])
+      
+      for (k in 1:dim(out_mat_DG_wzero)[1]) {
+        
+        for (l in 1:dim(out_mat_DG_wzero)[2]) {
+          
+          if (out_mat_DG_wzero[k,l] > 0) {
+            
+            logit_mat_DG[k,l] <- logit_transformation(out_mat_DG_wzero[k,l])
+            
+          } else {
+            
+            logit_mat_DG[k,l] <- 0
+            
+          }
+  
+        }
+        
+      }
+      
+      rownames(logit_mat_DG) <- rownames(runner_WO_zeros)
+      colnames(logit_mat_DG) <- colnames(runner_WO_zeros)
+      
+      runner_WO_zeros = logit_mat_DG
+    
+    }
     
     if(show_condition(pvclust(runner_WO_zeros, nboot = 10,
                               quiet = T, method.dist = method.dist)[1]) == "error") {
