@@ -12,7 +12,8 @@ ClassDiscovery_kMSI <- function(FilesPath,
                                 logiTransformation = F,
                                 pattern = "MeanEnrichment.csv",
                                 alpha = 0.9,
-                                returnObject = c(NULL, "Clusters", "minDataset")) {
+                                returnObject = c(NULL, "Clusters", "minDataset"),
+                                CompareSampledSet = T) {
   
  
   
@@ -287,6 +288,68 @@ ClassDiscovery_kMSI <- function(FilesPath,
   }
   
   print(pattern)
+  
+  
+  
+  if (CompareSampledSet == T) {
+    
+    ## getting rowmeans of all files to compare to the sampled ones
+    
+    ### full matrices
+    
+    CompleteSet_Means <- c()
+    CompleteSet_SD <- c()
+    
+    for (i in 1:length(reps)) {
+      
+      runner_file <- read.csv(reps[i], header = T, row.names = 1)
+      colnames(runner_file) <- NULL
+      
+      CompleteSet_Means <- c(CompleteSet_Means, rowMeans(runner_file))
+      CompleteSet_SD <- c(CompleteSet_SD, rowSds(as.matrix(runner_file)))
+      
+    }
+    
+    ### sampled matrices
+    
+    out_vector <- c()
+    
+    for (i in 1:length(reps)) {
+      
+      file_runner <- read.csv(file = reps[i], header = T, row.names = 1)
+      
+      out_vector[i] <- dim(file_runner)[2]
+      
+    }
+    
+    min_dataset <- min(out_vector)
+    
+    out_mat <- matrix(NA, nrow = 0, ncol = min_dataset)
+    
+    for (i in 1:length(reps)) {
+      
+      runner_file <- read.csv(reps[i], header = T, row.names = 1)
+      
+      runner_sampled <- as.matrix(sample(runner_file, min_dataset, replace = F))
+      
+      out_mat <- rbind(out_mat, runner_sampled)
+      
+    }
+    
+    MinSet_Means <- rowMeans(out_mat)
+    MinSet_SD <- rowSds(out_mat)
+    
+    pdf(file = "ComparedSampledSet.pdf")
+    
+    par(mfrow = c(2,1))
+    
+    plot(CompleteSet_Means/MinSet_Means, main = "Means")
+    plot(CompleteSet_SD/MinSet_SD, main = "SD")
+    
+    dev.off()
+    
+  }
+  
   
   ### all the rep files need to be in the same directory
   
