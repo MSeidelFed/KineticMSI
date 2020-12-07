@@ -17,6 +17,51 @@ ClassDiscovery_kMSI <- function(FilesPath,
   
   ## functions needed for the main
   
+  ## distribution ggplot function
+  
+  Class_Distribution <- function(in_mat,
+                                 Treatments, 
+                                 plots = NULL, 
+                                 returnTable = F) {
+    
+    mydata4.1 <- as.data.frame(t(in_mat))
+    colnames(mydata4.1) <- seq(1, dim(mydata4.1)[2])
+    
+    mydata4.2 <- cbind(Treatments, mydata4.1)
+    colnames(mydata4.2) <- c("X1_1", seq(1,dim(mydata4.1)[2]))
+    
+    mydata4.3 <- melt(mydata4.2, id.vars= seq(1), measure.vars= seq(2, (dim(mydata4.1)[2]+1)))
+    
+    mydata4.4 <- mydata4.3[order(mydata4.3$X1_1),]
+    
+    if(plots == T) {
+      
+      print(ggplot(mydata4.4, aes(x = as.numeric(value), y = X1_1)) + 
+              xlim(summary(as.numeric(mydata4.4$value))["Min."] - summary(as.numeric(mydata4.4$value))["Mean"],
+                   summary(as.numeric(mydata4.4$value))["Mean"] + summary(as.numeric(mydata4.4$value))["Mean"]) +
+              ggtitle ("Test") +
+              geom_density_ridges_gradient(scale = 2, rel_min_height = 0.01, gradient_lwd = 1.) +
+              theme_ridges(font_size = 10, grid = TRUE) +
+              theme(axis.title.y = element_blank()))
+      
+      
+      print(ggplot(mydata4.4, aes(x = as.numeric(value), fill = X1_1)) +
+              geom_density(alpha = 0.2, position = "identity") +
+              xlim(summary(as.numeric(mydata4.4$value))["Min."] - summary(as.numeric(mydata4.4$value))["Mean"],
+                   summary(as.numeric(mydata4.4$value))["Mean"] + summary(as.numeric(mydata4.4$value))["Mean"]) +
+              ggtitle ("Test"))
+      
+    }
+    
+    
+    if(returnTable == T) {
+      
+      return(mydata4.4)
+      
+    }
+    
+  }
+  
   #### Tukey function
   
   as.numeric.factor <- function(x) {as.numeric(levels(x))[x]}
@@ -225,6 +270,7 @@ ClassDiscovery_kMSI <- function(FilesPath,
     
   }
   
+  print(pattern)
   
   ### all the rep files need to be in the same directory
   
@@ -353,9 +399,17 @@ ClassDiscovery_kMSI <- function(FilesPath,
         
         pvrect(HCA_boot_lipid, alpha = alpha, pv="au")
         
-        #hist(rowMeans(runner_WO_zeros), main = , xlab = "Density")
+        #### plotting distributions
         
-        plot(density(runner_WO_zeros), main = lipid_Nr[i], xlab = "Enrichment Proportion")
+        full_file_names <- list2df(strsplit(apply(list2df(strsplit(rownames(runner_WO_zeros), "/"))[5,], 2, as.character), "_"))
+        
+        rep_name <- paste0(apply(full_file_names[2,], 2, as.character),
+                           "_",
+                           apply(full_file_names[3,], 2, as.character))
+        
+        Class_Distribution(in_mat = t(runner_WO_zeros), Treatments = as.factor(rep_name), plots = T, returnTable = F)
+        
+        #plot(density(runner_WO_zeros), main = lipid_Nr[i], xlab = "Enrichment Proportion")
         
         #### building matrices using significant clusters as factors
         
