@@ -11,7 +11,8 @@ ClassDiscovery_kMSI <- function(FilesPath,
                                 factorVector,
                                 logiTransformation = F,
                                 pattern = "MeanEnrichment.csv",
-                                alpha = 0.9) {
+                                alpha = 0.9,
+                                returnObject = c(NULL, "Clusters", "minDataset")) {
   
  
   
@@ -297,6 +298,8 @@ ClassDiscovery_kMSI <- function(FilesPath,
   
   list_out <- list()
   
+  list_out2 <- list()
+  
   sig_clust_Nr <- c()
   
   lipid_names <- c()
@@ -325,13 +328,13 @@ ClassDiscovery_kMSI <- function(FilesPath,
     
     runner_WO_zeros <- runner[,as.numeric(colMeans(runner)) != 0]
     
-    
+    ## transforming to logit the successful if set to TRUE
     
     if (logiTransformation == T) {
       
       logit_transformation <- function(x){log(x /(1 - x))}
       
-      #Replace zero with a very small value so it can fit in a model
+      ### Replace zero with a very small value so it can fit in a model
       
       out_mat_DG_wzero <- runner_WO_zeros
       
@@ -350,7 +353,7 @@ ClassDiscovery_kMSI <- function(FilesPath,
             logit_mat_DG[k,l] <- 0
             
           }
-  
+          
         }
         
       }
@@ -359,8 +362,17 @@ ClassDiscovery_kMSI <- function(FilesPath,
       colnames(logit_mat_DG) <- colnames(runner_WO_zeros)
       
       runner_WO_zeros = logit_mat_DG
-    
+      
+      runner_WO_zeros[is.na(runner_WO_zeros)] <- 0
+      
+      runner_WO_zeros[logit_mat_DG == "NaN"] <- 0
+      
+      runner_WO_zeros[logit_mat_DG == "Inf"] <- 0
+      
+      runner_WO_zeros[logit_mat_DG == "-Inf"] <- 0
+      
     }
+    
     
     if(show_condition(pvclust(runner_WO_zeros, nboot = 10,
                               quiet = T, method.dist = method.dist)[1]) == "error") {
@@ -373,6 +385,8 @@ ClassDiscovery_kMSI <- function(FilesPath,
     } else {
       
       cat(paste0("Successful: ", lipid_Nr[i]," - ", i, "\n"))
+    
+      ## bootstrapping the clustering on the final object
       
       HCA_boot_lipid <- pvclust(runner_WO_zeros,
                                 method.hclust = "average",
@@ -504,6 +518,7 @@ ClassDiscovery_kMSI <- function(FilesPath,
           colnames(out_mat) <- table_lipids$edges
           
           list_out[[i]] <- out_mat
+          list_out2[[i]]  <- runner
           
           cat("...\n")
           
@@ -523,6 +538,7 @@ ClassDiscovery_kMSI <- function(FilesPath,
   }
   
   names(list_out) <- lipid_names
+  names(list_out2) <- lipid_names
   
   dev.off()
   
@@ -538,7 +554,19 @@ ClassDiscovery_kMSI <- function(FilesPath,
     
   }
   
-  return(list_out)
+  if(returnObject == "Clusters") {
+    
+    return(list_out)
+    
+  } else if (returnObject == "minDataset") {
+    
+    return(list_out2)
+    
+  } else if (is.null(returnObject)) {
+    
+    return(list_out)
+    
+  }
    
 }
 
