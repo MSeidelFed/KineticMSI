@@ -481,7 +481,7 @@ ClassDiscovery_kMSI <- function(FilesPath,
           
           #### mining out the cluster to build means
           
-          ##### establishing the maximum cluster size
+          ##### establishing the maximum cluster size and the pixel proportions
           
           out_vector <- c()
           
@@ -511,6 +511,32 @@ ClassDiscovery_kMSI <- function(FilesPath,
           
           list_out[[i]] <- out_mat
           list_out2[[i]]  <- runner
+          
+          
+          #### plot distributions with relevant stats
+          
+          total_pixel_No_clusters = sum(out_vector)
+          
+          cluster_means = colMeans(out_mat)
+          
+          out_pixel_proportion <- c()
+          
+          for (k in 1:length(table_lipids$clusters)) {
+            
+            out_pixel_proportion[k] <- paste0("Pixel Percentage: ",
+                                              round((out_vector[k]/total_pixel_No_clusters)*100,
+                                                    digits = 2),
+                                              "% - Mean: ",
+                                              round(cluster_means[k], 3))
+            
+          }
+          
+          plot(density(runner_WO_zeros), main = lipid_Nr[i],
+               xlab = "Enrichment Proportion",
+               ylim = c(0, max(density(runner_WO_zeros)[["y"]])+5))
+          
+          legend("topleft", legend=c(paste0("k: ", length(table_lipids$edges)),
+                                     out_pixel_proportion)) # col=c("red", "blue"), lty=1:2, cex=0.8
           
           cat("...\n")
           
