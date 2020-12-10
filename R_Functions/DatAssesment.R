@@ -17,7 +17,15 @@ DatAssesment <- function(FilesPath,
                              logiTransformation = F) {
   
   
+   ### list2df
   
+  list2df <- function(x) 
+  { 
+    MAX.LEN <- max(sapply(x, length), na.rm = TRUE) 
+    DF <- data.frame(lapply(x, function(x) c(x, rep(NA, MAX.LEN - length(x))))) 
+    colnames(DF) <- paste("V", seq(ncol(DF)), sep = "")   
+    DF 
+  } 
   
   ## distribution ggplot function
   
