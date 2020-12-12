@@ -89,7 +89,7 @@ DatAssesment <- function(FilesPath,
   ### SpatialRandomSampling_MSI
   
   SpatialRandomSampling_MSI <- function(FilesPath,
-                                        pattern = "MeanEnrichment.csv",
+                                        pattern = pattern,
                                         feature_choice = 0) {
     
     #### choosing a lipid
