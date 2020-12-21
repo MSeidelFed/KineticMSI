@@ -4,11 +4,6 @@
 
 
 
-
-
-
-
-
 DatAssesment <- function(FilesPath,
                              pattern = "MeanEnrichment.csv",
                              CompareSampledSet = T,
@@ -17,15 +12,7 @@ DatAssesment <- function(FilesPath,
                              logiTransformation = F) {
   
   
-   ### list2df
   
-  list2df <- function(x) 
-  { 
-    MAX.LEN <- max(sapply(x, length), na.rm = TRUE) 
-    DF <- data.frame(lapply(x, function(x) c(x, rep(NA, MAX.LEN - length(x))))) 
-    colnames(DF) <- paste("V", seq(ncol(DF)), sep = "")   
-    DF 
-  } 
   
   ## distribution ggplot function
   
@@ -33,7 +20,8 @@ DatAssesment <- function(FilesPath,
                                  Treatments, 
                                  plots = NULL, 
                                  returnTable = F,
-                                 factorVector) {
+                                 factorVector,
+                                 PlotMain = NULL) {
     
     mydata4.1 <- as.data.frame(t(in_mat))
     colnames(mydata4.1) <- seq(1, dim(mydata4.1)[2])
@@ -62,7 +50,7 @@ DatAssesment <- function(FilesPath,
       print(ggplot(mydata4.4, aes(x = as.numeric(value), y = X1_1, color = out_vec)) + 
               xlim(summary(as.numeric(mydata4.4$value))["Min."] - summary(as.numeric(mydata4.4$value))["Mean"],
                    summary(as.numeric(mydata4.4$value))["Mean"] + summary(as.numeric(mydata4.4$value))["Mean"]) +
-              ggtitle ("Test") +
+              ggtitle (PlotMain) +
               geom_density_ridges_gradient(scale = 2, rel_min_height = 0.01, gradient_lwd = 1.) +
               theme_ridges(font_size = 10, grid = TRUE) +
               theme(axis.title.y = element_blank()))
@@ -72,7 +60,7 @@ DatAssesment <- function(FilesPath,
               geom_density(alpha = 0.2, position = "identity") +
               xlim(summary(as.numeric(mydata4.4$value))["Min."] - summary(as.numeric(mydata4.4$value))["Mean"],
                    summary(as.numeric(mydata4.4$value))["Mean"] + summary(as.numeric(mydata4.4$value))["Mean"]) +
-              ggtitle ("Test"))
+              ggtitle (PlotMain))
       
     }
     
@@ -89,7 +77,7 @@ DatAssesment <- function(FilesPath,
   ### SpatialRandomSampling_MSI
   
   SpatialRandomSampling_MSI <- function(FilesPath,
-                                        pattern = pattern,
+                                        pattern = "MeanEnrichment.csv",
                                         feature_choice = 0) {
     
     #### choosing a lipid
@@ -358,7 +346,8 @@ DatAssesment <- function(FilesPath,
                        apply(full_file_names[3,], 2, as.character))
     
     Class_Distribution(in_mat = t(runner_WO_zeros), Treatments = as.factor(rep_name),
-                       plots = T, returnTable = F, factorVector = factorVector)
+                       plots = T, returnTable = F, factorVector = factorVector,
+                       PlotMain = lipid_Nr[i])
     
     #plot(density(runner_WO_zeros), main = lipid_Nr[i], xlab = "Enrichment Proportion")
     
