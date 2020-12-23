@@ -21,15 +21,15 @@ kineticMSI has been divided in several steps:
 Peak picking is performed according to the user preference and the tables must be produced from the peak picking process. The input table must contain all metabolites or peptide mass features to be corrected along with their respective isotopologue envelopes. In the first column, the metabolite identifiers are followed through a floor dash to the isotopologue number starting with 0 that represents the monoisotopic peak. Each column after the first contains the peak abundance across measured pixels in a MSI experiment.
 
 
- Measurements/Samples| Pixel1     | Pixel2     | Pixel3        | Pixel4         | Pixel5      |
- ------------------- | -----------|------------| --------------| ---------------| ------------|
-  [1,] "Met1_a0"     | "423677.9" | "387294.2" | "358360.2"    |  "430919.2"    | "314496.2"  |
-  [2,] "Met1_a1"     | "112808.7" | "92034.8"  | "96068.4"     |  "118169.6"    | "102262.4"  |
-  [3,] "Met1_a2"     | "40512.8"  | "38767.2"  | "31836.4"     |  "54474.4"     | "27531.1"   |
-  [4,] "Met1_a3"     | "11019.2"  | "4510.01"  | "8081.9"      |  "13790.2"     | "10385.5"   |
-  [5,] "Met2_a0"     | "117202.1" | "122309.3" | "90600.6"     |  "88196.6"     | "115123.8"  |
-  [6,] "Met2_a1"     | "54163.9"  | "44717.6"  | "43496.6"     |  "149206.6"    | "59616.02"  |
-  
+                                      Measurements/Samples| Pixel1     | Pixel2     | Pixel3        | Pixel4         | Pixel5      |
+                                      ------------------- | -----------|------------| --------------| ---------------| ------------|
+                                       [1,] "Met1_a0"     | "423677.9" | "387294.2" | "358360.2"    |  "430919.2"    | "314496.2"  |
+                                       [2,] "Met1_a1"     | "112808.7" | "92034.8"  | "96068.4"     |  "118169.6"    | "102262.4"  |
+                                       [3,] "Met1_a2"     | "40512.8"  | "38767.2"  | "31836.4"     |  "54474.4"     | "27531.1"   |
+                                       [4,] "Met1_a3"     | "11019.2"  | "4510.01"  | "8081.9"      |  "13790.2"     | "10385.5"   |
+                                       [5,] "Met2_a0"     | "117202.1" | "122309.3" | "90600.6"     |  "88196.6"     | "115123.8"  |
+                                       [6,] "Met2_a1"     | "54163.9"  | "44717.6"  | "43496.6"     |  "149206.6"    | "59616.02"  |
+
 
 ## Step 1 - Preparing the dataset
 
@@ -119,14 +119,14 @@ module add devel/Python-3.8.0
 
 IsoCor input tables have the following format:
 
- sample              | metabolite | derivative | isotopologue  | area           | resolution  |
- ------------------- | -----------|------------| --------------| ---------------| ------------|
-  [1,] "Sample_X"    | "PIP2492"  | ""         | "0"           |  "52335.21982" | "70000"     |
-  [2,] "Sample_X"    | "PIP2492"  | ""         | "1"           |  "75684.458"   | "70000"     |
-  [3,] "Sample_X"    | "PIP2492"  | ""         | "2"           |  "0"           | "70000"     |
-  [4,] "Sample_X"    | "PIP2492"  | ""         | "3"           |  "0"           | "70000"     |
-  [5,] "Sample_X"    | "PIP2492"  | ""         | "4"           |  "0"           | "70000"     |
-  [6,] "Sample_X"    | "PIP2492"  | ""         | "5"           |  "0"           | "70000"     |
+                                          sample              | metabolite | derivative | isotopologue  | area           | resolution  |
+                                          ------------------- | -----------|------------| --------------| ---------------| ------------|
+                                           [1,] "Sample_X"    | "PIP2492"  | ""         | "0"           |  "52335.21982" | "70000"     |
+                                           [2,] "Sample_X"    | "PIP2492"  | ""         | "1"           |  "75684.458"   | "70000"     |
+                                           [3,] "Sample_X"    | "PIP2492"  | ""         | "2"           |  "0"           | "70000"     |
+                                           [4,] "Sample_X"    | "PIP2492"  | ""         | "3"           |  "0"           | "70000"     |
+                                           [5,] "Sample_X"    | "PIP2492"  | ""         | "4"           |  "0"           | "70000"     |
+                                           [6,] "Sample_X"    | "PIP2492"  | ""         | "5"           |  "0"           | "70000"     |
 
 and can be obtained from our universal input csv format file (Data/Universal_Isotopologue_File.csv) using the function ProduceIsoCorTables as follows:
 
@@ -257,11 +257,39 @@ Note that K-mean partitions signal areas of tracer incorporation when those are 
 
 This step takes advantage of the gained resolution provided by Mass Spectrometry Imaging to bypass the limitation of averaging a intensity from a metabolite of interest across a large tissue area. Instead we provide options to rationalize the tissue segmentation based on the tracer dynamics, and this allows us to gain insight into metabolic hotspots for the target compounds.
 
-* Main procedure: The ultimate aim is to perform mean comparison using legitimate isotope enrichment proxies and building a single dataset from all treatments using a randomly sampled number of pixels that matches a minimum subset dimension between input files. Class comparison is achieved using either a generalized linear model or an ANOVA followed by Tukey HSD posthoc test. Class comparison can be perform averaging all pixels into a single value, which would not use the extra information gained by kMSI. Alternatively users can partition the datasets in a unsupervised or assisted maner, for the former a number of K-mean clusters is determined for individual metabolites based on a bootstrapped HCA (customizable alpha - AU *P* value). For the latter, the user specifies the indexes of features of interest and performs an assisted partiotn of the total sets based on density plots that indicate accumulation of pixels in one or several peaks.
+* Main procedure: The ultimate aim is to perform mean comparison using legitimate isotope enrichment proxies and building a single dataset from all treatments using a randomly sampled number of pixels that matches a minimum subset dimension between input files.
 
-* Optional feature: Users are given an option to assess the correctness of random sampling by plotting the ratio between the mean and StDev from the random samples against the full dataset. e.g.,
+### Data Quality Assesment
 
-![Tracer_dynamics](images/Stdev&MeansComparison.png)
+* Optional feature: Users are given an option to assess the correctness of random sampling by plotting the ratio between the mean and StDev from the random samples against the full dataset, e.g.:
+
+```{r}
+ex_assesment <- DatAssesment(FilesPath = "Data/IsoCorectoR_Files/",
+                             pattern = "MeanEnrichment.csv",
+                             CompareSampledSet = T,
+                             returnObject = "minDataset",
+                             factorVector = c(rep("HD", 6),
+                                              rep("WT", 6)),
+                             logiTransformation = F)
+
+```
+![RandomSetQuality](images/Stdev&MeansComparison.png)
+
+Additionally the DatAssesment.R function retunrs distribution plots of treatments that allow interpreting shifts in data that would otherwise remain unnoticed, e.g.:
+
+![IndidvidualRepsDistributions](images/distributionAssesment.png)
+
+Finally, the function also averages all pixels into a single mean per treatment and evaluates the resulting numeric vector distribution to suggest a link function for the glm regression according to the procedure detailed in the RandoDiStats[https://github.com/MSeidelFed/RandodiStats_package] R package, e.g.:
+
+![AverageMSIdist](images/RowMeansDistribution.png)
+
+If the suggested link is Gaussian, as in the example, any parametric test will suffice to compare means and the *P*-values will be legitimate. If on the contrary, the suggested link is non-parametric we strongly suggest using a parametrized glm as means of class comparison. 
+
+Consequenlty, the DatAssesment.R function returns in the R enviroment an object with the means to be evaluated or the minimum dataset by tuning the parameter "returnObject".
+
+### Data subsetting or partitioning
+
+Class comparison is achieved using either a generalized linear model or an ANOVA followed by Tukey HSD posthoc test. Class comparison can be perform averaging all pixels into a single value, which would not use the extra information gained by kMSI. Alternatively users can partition the datasets in a unsupervised or assisted maner, for the former a number of K-mean clusters is determined for individual metabolites based on a bootstrapped HCA (customizable alpha - AU *P* value). For the latter, the user specifies the indexes of features of interest and performs an assisted partiotn of the total sets based on density plots that indicate accumulation of pixels in one or several peaks.
 
 The functions take the main path to IsoCorrectoR folders and grab the files to perform class & mean comparison from there. The files are selected based on the "pattern" feature that defaults to "MeanEnrichment.csv". Mean comparison is performed alphabetically and thus factorVector needs to be a simple vector containing the replicated factors in your design. There are to options for class comparison, either a GLM or an ANOVA. If GLM is selected the number of experimental factors must be inputed as well as a vector containing a number of colors names equal to the number of factors, in this case the boxplots will be colored with the defined colors. Clustering options include the distance used as measure to build the clusters and inherits the classes allowed by pvclust. Additionally the bootstrapp iteration number "nboot", which is recommended to be set at least to 1000, the alpha corresponds to the boundary that the user sets to determine if a cluster is significant. If only one cluster is found the function will try to reduce the alpha until finding more clusters, the alphas and dendrograms are outputed in a PDF file. A second PDF contains the boxplots that feature the mean comparisons. Finally the user can define the type of function used to sort before the clustering takes place, i.e., parameter "fun_to_clust", the options are to sort the joint dataset by enrichment percentages or by spatial coordinates. Both functions serve different experimental questions. In the latter case if there are spatial contraints in the mean enrichemnt percentages significant grouping will be found, whereas the first function suits the purpose of finding high versus low enriched states that can be randomly distributed across the entire ion image.
 
