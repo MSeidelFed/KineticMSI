@@ -287,7 +287,7 @@ If the suggested link is Gaussian, as in the example, any parametric test will s
 
 Consequenlty, the DatAssesment.R function returns in the R enviroment an object with the means to be evaluated or the minimum dataset by tuning the parameter "returnObject".
 
-### Data subsetting or partitioning
+### Data subsetting or partitioning ########## EDITING HERE
 
 Class comparison is achieved using either a generalized linear model or an ANOVA followed by Tukey HSD posthoc test. Class comparison can be perform averaging all pixels into a single value, which would not use the extra information gained by kMSI. Alternatively users can partition the datasets in a unsupervised or assisted maner, for the former a number of K-mean clusters is determined for individual metabolites based on a bootstrapped HCA (customizable alpha - AU *P* value). For the latter, the user specifies the indexes of features of interest and performs an assisted partiotn of the total sets based on density plots that indicate accumulation of pixels in one or several peaks.
 
