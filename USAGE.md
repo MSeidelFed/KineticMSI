@@ -12,9 +12,11 @@ kineticMSI has been divided in several steps:
 
 1. Analyses of the tracer spatial dynamics and incorporation rates: This step is meant to reconstruct MSI images based on the derived proxies of isotope enrichment.
 
-1. Comparing mean incorporation among pixel subsets instead of averaging all pixels: This step classifies the coordinates from individual molecular species in subclasses based on the enrichment percentages in order to prevent dilution of the biology by averaging an entire region. Additionally, the procedure enables comparison to anatomical regions of interest obtained through unsupervised statistical methods (From Cardinal SSC or SCiLS k-Means clustering).
+1. Assesment of the quality of the data.
 
-1. Enrichment relative quantitation: The final step entails an integrated user-assisted relative quantitation and comparison analyses of the enrichment dynamics of the labelled metabolic targets. The procedure uses the classes discovered in the previous step.
+1. Selecting pixel subsets instead of averaging all pixels: This step classifies the coordinates from individual molecular species in subclasses based on the enrichment proxies selected in order to prevent dilution of the biology by averaging an entire region. The procedure enables comparison to anatomical regions of interest obtained through unsupervised statistical methods (From Cardinal SSC or SCiLS k-Means clustering).
+
+1. Relative quantitation of the isotope flux: The final step entails an integrated user-assisted relative quantitation and comparison analyses of the enrichment dynamics of the labelled metabolic targets. The procedure uses the classes discovered in the previous step.
 
 ## Step 0 - Input files
 
@@ -253,15 +255,9 @@ The outcome from this visual evaluation is a PDF containing the spatial dynamics
 
 Note that K-mean partitions signal areas of tracer incorporation when those are spatially constrained.
 
-## Step 5 & 6 - Clustering active regions with differential tracer incorporation
+## Step 5 - Data Quality Assesment
 
-This step takes advantage of the gained resolution provided by Mass Spectrometry Imaging to bypass the limitation of averaging a intensity from a metabolite of interest across a large tissue area. Instead we provide options to rationalize the tissue segmentation based on the tracer dynamics, and this allows us to gain insight into metabolic hotspots for the target compounds.
-
-* Main procedure: The ultimate aim is to perform mean comparison using legitimate isotope enrichment proxies and building a single dataset from all treatments using a randomly sampled number of pixels that matches a minimum subset dimension between input files.
-
-### Data Quality Assesment
-
-* Optional feature: Users are given an option to assess the correctness of random sampling by plotting the ratio between the mean and StDev from the random samples against the full dataset, e.g.:
+Users are given an option to assess the correctness of random sampling by plotting the ratio between the mean and StDev from the random samples against the full dataset, e.g.:
 
 ```{r}
 ex_assesment <- DatAssesment(FilesPath = "Data/IsoCorectoR_Files/",
@@ -287,9 +283,11 @@ If the suggested link is Gaussian, as in the example, any parametric test will s
 
 Consequenlty, the DatAssesment.R function returns in the R enviroment an object with the means to be evaluated or the minimum dataset by tuning the parameter "returnObject".
 
-### Data subsetting or partitioning ########## EDITING HERE
+## Step 6 - Data subsetting ####### EDITING HERE
 
-Class comparison is achieved using either a generalized linear model or an ANOVA followed by Tukey HSD posthoc test. Class comparison can be perform averaging all pixels into a single value, which would not use the extra information gained by kMSI. Alternatively users can partition the datasets in a unsupervised or assisted maner, for the former a number of K-mean clusters is determined for individual metabolites based on a bootstrapped HCA (customizable alpha - AU *P* value). For the latter, the user specifies the indexes of features of interest and performs an assisted partiotn of the total sets based on density plots that indicate accumulation of pixels in one or several peaks.
+This step takes advantage of the gained resolution provided by Mass Spectrometry Imaging to bypass the limitation of averaging a intensity from a metabolite of interest across a large tissue area. Instead we provide options to rationalize the tissue segmentation based on the tracer dynamics, and this allows us to gain insight into metabolic hotspots for the target compounds.
+
+* Main procedure: The ultimate aim is to perform mean comparison using legitimate isotope enrichment proxies and building a single dataset from all treatments using a randomly sampled number of pixels that matches a minimum subset dimension between input files.Class comparison is achieved using either a generalized linear model or an ANOVA followed by Tukey HSD posthoc test. Class comparison can be perform averaging all pixels into a single value, which would not use the extra information gained by kMSI. Alternatively users can partition the datasets in a unsupervised or assisted maner, for the former a number of K-mean clusters is determined for individual metabolites based on a bootstrapped HCA (customizable alpha - AU *P* value). For the latter, the user specifies the indexes of features of interest and performs an assisted partiotn of the total sets based on density plots that indicate accumulation of pixels in one or several peaks.
 
 The functions take the main path to IsoCorrectoR folders and grab the files to perform class & mean comparison from there. The files are selected based on the "pattern" feature that defaults to "MeanEnrichment.csv". Mean comparison is performed alphabetically and thus factorVector needs to be a simple vector containing the replicated factors in your design. There are to options for class comparison, either a GLM or an ANOVA. If GLM is selected the number of experimental factors must be inputed as well as a vector containing a number of colors names equal to the number of factors, in this case the boxplots will be colored with the defined colors. Clustering options include the distance used as measure to build the clusters and inherits the classes allowed by pvclust. Additionally the bootstrapp iteration number "nboot", which is recommended to be set at least to 1000, the alpha corresponds to the boundary that the user sets to determine if a cluster is significant. If only one cluster is found the function will try to reduce the alpha until finding more clusters, the alphas and dendrograms are outputed in a PDF file. A second PDF contains the boxplots that feature the mean comparisons. Finally the user can define the type of function used to sort before the clustering takes place, i.e., parameter "fun_to_clust", the options are to sort the joint dataset by enrichment percentages or by spatial coordinates. Both functions serve different experimental questions. In the latter case if there are spatial contraints in the mean enrichemnt percentages significant grouping will be found, whereas the first function suits the purpose of finding high versus low enriched states that can be randomly distributed across the entire ion image.
 
@@ -349,8 +347,6 @@ test_Gen <- GeneralExpOverview(ClassDiscovery_List = ClassDiscovery_List,
                                ControlSample = "_WT",
                                returnHeatmaps = T)
 ```
-
-# EDITING HERE _____________#######################
 
 ### drawing the SCC image and selecting an specific cluster as output
 
