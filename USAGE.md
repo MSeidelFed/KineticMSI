@@ -23,10 +23,10 @@ kineticMSI has been divided in several steps:
 Peak picking is performed according to the user preference and the tables must be produced from the peak picking process. The input table must contain all metabolites or peptide mass features to be corrected along with their respective isotopologue envelopes. In the first column, the metabolite identifiers are followed through a floor dash to the isotopologue number starting with 0 that represents the monoisotopic peak. Each column after the first contains the peak abundance across measured pixels in a MSI experiment.
 
 
-                        Measurements/Samples| Pixel1     | Pixel2     | Pixel3        | Pixel4         | Pixel5      |                                          
+                        Measurements/Samples| Pixel1     | Pixel2     | Pixel3        | Pixel4         | Pixel5      |                               
                         ------------------- | -----------|------------| --------------| ---------------| ------------|                                          
                          [1,] "Met1_a0"     | "423677.9" | "387294.2" | "358360.2"    |  "430919.2"    | "314496.2"  |                                          
-                         [2,] "Met1_a1"     | "112808.7" | "92034.8"  | "96068.4"     |  "118169.6"    | "102262.4"  |                                          
+                         [2,] "Met1_a1"     | "112808.7" | "92034.8"  | "96068.4"     |  "118169.6"    | "102262.4"  |                               
                          [3,] "Met1_a2"     | "40512.8"  | "38767.2"  | "31836.4"     |  "54474.4"     | "27531.1"   |                                          
                          [4,] "Met1_a3"     | "11019.2"  | "4510.01"  | "8081.9"      |  "13790.2"     | "10385.5"   |                                          
                          [5,] "Met2_a0"     | "117202.1" | "122309.3" | "90600.6"     |  "88196.6"     | "115123.8"  |                                          
@@ -121,14 +121,14 @@ module add devel/Python-3.8.0
 
 IsoCor input tables have the following format:
 
-                                          sample              | metabolite | derivative | isotopologue  | area           | resolution  |
-                                          ------------------- | -----------|------------| --------------| ---------------| ------------|
-                                           [1,] "Sample_X"    | "PIP2492"  | ""         | "0"           |  "52335.21982" | "70000"     |
-                                           [2,] "Sample_X"    | "PIP2492"  | ""         | "1"           |  "75684.458"   | "70000"     |
-                                           [3,] "Sample_X"    | "PIP2492"  | ""         | "2"           |  "0"           | "70000"     |
-                                           [4,] "Sample_X"    | "PIP2492"  | ""         | "3"           |  "0"           | "70000"     |
-                                           [5,] "Sample_X"    | "PIP2492"  | ""         | "4"           |  "0"           | "70000"     |
-                                           [6,] "Sample_X"    | "PIP2492"  | ""         | "5"           |  "0"           | "70000"     |
+                        sample              | metabolite | derivative | isotopologue  | area           | resolution  |
+                        ------------------- | -----------|------------| --------------| ---------------| ------------|
+                         [1,] "Sample_X"    | "PIP2492"  | ""         | "0"           |  "52335.21982" | "70000"     |
+                         [2,] "Sample_X"    | "PIP2492"  | ""         | "1"           |  "75684.458"   | "70000"     |
+                         [3,] "Sample_X"    | "PIP2492"  | ""         | "2"           |  "0"           | "70000"     |
+                         [4,] "Sample_X"    | "PIP2492"  | ""         | "3"           |  "0"           | "70000"     |
+                         [5,] "Sample_X"    | "PIP2492"  | ""         | "4"           |  "0"           | "70000"     |
+                         [6,] "Sample_X"    | "PIP2492"  | ""         | "5"           |  "0"           | "70000"     |
 
 and can be obtained from our universal input csv format file (Data/Universal_Isotopologue_File.csv) using the function ProduceIsoCorTables as follows:
 
