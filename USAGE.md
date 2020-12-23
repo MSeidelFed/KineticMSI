@@ -275,7 +275,7 @@ Additionally the DatAssesment.R function retunrs distribution plots of treatment
 
 ![IndidvidualRepsDistributions](images/distributionAssesment.png)
 
-Finally, the function also averages all pixels into a single mean per treatment and evaluates the resulting numeric vector distribution to suggest a link function for the glm regression according to the procedure detailed in the RandoDiStats[https://github.com/MSeidelFed/RandodiStats_package] R package, e.g.:
+Finally, the function also averages all pixels into a single mean per treatment and evaluates the resulting numeric vector distribution to suggest a link function for the glm regression according to the procedure detailed in the [RandoDiStats](https://github.com/MSeidelFed/RandodiStats_package) R package, e.g.:
 
 ![AverageMSIdist](images/RowMeansDistribution.png)
 
