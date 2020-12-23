@@ -260,6 +260,14 @@ Note that K-mean partitions signal areas of tracer incorporation when those are 
 Users are given an option to assess the correctness of random sampling by plotting the ratio between the mean and StDev from the random samples against the full dataset, e.g.:
 
 ```{r}
+library(matrixStats)
+library(RandodiStats)
+library(fitdistrplus)
+library(raster)
+library(reshape2)
+library(ggplot2)
+library(ggridges)
+
 ex_assesment <- DatAssesment(FilesPath = "Data/IsoCorectoR_Files/",
                              pattern = "MeanEnrichment.csv",
                              CompareSampledSet = T,
@@ -316,6 +324,9 @@ ClassComparison_list <- ClassComparison_kMSI(ClassDiscoveryList = ClassDiscovery
                                             ClassComparison = "GLM")
 
 ```
+
+## Step 7 - Class comparison ############ still needs to be separated from last section here (will do when finished)
+
 
 Test if gender is a confounding variable, if yes, add it as a covariate and run an ANCOVA.
 
