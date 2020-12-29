@@ -5,25 +5,25 @@
 
 
 DatAssesment <- function(FilesPath,
-                             pattern = "MeanEnrichment.csv",
-                             CompareSampledSet = T,
-                             returnObject = c(NULL, "ClassComparisonInput", "minDataset"),
-                             factorVector,
-                             logiTransformation = F) {
+                         pattern = "MeanEnrichment.csv",
+                         CompareSampledSet = T,
+                         returnObject = c(NULL, "ClassComparisonInput", "minDataset"),
+                         factorVector,
+                         logiTransformation = F) {
   
   
+  ## needed functions
   
-   ### list2df
- 
-  list2df <- function(x)
-  {
-    MAX.LEN <- max(sapply(x, length), na.rm = TRUE)
-    DF <- data.frame(lapply(x, function(x) c(x, rep(NA, MAX.LEN - length(x)))))
-    colnames(DF) <- paste("V", seq(ncol(DF)), sep = "")  
-    DF
-  }
-                            
-  ## distribution ggplot function
+  list2df <- function(x) 
+  { 
+    MAX.LEN <- max(sapply(x, length), na.rm = TRUE) 
+    DF <- data.frame(lapply(x, function(x) c(x, rep(NA, MAX.LEN - length(x))))) 
+    colnames(DF) <- paste("V", seq(ncol(DF)), sep = "")   
+    DF 
+  } 
+  
+  
+  ### distribution ggplot function
   
   Class_Distribution <- function(in_mat,
                                  Treatments, 
@@ -154,7 +154,7 @@ DatAssesment <- function(FilesPath,
   }
   
   
-
+  
   
   ## Main
   
@@ -291,8 +291,8 @@ DatAssesment <- function(FilesPath,
     cat("...\n")
     
     runner <- SpatialRandomSampling_MSI(FilesPath = FilesPath,
-                                          pattern = pattern, feature_choice = i)
-      
+                                        pattern = pattern, feature_choice = i)
+    
     colnames(runner) <- paste0(rep("X", dim(runner)[2]), c(1:dim(runner)[2]))
     
     runner_WO_zeros <- runner
@@ -367,6 +367,10 @@ DatAssesment <- function(FilesPath,
     
     list_out2[[i]] <- out_mat2
     
+    normality_test <- paste0(shapiro.test(out_mat2)[["method"]],
+                             ": p = ",
+                             round(shapiro.test(out_mat2)[["p.value"]], 2))
+    
     plot_name <- testing_distributions(Distribution_test_mat = out_mat2)
     
     plot_mat <- as.matrix(cbind(out_mat2,out_mat2,out_mat2,out_mat2,out_mat2,
@@ -376,12 +380,13 @@ DatAssesment <- function(FilesPath,
     
     plotting_distributions(test_mat = plot_mat,
                            transparency = 0, vector_colors = "black",
-                           MainPlotName = paste0("Suggested link ",
+                           MainPlotName = c(paste0("Suggested link ",
                                                  "(",
                                                  lipid_Nr[i],
                                                  ") ",
-                                                 plot_name))
-        
+                                                 plot_name),
+                                                 normality_test))
+    
   }
   
   names(list_out) <- lipid_names
