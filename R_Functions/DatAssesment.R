@@ -295,7 +295,7 @@ DatAssesment <- function(FilesPath,
     
     colnames(runner) <- paste0(rep("X", dim(runner)[2]), c(1:dim(runner)[2]))
     
-    runner_WO_zeros <- runner
+    runner_WO_zeros <- runner[,as.numeric(colSds(runner)) != 0]
     
     ## transforming to logit if set to TRUE
     
