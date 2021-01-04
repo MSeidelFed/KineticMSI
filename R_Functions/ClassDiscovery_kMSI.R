@@ -331,7 +331,7 @@ ClassDiscovery_kMSI <- function(FilesPath,
     
     colnames(runner) <- paste0(rep("X", dim(runner)[2]), c(1:dim(runner)[2]))
     
-    runner_WO_zeros <- runner[,as.numeric(colMeans(runner)) != 0]
+    runner_WO_zeros <- runner[,as.numeric(colSds(runner)) != 0]
     
     ## transforming to logit the successful if set to TRUE
     
