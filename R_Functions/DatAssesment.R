@@ -354,38 +354,53 @@ DatAssesment <- function(FilesPath,
                        "_",
                        apply(full_file_names[3,], 2, as.character))
     
-    Class_Distribution(in_mat = t(runner_WO_zeros), Treatments = as.factor(rep_name),
+     if (dim(runner_WO_zeros)[2] < 1) {
+     
+      NULL
+     
+    } else {
+     
+      Class_Distribution(in_mat = t(runner_WO_zeros), Treatments = as.factor(rep_name),
                        plots = T, returnTable = F, factorVector = factorVector,
                        PlotMain = lipid_Nr[i])
-    
-    #plot(density(runner_WO_zeros), main = lipid_Nr[i], xlab = "Enrichment Proportion")
-    
-    
+     
+    }
+   
     ## second output (class comparison input & distribution test)
-    
-    out_mat2 <- as.matrix(rowMeans(runner_WO_zeros))
-    
+   
+    out_mat2 <-as.matrix(rowMeans(runner_WO_zeros))
+   
     list_out2[[i]] <- out_mat2
-    
-    normality_test <- paste0(shapiro.test(out_mat2)[["method"]],
-                             ": p = ",
-                             round(shapiro.test(out_mat2)[["p.value"]], 2))
-    
-    plot_name <- testing_distributions(Distribution_test_mat = out_mat2)
-    
-    plot_mat <- as.matrix(cbind(out_mat2,out_mat2,out_mat2,out_mat2,out_mat2,
-                                out_mat2,out_mat2,out_mat2,out_mat2,out_mat2,
-                                out_mat2,out_mat2,out_mat2,out_mat2,out_mat2,
-                                out_mat2,out_mat2,out_mat2,out_mat2,out_mat2))
-    
-    plotting_distributions(test_mat = plot_mat,
-                           transparency = 0, vector_colors = "black",
-                           MainPlotName = c(paste0("Suggested link ",
-                                                 "(",
-                                                 lipid_Nr[i],
-                                                 ") ",
-                                                 plot_name),
-                                                 normality_test))
+   
+    if (dim(runner_WO_zeros)[2] < 1) {
+     
+      NULL
+     
+    } else {
+
+     
+
+      normality_test <- paste0(shapiro.test(out_mat2)[["method"]],
+                               ": p = ",
+                               round(shapiro.test(out_mat2)[["p.value"]], 2))
+   
+      plot_name <- testing_distributions(Distribution_test_mat = out_mat2)
+   
+      plot_mat <- as.matrix(cbind(out_mat2,out_mat2,out_mat2,out_mat2,out_mat2,
+                                  out_mat2,out_mat2,out_mat2,out_mat2,out_mat2,
+                                  out_mat2,out_mat2,out_mat2,out_mat2,out_mat2,
+                                  out_mat2,out_mat2,out_mat2,out_mat2,out_mat2))
+   
+      plotting_distributions(test_mat = plot_mat,
+                             transparency = 0, vector_colors = "black",
+                             MainPlotName = c(paste0("Suggested link ",
+                                                   "(",
+                                                   lipid_Nr[i],
+                                                   ") ",
+                                                   plot_name),
+                                                   normality_test))
+     
+    }
     
   }
   
