@@ -368,7 +368,7 @@ DatAssesment <- function(FilesPath,
    
     ## second output (class comparison input & distribution test)
    
-    out_mat2 <-as.matrix(rowMeans(runner_WO_zeros))
+    out_mat2 <-as.matrix(rowMeans(runner))
    
     list_out2[[i]] <- out_mat2
    
