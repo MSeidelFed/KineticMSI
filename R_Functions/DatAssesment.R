@@ -297,111 +297,118 @@ DatAssesment <- function(FilesPath,
     
     runner_WO_zeros <- runner[,as.numeric(colSds(runner)) != 0]
     
-    ## transforming to logit if set to TRUE
+    if (class(runner_WO_zeros) == "numeric") {
     
-    if (logiTransformation == T) {
+      ### all zeros
       
-      logit_transformation <- function(x){log(x /(1 - x))}
+      ### define list replacements for listout and listout2 here to avoid empty results not having the appropriate length
       
-      ### Replace zero with a very small value so it can fit in a model
+      list_out[[i]] <- NA
       
-      out_mat_DG_wzero <- runner_WO_zeros
+      list_out2[[i]] <- NA
       
-      logit_mat_DG <- matrix(NA, nrow = dim(out_mat_DG_wzero)[1], ncol = dim(out_mat_DG_wzero)[2])
-      
-      for (k in 1:dim(out_mat_DG_wzero)[1]) {
+    } else {
+       
+       ## transforming to logit if set to TRUE
+       
+       if (logiTransformation == T) {
+         
+         logit_transformation <- function(x){log(x /(1 - x))}
+         
+         ### Replace zero with a very small value so it can fit in a model
+         
+         out_mat_DG_wzero <- runner_WO_zeros
+         
+         logit_mat_DG <- matrix(NA, nrow = dim(out_mat_DG_wzero)[1], ncol = dim(out_mat_DG_wzero)[2])
+         
+         for (k in 1:dim(out_mat_DG_wzero)[1]) {
+         
+           for (l in 1:dim(out_mat_DG_wzero)[2]) {
+           
+             if (out_mat_DG_wzero[k,l] > 0) {
+             
+             logit_mat_DG[k,l] <- logit_transformation(out_mat_DG_wzero[k,l])
+             
+             } else {
+             
+               logit_mat_DG[k,l] <- 0
+             
+             }
+           } 
+         }
+       
+         rownames(logit_mat_DG) <- rownames(runner_WO_zeros)
+         colnames(logit_mat_DG) <- colnames(runner_WO_zeros)
+       
+         runner_WO_zeros = logit_mat_DG
+       
+         runner_WO_zeros[is.na(runner_WO_zeros)] <- 0
+       
+         runner_WO_zeros[logit_mat_DG == "NaN"] <- 0
+       
+         runner_WO_zeros[logit_mat_DG == "Inf"] <- 0
+       
+         runner_WO_zeros[logit_mat_DG == "-Inf"] <- 0
+       
+       }
         
-        for (l in 1:dim(out_mat_DG_wzero)[2]) {
-          
-          if (out_mat_DG_wzero[k,l] > 0) {
-            
-            logit_mat_DG[k,l] <- logit_transformation(out_mat_DG_wzero[k,l])
-            
-          } else {
-            
-            logit_mat_DG[k,l] <- 0
-            
-          }
-          
+       list_out[[i]] <- runner_WO_zeros
+       lipid_names[i] <- lipid_Nr[i]
+    
+       #### plotting distributions
+    
+       full_file_names <- list2df(strsplit(apply(list2df(strsplit(rownames(runner_WO_zeros), "/"))[5,], 2, as.character), "_"))
+    
+       rep_name <- paste0(apply(full_file_names[2,], 2, as.character),
+                          "_",
+                          apply(full_file_names[3,], 2, as.character))
+    
+        if (dim(runner_WO_zeros)[2] < 1) {
+        
+           NULL
+        
+        } else {
+        
+          Class_Distribution(in_mat = t(runner_WO_zeros), Treatments = as.factor(rep_name),
+                             plots = T, returnTable = F, factorVector = factorVector,
+                             PlotMain = lipid_Nr[i])
+        
         }
         
-      }
-      
-      rownames(logit_mat_DG) <- rownames(runner_WO_zeros)
-      colnames(logit_mat_DG) <- colnames(runner_WO_zeros)
-      
-      runner_WO_zeros = logit_mat_DG
-      
-      runner_WO_zeros[is.na(runner_WO_zeros)] <- 0
-      
-      runner_WO_zeros[logit_mat_DG == "NaN"] <- 0
-      
-      runner_WO_zeros[logit_mat_DG == "Inf"] <- 0
-      
-      runner_WO_zeros[logit_mat_DG == "-Inf"] <- 0
-      
-    }
+        ## second output (class comparison input & distribution test)
+        
+        out_mat2 <-as.matrix(rowMeans(runner))
+        
+        list_out2[[i]] <- out_mat2
     
-    
-    list_out[[i]] <- runner_WO_zeros
-    lipid_names[i] <- lipid_Nr[i]
-    
-    #### plotting distributions
-    
-    full_file_names <- list2df(strsplit(apply(list2df(strsplit(rownames(runner_WO_zeros), "/"))[5,], 2, as.character), "_"))
-    
-    rep_name <- paste0(apply(full_file_names[2,], 2, as.character),
-                       "_",
-                       apply(full_file_names[3,], 2, as.character))
-    
-     if (dim(runner_WO_zeros)[2] < 1) {
-     
-      NULL
-     
-    } else {
-     
-      Class_Distribution(in_mat = t(runner_WO_zeros), Treatments = as.factor(rep_name),
-                       plots = T, returnTable = F, factorVector = factorVector,
-                       PlotMain = lipid_Nr[i])
-     
-    }
-   
-    ## second output (class comparison input & distribution test)
-   
-    out_mat2 <-as.matrix(rowMeans(runner))
-   
-    list_out2[[i]] <- out_mat2
-   
-    if (dim(runner_WO_zeros)[2] < 1) {
-     
-      NULL
-     
-    } else {
-
-     
-
-      normality_test <- paste0(shapiro.test(out_mat2)[["method"]],
-                               ": p = ",
-                               round(shapiro.test(out_mat2)[["p.value"]], 2))
-   
-      plot_name <- testing_distributions(Distribution_test_mat = out_mat2)
-   
-      plot_mat <- as.matrix(cbind(out_mat2,out_mat2,out_mat2,out_mat2,out_mat2,
-                                  out_mat2,out_mat2,out_mat2,out_mat2,out_mat2,
-                                  out_mat2,out_mat2,out_mat2,out_mat2,out_mat2,
-                                  out_mat2,out_mat2,out_mat2,out_mat2,out_mat2))
-   
-      plotting_distributions(test_mat = plot_mat,
-                             transparency = 0, vector_colors = "black",
-                             MainPlotName = c(paste0("Suggested link ",
-                                                   "(",
-                                                   lipid_Nr[i],
-                                                   ") ",
-                                                   plot_name),
-                                                   normality_test))
-     
-    }
-    
+        if (dim(runner_WO_zeros)[2] < 1) {
+        
+          NULL
+        
+        } else {
+        
+          normality_test <- paste0(shapiro.test(out_mat2)[["method"]],
+                                   ": p = ",
+                                   round(shapiro.test(out_mat2)[["p.value"]], 2))
+          
+          plot_name <- testing_distributions(Distribution_test_mat = out_mat2)
+          
+          plot_mat <- as.matrix(cbind(out_mat2,out_mat2,out_mat2,out_mat2,out_mat2,
+                                      out_mat2,out_mat2,out_mat2,out_mat2,out_mat2,
+                                      out_mat2,out_mat2,out_mat2,out_mat2,out_mat2,
+                                      out_mat2,out_mat2,out_mat2,out_mat2,out_mat2))
+        
+          plotting_distributions(test_mat = plot_mat,
+                                 transparency = 0, vector_colors = "black",
+                                 MainPlotName = c(paste0("Suggested link ",
+                                                        "(",
+                                                        lipid_Nr[i],
+                                                        ") ",
+                                                        plot_name),
+                                                        normality_test))
+        
+        }   
+    }    
   }
   
   names(list_out) <- lipid_names
