@@ -1,4 +1,4 @@
-### SpatialRandomSampling_MSI
+### AcqTimeRandomSampling_MSI
 
 AcqTimeRandomSampling_MSI <- function(FilesPath,
                                       pattern = "MeanEnrichment.csv",
