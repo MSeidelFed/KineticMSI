@@ -7,7 +7,7 @@ ClassDiscovery_kMSI <- function(FilesPath,
                                 method.dist = "abscor",
                                 nboot = 100,
                                 return_SigClustHist = T,
-                                fun_to_clust = c("Enrichment", "Spatial"),
+                                fun_to_clust = c("Enrichment", "AcqTime"),
                                 logiTransformation = F,
                                 pattern = "MeanEnrichment.csv",
                                 alpha = 0.9,
@@ -187,9 +187,9 @@ ClassDiscovery_kMSI <- function(FilesPath,
       runner <- EnrichmentSorted_RandomSampling_MSI(FilesPath = FilesPath,
                                                     pattern = pattern, feature_choice = i)
       
-    } else if (fun_to_clust == "Spatial") {
+    } else if (fun_to_clust == "AcqTime") {
       
-      runner <- SpatialRandomSampling_MSI(FilesPath = FilesPath,
+      runner <- AcqTimeRandomSampling_MSI(FilesPath = FilesPath,
                                           pattern = pattern, feature_choice = i)
       
     } else {
