@@ -137,7 +137,7 @@ WT1 <- ProduceIsoCorTables(PathToCSV_file = "Replicate 1/Pyr layer replicate1  2
 ```
 Subsequently, the output table can be directly used by IsoCor following the published instructions (https://github.com/MetaSys-LISBP/IsoCor).
 
-## Step 3 - 3.4	Selection of the best incorporation proxy that matches the biology
+## Step 3 - Selection of the best incorporation proxy that matches the biology
 
 Here we derive several isotope incorporation proxies from the IsoCorrectoR produced tables and determine which one resembles better the biology on the system and thus is a legitimate proxy to enrichment percentage.
 
