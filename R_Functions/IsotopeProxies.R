@@ -1,21 +1,8 @@
 
 
 
-
-
-IncorporationProxys <- function(Parent_dir, SteadyStatePools_dir = NULL) {
-  
-  ## functions
-  
-  split_ <- function(x) {strsplit(x = x, split = "_")[1]}
-  
-  list2df <- function(x) 
-  { 
-    MAX.LEN <- max(sapply(x, length), na.rm = TRUE) 
-    DF <- data.frame(lapply(x, function(x) c(x, rep(NA, MAX.LEN - length(x))))) 
-    colnames(DF) <- paste("V", seq(ncol(DF)), sep = "")   
-    DF 
-  }
+IsotopeProxies <- function(Parent_dir,
+                           Output_dir) {
   
   ## main
   
@@ -122,7 +109,7 @@ IncorporationProxys <- function(Parent_dir, SteadyStatePools_dir = NULL) {
     rownames(SteadyStatePoolsM1Mn) <- treatment_names
     rownames(SteadyStatePoolsM1M0) <- treatment_names
     
-    if (is.null(SteadyStatePools_dir)) {
+    if (is.null(Output_dir)) {
       
       write.csv(SteadyStatePoolsM1Mn, file = "SteadyStatePoolsM0Mn.csv")
       
@@ -130,10 +117,10 @@ IncorporationProxys <- function(Parent_dir, SteadyStatePools_dir = NULL) {
       
     } else {
       
-      write.csv(SteadyStatePoolsM1Mn, file = paste0(SteadyStatePools_dir,
+      write.csv(SteadyStatePoolsM1Mn, file = paste0(Output_dir,
                                                     "/", "SteadyStatePoolsM0Mn.csv"))
       
-      write.csv(SteadyStatePoolsM1M0, file = paste0(SteadyStatePools_dir,
+      write.csv(SteadyStatePoolsM1M0, file = paste0(Output_dir,
                                                     "/", "SteadyStatePoolsM0M1.csv"))
     }
     
