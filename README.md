@@ -13,9 +13,13 @@ The repo follows this file structure, in order of relevance:
 
 Below is an illustration of the workflow. Current work is in progress to develop the modules further into one connected pipeline. 
 
-**Workflow**
+**Workflow PART I**
 
-![Workflow](images/KineticMSI_workflow.png)
+![Workflow1](images/kineticMSI1.png)
+
+**Workflow PART II**
+
+![Workflow2](images/kineticMSI2.png)
 
 
 ## Installation
