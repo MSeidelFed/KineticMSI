@@ -99,6 +99,8 @@ Alternatively, we are providing a function to pipe all the "rm0" files through I
 
 ``` {r}
 
+### Producing IsoCorrectoR tables (recommended)
+
 library(IsoCorrectoR)
 
 NIA_correctionMSI(rm0_dir = "Data/",
@@ -106,6 +108,10 @@ NIA_correctionMSI(rm0_dir = "Data/",
                   ElementFile_dir = "Data/IsoCorectoR_Files/ElementFile.csv",
                   MoleculeFile_dir = "Data/IsoCorectoR_Files/MoleculeFile.csv", 
                   out_dir = "Data/IsoCorectoR_Files/")
+                  
+### Producing IsoCor tables (optional)
+
+IsoCor_test <- IsoCorTables(PathToCSV_file = "Data/IsoCor/IsoCorInputTable.csv")
 
 ```
 
