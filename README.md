@@ -15,11 +15,11 @@ Below is an illustration of the workflow. Current work is in progress to develop
 
 **Workflow PART I**
 
-![Workflow1](images/kineticMSI1.png)
+![Workflow1](images/kineticMSI1.tif)
 
 **Workflow PART II**
 
-![Workflow2](images/kineticMSI2.png)
+![Workflow2](images/kineticMSI2.tif)
 
 
 ## Installation
