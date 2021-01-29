@@ -15,7 +15,7 @@ Below is an illustration of the workflow. Current work is in progress to develop
 
 **Workflow PART I**
 
-![Workflow1](images/kineticMSI1.tif)
+![Workflow1](images/KineticMSI_workflow.png)
 
 **Workflow PART II**
 
