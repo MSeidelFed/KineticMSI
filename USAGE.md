@@ -172,45 +172,25 @@ library(reshape2)
 library(ggplot2)
 library(ggridges)
 library(sva)
-
-## 1 Batch correction
-
-NC_Transformed_M1M0 <- BatchCorrection(array_dir = "Data/Steady_state_pools/SteadyStatePoolsM1M0.csv",
-                                               Treatments_dir = "Data/Steady_state_pools/Treatments_L.csv", 
-                                               Duplicate = F)
-
-NC_Transformed_M1Mn <- BatchCorrection(array_dir = "Data/Steady_state_pools/SteadyStatePoolsM1Mn.csv",
-                                               Treatments_dir = "Data/Steady_state_pools/Treatments_L.csv", 
-                                               Duplicate = F)
-                                          
-## 2 Comparing the biology
-
-### Importing the steady state pools to compare the biology
-
-SteadyStatePools_NL <- t(read.csv(file = "Data/Steady_state_pools/SteadyStatePoolsM1M0_NL.csv",
-                                  header = T, row.names = 1))
-
-### Importing the treatments file to define the factors for the heatmap
-
-Treatments_L <- read.csv(file = "Data/Steady_state_pools/Treatments_L.csv",
-                         header = T, row.names = 1)
-
-### Using the function 
-
 library(ComplexHeatmap)
 library(RColorBrewer)
 library(circlize)
 library(reshape2)
 
-h_M0M1 <- LvsNLpools(DF_L = NC_Transformed_M0M1,
-                      DF_NL = SteadyStatePools_NL,
-                      Treatment = as.factor(Treatments_L$Genotype),
-                      Treatment_means = T)
 
-h_M0Mn <- LvsNLpools(DF_L = NC_Transformed_M0Mn,
-                     DF_NL = SteadyStatePools_NL,
-                     Treatment = as.factor(Treatments_L$Genotype),
-                     Treatment_means = T)
+## Batch correction & Comparing the biology
+
+### Imports the steady state pools to compare the biology
+
+### Imports the treatments file to define the factors for the heatmap
+
+test_proxy <- ProxySelection(array_dir = "Data/Steady_state_pools/SteadyStatePoolsM0M1.csv",
+               Treatments_dir = "Data/Steady_state_pools/Treatments_L.csv",
+               Duplicate = F,
+               BatchCorr = T,
+               DirSteadyStatePoolsNL = "Data/Steady_state_pools/SteadyStatePoolsM1M0_NL.csv",
+               Factor = "Genotype")
+               
 ```
 
 e.g., batch correction necessities in M1 + M0 steady state pools:
