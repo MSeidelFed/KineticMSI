@@ -155,7 +155,8 @@ Here we derive several isotope incorporation proxies from the IsoCorrectoR produ
 
 
 ```{r}
-IncorporationProxys(Parent_dir = "Data/IsoCorectoR_Files/", SteadyStatePools_dir = "Data/Steady_state_pools/")
+IsotopeProxies(Parent_dir = "Data/IsoCorectoR_Files/",
+               Output_dir = "Data/Steady_state_pools/")
 ```
 The steady state files contain the mean across pixels from each molecular species across datasets. Thus, since these are not related to a single preexisting IsoCorrectoR folder but to all folder, these are allocated into a new directory that defaults to the current workspace if not specified.
 
