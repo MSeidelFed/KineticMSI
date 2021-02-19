@@ -43,7 +43,8 @@ ClassDiscovery_kMSI <- function(FilesPath,
     colnames(DF) <- paste("V", seq(ncol(DF)), sep = "")   
     DF 
   } 
-                            
+
+  
   
   ## Main
   
@@ -370,16 +371,22 @@ ClassDiscovery_kMSI <- function(FilesPath,
           
           out_mat <- matrix(NA, nrow = dim(runner_WO_zeros)[1], ncol = sig_clust_Nr[i])
           
+          out_list <- list()
+          
           for (n in 1:dim(clusters_p95)[2]) {
             
             out_mat[,n] <- rowMeans(runner_WO_zeros[,na.omit(clusters_p95[,n])])
+            
+            out_list[[n]] <- runner_WO_zeros[,na.omit(clusters_p95[,n])]
             
           }
           
           colnames(out_mat) <- table_lipids$edges
           
+          names(out_list) <- table_lipids$edges
+          
           list_out[[i]] <- out_mat
-          list_out2[[i]]  <- runner
+          list_out2[[i]]  <- out_list
           
           
           #### plot distributions with relevant stats
