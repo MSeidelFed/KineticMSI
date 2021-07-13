@@ -46,14 +46,15 @@ The function generates corrected csv files and a list with the corrected matrice
 
 ```{r}
 
-### keep output files in the R environment
-
-NullPixel_rm_test <- NullPixel_rm(MeasurementFile_dir = "Data/", return_csv = T)
-
-### only produce files outside the R environment without keeping data in the environment
-
-NullPixel_rm_test <- NullPixel_rm(MeasurementFile_dir = "Data/",
-                                  return_csv = T, verbose = T, verboseFeature = T)
+NullPixel_rm_test <- rmNullPixel(MeasurementFile_dir = "OriginalData/",
+                                 pattern = "csv",
+                                 SubSetReps = F, 
+                                 return_csv = T,
+                                 OnlyDeletePixelsWOIsotopologs = F,
+                                 verbose = F,
+                                 verboseFeature = F,
+                                 rmDataStore = "NewDir",
+                                 outdir = "rmOutput")
 
 ```
 
