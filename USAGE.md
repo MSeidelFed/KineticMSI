@@ -46,10 +46,10 @@ The function generates corrected csv files and a list with the corrected matrice
 
 ```{r}
 
-NullPixel_rm_test <- rmNullPixel(MeasurementFile_dir = "OriginalData/",
+NullPixel_rm_test <- rmNullPixel(MeasurementFileDir = "OriginalData/",
                                  pattern = "csv",
                                  SubSetReps = F, 
-                                 return_csv = T,
+                                 csvReturn = T,
                                  OnlyDeletePixelsWOIsotopologs = F,
                                  verbose = F,
                                  verboseFeature = F,
