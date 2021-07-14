@@ -58,11 +58,6 @@ NullPixel_rm_test <- rmNullPixel(MeasurementFile_dir = "OriginalData/",
 
 ```
 
-If return_csv is set to T, the function returns the same number of csv files located in the input directory, corrected and signaled with the addition in the identifier of "_rm0".
-
-To spot errors in the input files set verbose to TRUE and to spot errors in the feature number set verboseFeature to TRUE. This allows easily location of errors in the input tables.
-
-
 ## Step 2 - Natural Isotopic Abundance Correction
 
 Enrichment percentages are calculated using the algorithms described in 
