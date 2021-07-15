@@ -69,6 +69,9 @@ Enrichment percentages are calculated using the algorithms described in
 The procedures correct the endogenous metabolite or peptide pools for natural isotopic abundance (NIA) according to the chemical formula before calculating enrichment percentages via a simple A0 to An division. The IsoCorrectoR can be used in R and the IsoCor in Python to obtain equivalent percentages of enrichment and NIA correction of molecular species with cross validation from both platforms.
 
 ### IsoCorrectoR workflow
+
+*A function to correct natural isotopic abundances (NIA) from kineticMSI datasets or multiple csv files with the right format*
+
 [IsoCorrectoR](https://www.bioconductor.org/packages/release/bioc/html/IsoCorrectoR.html) has been installed and used according to the instructions provided upon releasing of the package in BioConductor.
 
 This function allows you to correct isotopologue envelopes for NIA inheriting all specifications from the R package IsoCorrectoR. The function calculates the percentage of enrichment of a defined stable isotope as well as other important values that reflect tracer dynamics within enrichment experiments. The function takes an entire directory and grabs all the csv files contained within in a recursive manner. Subsequently, the function generates csv files with each of the relevant returns in the *kinetic*MSI context. Each column in the input table "MeasurementFile.csv" belongs to a single coordinate on the original image where the isotopologues could be measured and mined out.
@@ -96,8 +99,13 @@ suppressWarnings(NIAcorrection(MeasurementFileDir = "Data/",
 
 IsoCorrectoR generates warning when there are not as many isotopologue measured abundances as potentially labelled atoms in the molecule, indicating that NIA correction may be skewed. We recommend that users run this function within the suppressWarnings() R function because in the presence of warnings and given the numerous pixels per MSI experiment, a single KineticMSI dataset could take a very long time to run. The time is mostly spent on writing the warnings to the console. Thus when warnings are suppressed, the efficiency of the function increases dramatically.
 
-### IsoCor workflow
 Additionally, as a cross validation step of the enrichment percentage calculations, we provide a function to transform the IsoCorrectoR tables into the format of IsoCor to be run in Python.
+
+### IsoCor workflow
+
+*A function to produce the input files for Python-based correction of natural isotopic abundances (NIA)*
+
+This function allows you to produce the input files needed for the Python tool [IsoCor](https://pypi.org/project/IsoCor/) that corrects isotopologue envelopes for NIA. The function takes a single csv file with the right format and transforms it. Subsequently, the function generates a matrix to the R environment that can be exported in any desired format to serve as input for IsoCor.
 
 Python version when working with a modular system was:
 
@@ -116,12 +124,15 @@ IsoCor input tables have the following format:
                          [5,] "Sample_X"    | "PIP2492"  | ""         | "4"           |  "0"           | "70000"     |
                          [6,] "Sample_X"    | "PIP2492"  | ""         | "5"           |  "0"           | "70000"     |
 
-The exemplary format can be obtained from our universal input csv format file ("Universal_Isotopologue_File.csv") using the function ProduceIsoCorTables as follows:
+The exemplary format can be obtained from the provided universal input csv format file ("IsoCorInputTable.csv").
 
-#VOY ACA#
 
 ```{r}
-WT1 <- ProduceIsoCorTables(PathToCSV_file = "Replicate 1/Pyr layer replicate1  29WT.csv")
+
+library(reshape2)
+
+IsoCor_test <- IsoCorTables(PathToCSV = "IsoCorInputTable.csv")
+
 ```
 Subsequently, the output table can be directly used by IsoCor following the published instructions (https://github.com/MetaSys-LISBP/IsoCor).
 
