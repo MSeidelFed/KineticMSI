@@ -134,6 +134,9 @@ library(reshape2)
 IsoCor_test <- IsoCorTables(PathToCSV = "IsoCorInputTable.csv")
 
 ```
+
+# VOY ACA EN RMD Y EN PACKAGING
+
 Subsequently, the output table can be directly used by IsoCor following the published instructions (https://github.com/MetaSys-LISBP/IsoCor).
 
 ## Step 3 - Selection of the best incorporation proxy that matches the biology
