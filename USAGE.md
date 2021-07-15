@@ -102,7 +102,7 @@ Additionally, as a cross validation step of the enrichment percentage calculatio
 Python version when working with a modular system was:
 
 
-                                                             module add devel/Python-3.8.0
+                                                      module add devel/Python-3.8.0
 
 
 IsoCor input tables have the following format:
