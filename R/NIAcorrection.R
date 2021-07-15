@@ -14,7 +14,7 @@
 #' @param kCalculationThreshold defaults to IsoCorrectoR predefined value. see IsoCorrectoR documentation for usage details.
 #' @param kCalculationThreshold_UHR defaults to IsoCorrectoR predefined value. see IsoCorrectoR documentation for usage details.
 #' @param verbose defaults to FALSE. When TRUE it returns to the console the progression across the input files. Thus the parameter is meant to allow users to spot errors in the input files.
-#' @param outdir defines the location of the new directory in which output is stored. The new directory is named with the exact time of the run according to IsoCorrectoR conventions.
+#' @param outdir defines the new directory that will contain IsoCorrectoR outputs, if the direction does not exist it will be automatically created. The new directory contains subdirectories named with the exact time of the run according to IsoCorrectoR conventions.
 #' @keywords KineticMSI NIA correction IsoCorrectoR
 #' @export
 #' @examples
@@ -34,7 +34,6 @@ NIAcorrection <- function(MeasurementFileDir,
                           kUltraHighRes = FALSE,
                           kCalculationThreshold = 10^-8,
                           kCalculationThreshold_UHR = 8,
-                          kReturnResultsObject = TRUE,
                           verbose = FALSE,
                           outdir){
   
