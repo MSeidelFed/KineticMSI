@@ -77,20 +77,20 @@ This function allows you to correct isotopologue envelopes for NIA inheriting al
 
 library(IsoCorrectoR)
 
-NIAcorrection(MeasurementFileDir = "Data/",
-              pattern = "_rm0", 
-              SubSetReps = TRUE,
-              ElementFileDir = "Data/IsoCorectoR_Files/ElementFile.csv",
-              MoleculeFileDir = "Data/IsoCorectoR_Files/MoleculeFile.csv",
-              kCorrectTracerImpurity = TRUE,
-              kCorrectTracerElementCore = TRUE,
-              kCalculateMeanEnrichment = TRUE,
-              kCorrectAlsoMonoisotopic = TRUE,
-              kUltraHighRes = FALSE,
-              kCalculationThreshold = 10^-8,
-              kCalculationThreshold_UHR = 8,
-              verbose = FALSE,
-              outdir = "Data/IsoCorectoR_Files/")
+suppressWarnings(NIAcorrection(MeasurementFileDir = "Data/",
+                               pattern = "_rm0", 
+                               SubSetReps = TRUE,
+                               ElementFileDir = "Data/IsoCorectoR_Files/ElementFile.csv",
+                               MoleculeFileDir = "Data/IsoCorectoR_Files/MoleculeFile.csv",
+                               kCorrectTracerImpurity = TRUE,
+                               kCorrectTracerElementCore = TRUE,
+                               kCalculateMeanEnrichment = TRUE,
+                               kCorrectAlsoMonoisotopic = TRUE,
+                               kUltraHighRes = FALSE,
+                               kCalculationThreshold = 10^-8,
+                               kCalculationThreshold_UHR = 8,
+                               verbose = FALSE,
+                               outdir = "Data/IsoCorectoR_Files/"))
 
 ```
 
