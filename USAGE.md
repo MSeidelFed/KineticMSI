@@ -66,57 +66,40 @@ Enrichment percentages are calculated using the algorithms described in
   
   *Millard, P., Delépine, B., Guionnet, M., Heuillet, M., Bellvert, F., Létisse, F., and Wren, J. (2019). IsoCor: Isotope correction for high-resolution MS labeling experiments. Bioinformatics 35:4484–4487.*
 
-The procedures correct the endogenous metabolite or peptide pools for natural isotopic abundance (NIA) according to the chemical formula before calculating enrichment percentages via a simple A0 to An division. The IsoCorrectoR can be used in R and the IsoCor in python to obtain equivalent percentages of enrichment and NIA correction of molecular species with cross validation from both platforms.
+The procedures correct the endogenous metabolite or peptide pools for natural isotopic abundance (NIA) according to the chemical formula before calculating enrichment percentages via a simple A0 to An division. The IsoCorrectoR can be used in R and the IsoCor in Python to obtain equivalent percentages of enrichment and NIA correction of molecular species with cross validation from both platforms.
 
 ### IsoCorrectoR workflow
-IsoCorrectoR has been installed and used according to the instructions provided upon releasing of the package in BioConductor (https://www.bioconductor.org/packages/release/bioc/html/IsoCorrectoR.html) as follows:
+(IsoCorrectoR)[https://www.bioconductor.org/packages/release/bioc/html/IsoCorrectoR.html] has been installed and used according to the instructions provided upon releasing of the package in BioConductor.
 
-For MSI, each column in the input table "MeasurementFile.csv" belongs to a single coordinate on the original image where the isotopologues could be measured and mined out.
+This function allows you to correct isotopologue envelopes for NIA inheriting all specifications from the R package IsoCorrectoR. The function calculates the percentage of enrichment of a defined stable isotope as well as other important values that reflect tracer dynamics within enrichment experiments. The function takes an entire directory and grabs all the csv files contained within in a recursive manner. Subsequently, the function generates csv files with each of the relevant returns in the *kinetic*MSI context. Each column in the input table "MeasurementFile.csv" belongs to a single coordinate on the original image where the isotopologues could be measured and mined out.
 
 ```{r}
 
 library(IsoCorrectoR)
 
-Enrichment <- IsoCorrectoR::IsoCorrection(MeasurementFile = "Data/WT_rep1_rm0.csv",
-                                     ElementFile = "Data/IsoCorectoR_Files/ElementFile.csv",
-                                     MoleculeFile = "Data/IsoCorectoR_Files/MoleculeFile.csv",
-                                     CorrectTracerImpurity = T,
-                                     CorrectTracerElementCore = T,
-                                     CalculateMeanEnrichment = T,
-                                     UltraHighRes = F,
-                                     FileOut = "test",
-                                     FileOutFormat = "csv",
-                                     ReturnResultsObject = T,
-                                     CorrectAlsoMonoisotopic = T)
+NIAcorrection(MeasurementFileDir = "Data/",
+              pattern = "_rm0", 
+              SubSetReps = TRUE,
+              ElementFileDir = "Data/IsoCorectoR_Files/ElementFile.csv",
+              MoleculeFileDir = "Data/IsoCorectoR_Files/MoleculeFile.csv",
+              kCorrectTracerImpurity = TRUE,
+              kCorrectTracerElementCore = TRUE,
+              kCalculateMeanEnrichment = TRUE,
+              kCorrectAlsoMonoisotopic = TRUE,
+              kUltraHighRes = FALSE,
+              kCalculationThreshold = 10^-8,
+              kCalculationThreshold_UHR = 8,
+              kReturnResultsObject = TRUE,
+              verbose = FALSE,
+              outdir = "Data/IsoCorectoR_Files/")
 
 ```
-
-Alternatively, we are providing a function to pipe all the "rm0" files through IsoCorrectoR for batch correction, for our function to work, all csv input files must be in a subdirectory one level below the main workspace.
-
-``` {r}
-
-### Producing IsoCorrectoR tables (recommended)
-
-library(IsoCorrectoR)
-
-NIA_correctionMSI(rm0_dir = "Data/",
-                  pattern = "_rm0",
-                  ElementFile_dir = "Data/IsoCorectoR_Files/ElementFile.csv",
-                  MoleculeFile_dir = "Data/IsoCorectoR_Files/MoleculeFile.csv", 
-                  out_dir = "Data/IsoCorectoR_Files/")
-                  
-### Producing IsoCor tables (optional)
-
-IsoCor_test <- IsoCorTables(PathToCSV_file = "Data/IsoCor/IsoCorInputTable.csv")
-
-```
-
-The output are folders containing csv files with NIA corrected isotopologue abundances, enrichment percentage calculations and other relevant values in the *k*MSI context.
 
 ### IsoCor workflow
-Finally, as a cross validation step of the enricment percentage calculations we provide a function to transform the IsoCorrectoR tables into the format of IsoCor for python.
+Additionally, as a cross validation step of the enrichment percentage calculations, we provide a function to transform the IsoCorrectoR tables into the format of IsoCor to be run in Python.
 
-Python version when working with a modular system was: 
+Python version when working with a modular system was:
+
 ```
 module add devel/Python-3.8.0
 ```
@@ -132,7 +115,7 @@ IsoCor input tables have the following format:
                          [5,] "Sample_X"    | "PIP2492"  | ""         | "4"           |  "0"           | "70000"     |
                          [6,] "Sample_X"    | "PIP2492"  | ""         | "5"           |  "0"           | "70000"     |
 
-and can be obtained from our universal input csv format file (Data/Universal_Isotopologue_File.csv) using the function ProduceIsoCorTables as follows:
+The exemplary format can be obtained from our universal input csv format file ("Universal_Isotopologue_File.csv") using the function ProduceIsoCorTables as follows:
 
 ```{r}
 WT1 <- ProduceIsoCorTables(PathToCSV_file = "Replicate 1/Pyr layer replicate1  29WT.csv")
