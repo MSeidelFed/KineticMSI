@@ -89,7 +89,6 @@ NIAcorrection(MeasurementFileDir = "Data/",
               kUltraHighRes = FALSE,
               kCalculationThreshold = 10^-8,
               kCalculationThreshold_UHR = 8,
-              kReturnResultsObject = TRUE,
               verbose = FALSE,
               outdir = "Data/IsoCorectoR_Files/")
 
