@@ -142,7 +142,7 @@ This step aims to derive various isotope incorporation proxies from the tables p
 
 ### Step 3a - Building isotope proxies
 
-*A function to produce files that describe thorugh different proxies the tracer dynamics within kineticMSI datasets*
+*A function to produce files that describe through different proxies the tracer dynamics within kineticMSI datasets*
 
 This function allows to calculate across MSI pixels various values that reflect different aspects of the tracer dynamics. The function tests if the molecular features are shared across all datasets, if these are not shared, the function produces files with the common features before carrying on with the calculations. This is to prevent errors in the joined steady state pool files that are generated. The function outputs the isotope incorporation proxies as csv files to the same input directories.
 
@@ -152,13 +152,13 @@ IncorporationProxys(Parent_dir = "OutputIsoCorrectoR/",
                     ColSumNorm = FALSE)
 ```
 
-* The first function produces:
+* The function produces:
 
     * A file with the corrected M0s
 
     * A file with the corrected M1s
 
-    * A file with the M1 M0 ratios
+    * A file with the M1 / M0 ratios
 
     * A file with the M1 fraction relative to a steady state pool calculated only based on the sum of M1 + M0
     
