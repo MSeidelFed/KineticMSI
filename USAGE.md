@@ -134,12 +134,12 @@ library(reshape2)
 IsoCor_test <- IsoCorTables(PathToCSV = "IsoCorInputTable.csv")
 
 ```
+Subsequently, the output table can be directly used by [IsoCor](https://github.com/MetaSys-LISBP/IsoCor) following the published instructions.
+
 
 # VOY ACA EN RMD Y EN PACKAGING
 
-Subsequently, the output table can be directly used by IsoCor following the published instructions (https://github.com/MetaSys-LISBP/IsoCor).
-
-## Step 3 - Selection of the best incorporation proxy that matches the biology
+## Step 3 - Selection of the best tracer incorporation proxy
 
 Here we derive several isotope incorporation proxies from the IsoCorrectoR produced tables and determine which one resembles better the biology on the system and thus is a legitimate proxy to enrichment percentage.
 
@@ -208,6 +208,7 @@ The following is the Heatmap of the labelled / non-labelled steady state pools. 
 Note that the Heatmap built on the sum from M0 to Mn contains fewer extreme values and thus can be regarded as a better proxy to the actual biology in our dataset. This can be observed in the returned ordered matrices that the function returns, which are equivalent to the actual heatmap.
 
 As an example, we continue our analyses using all lipids but interpreted with caution isotope tracer results that are derived from species with a labelled / non-labelled ratio that lies outside a 0.6 - 1.4 range. Using a range, we allow for biological variation while getting rid of lipids with low abundances that are further diluted by deuterium causing a drop in the ratio. The upper range of the ratio does not contain outliers, but outliers in this area might indicate lipids with more isotopologues found during peak picking, which would contain "extra" biased abundances in the labelled treatments due to partial accurateness in NIA correction.
+
 
 ## Step 4 - Mapping spatial dynamics of the tracer
 
