@@ -136,14 +136,23 @@ IsoCor_test <- IsoCorTables(PathToCSV = "IsoCorInputTable.csv")
 ```
 Subsequently, the output table can be directly used by [IsoCor](https://github.com/MetaSys-LISBP/IsoCor) following the published instructions.
 
-
-# VOY ACA EN RMD Y EN PACKAGING
-
 ## Step 3 - Selection of the best tracer incorporation proxy
 
-Here we derive several isotope incorporation proxies from the IsoCorrectoR produced tables and determine which one resembles better the biology on the system and thus is a legitimate proxy to enrichment percentage.
+This step aims to derive various isotope incorporation proxies from the tables produced by IsoCorrectoR and determine which proxy describes best the biology of the system. In this sense, these functions are a tool to legitimate the tracer dynamics within the studied system. Step 3 is subdivided in two independent steps, which do not need to be completed to be useful, users may rather use one or the other depending on the data availability.
 
-* First, a function is provided in order to produce:
+### Step 3a - Building isotope proxies
+
+*A function to produce files that describe thorugh different proxies the tracer dynamics within kineticMSI datasets*
+
+This function allows to calculate across MSI pixels various values that reflect different aspects of the tracer dynamics. The function tests if the molecular features are shared across all datasets, if these are not shared, the function produces files with the common features before carrying on with the calculations. This is to prevent errors in the joined steady state pool files that are generated. The function outputs the isotope incorporation proxies as csv files to the same input directories.
+
+```{r}
+IncorporationProxys(Parent_dir = "OutputIsoCorrectoR/",
+                    SteadyStatePools_dir = "SteadyStatePools/",
+                    ColSumNorm = FALSE)
+```
+
+* The first function produces:
 
     * A file with the corrected M0s
 
@@ -153,16 +162,15 @@ Here we derive several isotope incorporation proxies from the IsoCorrectoR produ
 
     * A file with the M1 fraction relative to a steady state pool calculated only based on the sum of M1 + M0
     
-    * Finally and more importantly two files containing the steady state pools as calculated from the M0 + M1 sum or the M0+....+Mn sum to determine which one resembles the biology best. In order to do this step one requires additionally a matrix with the non-labelled steady states, which will be used as comparison in the next step. For comparison we provide a non-labelled exemplary [matrix](https://github.com/MSeidelFed/KineticMSI/blob/master/Data/Steady_state_pools/SteadyStatePoolsM1M0_NL.csv), which was built based on the picked monoisotopic peak, that one can mine out from the MSI experiment performed at the unlabelled timepoint. . Thus for the peak comparison to be legitimate, the derived labelled steady states are built in this step by summing together the M0 abundance from the non-corrected "raw.csv" file plus the corrected isotopologue (M1....Mn or only M1) abundances from the "corrected.csv" file. The corrected M0 contains the NIA and thus summing it up with the isotopologues would not be equivalent to the non-labelled picked M0 peaks.
+    * A file with the *de novo* synthesized pool either normalized or not
+    
+    * Two files containing the steady state pools as calculated from the M0 + M1 sum or the M0+....+Mn sum. These files are used to determine which one resembles the biology best in the step 3b. This requires an additionally matrix with non-labelled steady states, which will be used as comparison. The steady state files contain means across pixels from each molecular species in all datasets. Thus, since these are not related to a single preexisting IsoCorrectoR folder but to all folders at once, the output are allocated into a new directory that defaults to the current workspace if not specified.
 
 
-```{r}
-IsotopeProxies(Parent_dir = "Data/IsoCorectoR_Files/",
-               Output_dir = "Data/Steady_state_pools/")
-```
-The steady state files contain the mean across pixels from each molecular species across datasets. Thus, since these are not related to a single preexisting IsoCorrectoR folder but to all folder, these are allocated into a new directory that defaults to the current workspace if not specified.
 
-* Second the actual comparison between non-labelled and labelled steady state pools is built: (*as an example we have provided a [file](https://github.com/MSeidelFed/KineticMSI/blob/master/Data/Steady_state_pools/SteadyStatePoolsM1M0_NL.csv) containing the steady state pools from non-labelled controls compared to the labelled exemplary datasets*)
+# VOY ACA EN RMD Y EN PACKAGING
+ 
+ * The second enables the comparison between non-labelled and labelled steady state pools: (*as an example we have provided a [file](https://github.com/MSeidelFed/KineticMSI/blob/master/Data/Steady_state_pools/SteadyStatePoolsM1M0_NL.csv) containing the steady state pools from non-labelled controls compared to the labelled exemplary datasets*). The exemplary file was built based on the unlabelled timepoints, taking the monoisotopic peak as a proxy of the feature pool. Consequently the derived labelled steady states were built by summing the non-corrected M0 abundances plus its corrected isotopologues (M1....Mn or only M1). Corrected M0 contains the NIA and thus summing it with the isotopologues would not be equivalent to the non-labelled picked M0 peaks.
 
     * The first step is to remove any batch effect from the steady state pools. To achieve that we provide the BatchCorrection function, which depends on ComBat correction as detailed in the [SVA package](https://rdrr.io/bioc/sva/man/ComBat.html). The procedure was defined for microarray data to correct for between chip variations. Similarly, MSI data from different days may suffer from batch effects that systemically affect abundances either positively or negatively. The function is interactive and must be run from the command line in order to take advantage of its interactive features, i.e., the function progressively shows the user how the data is distributed among batches in order to decide if batch correction is actually needed. There is an option to duplicate data in case not enough Batch members exist and that precludes the correction, defaults to FALSE.
     
