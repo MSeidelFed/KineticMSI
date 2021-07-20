@@ -11,9 +11,9 @@
 #' ...
 
 
-IncorporationProxys <- function(ParentDir,
-                                SteadyStatePoolsDir = NULL,
-                                ColSumNorm = FALSE) {
+IncorporationProxies <- function(ParentDir,
+                                 SteadyStatePoolsDir = NULL,
+                                 ColSumNorm = FALSE) {
   
   dir.create(path = SteadyStatePoolsDir, showWarnings = F)
   
