@@ -147,9 +147,9 @@ This step aims to derive various isotope incorporation proxies from the tables p
 This function allows to calculate across MSI pixels various values that reflect different aspects of the tracer dynamics. The function tests if the molecular features are shared across all datasets, if these are not shared, the function produces files with the common features before carrying on with the calculations. This is to prevent errors in the joined steady state pool files that are generated. The function outputs the isotope incorporation proxies as csv files to the same input directories.
 
 ```{r}
-IncorporationProxys(Parent_dir = "OutputIsoCorrectoR/",
-                    SteadyStatePools_dir = "SteadyStatePools/",
-                    ColSumNorm = FALSE)
+IncorporationProxies(Parent_dir = "OutputIsoCorrectoR/",
+                     SteadyStatePools_dir = "SteadyStatePools/",
+                     ColSumNorm = FALSE)
 ```
 
 * The function produces:
