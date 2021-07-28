@@ -166,41 +166,50 @@ IncorporationProxies(Parent_dir = "OutputIsoCorrectoR/",
     
     * Two files containing the steady state pools as calculated from the M0 + M1 sum or the M0+....+Mn sum. These files are used to determine which one resembles the biology best in the step 3b. This requires an additionally matrix with non-labelled steady states, which will be used as comparison. The steady state files contain means across pixels from each molecular species in all datasets. Thus, since these are not related to a single preexisting IsoCorrectoR folder but to all folders at once, the output are allocated into a new directory that defaults to the current workspace if not specified.
 
+### Step 3b - Selecting the best isotope proxy that best reflects the biology
 
+*A function to select an isotope proxy that best reflects the changes seen in steady state pools measured without stable isotope assisted mass spectrometry*
 
-# VOY ACA EN RMD Y EN PACKAGING
+This function allows to compare the steady state pools from molecular features that were measured through both stable assisted and conventional mass spectrometry. By contrasting the results from different isotope combinations (e.g., a0 to an versus a0 to a1) users can easily define how many isotopes reflect the actual pool changes of the target molecular features in their biological systems. The input files must have the same treatment rows while molecular feature may vary. The algorithm will select the features in common for the calculations.
+
+Examples:
  
- * The second enables the comparison between non-labelled and labelled steady state pools: (*as an example we have provided a [file](https://github.com/MSeidelFed/KineticMSI/blob/master/Data/Steady_state_pools/SteadyStatePoolsM1M0_NL.csv) containing the steady state pools from non-labelled controls compared to the labelled exemplary datasets*). The exemplary file was built based on the unlabelled timepoints, taking the monoisotopic peak as a proxy of the feature pool. Consequently the derived labelled steady states were built by summing the non-corrected M0 abundances plus its corrected isotopologues (M1....Mn or only M1). Corrected M0 contains the NIA and thus summing it with the isotopologues would not be equivalent to the non-labelled picked M0 peaks.
+   * As an example we have provided a [file](https://github.com/MSeidelFed/KineticMSI/blob/master/Data/Steady_state_pools/SteadyStatePoolsM1M0_NL.csv) containing the steady state pools from non-labelled controls compared to the labelled exemplary datasets*). The exemplary file was built based on the unlabelled features, taking the monoisotopic peak as a proxy of the feature pool. Consequently the derived labelled steady states were built by summing the non-corrected M0 abundances plus its corrected isotopologues (M1....Mn or only M1). Corrected M0 contains the NIA and thus summing it with the isotopologues would not be equivalent to the non-labelled picked M0 peaks.
 
-    * The first step is to remove any batch effect from the steady state pools. To achieve that we provide the BatchCorrection function, which depends on ComBat correction as detailed in the [SVA package](https://rdrr.io/bioc/sva/man/ComBat.html). The procedure was defined for microarray data to correct for between chip variations. Similarly, MSI data from different days may suffer from batch effects that systemically affect abundances either positively or negatively. The function is interactive and must be run from the command line in order to take advantage of its interactive features, i.e., the function progressively shows the user how the data is distributed among batches in order to decide if batch correction is actually needed. There is an option to duplicate data in case not enough Batch members exist and that precludes the correction, defaults to FALSE.
+   * The first step is to remove any batch effect from the steady state pools. To achieve that we provide the BatchCorrection function, which depends on ComBat correction as detailed in the [SVA package](https://rdrr.io/bioc/sva/man/ComBat.html). The procedure was defined for microarray data to correct for between chip variation. Similarly, MSI data from different days may suffer from batch effects that systemically affect abundances either positively or negatively. The function is interactive and must be run from the console in order to take advantage of its interactive features, i.e., the function progressively shows the user how the data is distributed among batches in order to decide if batch correction is actually needed. There is an option to duplicate data in case not enough Batch members exist and that precludes the correction.
     
-    * The second step is to compare both the non-labelled and the labelled steady state pools in order to determine which isotopologue envelope mimics best the biology of the actual pool changes. To achieve that we provide the *LvsNLpools* function, which needs as input the batch corrected datasets, a factor indicating the treatments to be compared, and a logical value indicating whether the treatments are averaged. The function then calculates the ratios between equivalent labelled and non-labelled steady states and plots the ratios as a heatmap. An ideal scenario would be steady state pools with a ratio of 1, which would indicate that the biology between the labelled and non-labelled dataset is fully preserved across treatments. Thus, this function provides an efficient filter to decide which molecular species to further consider for evaluation.
+   * The second step is to compare both the non-labelled and the labelled steady state pools in order to determine which isotopologue envelope mimics best the biology of the actual pool changes. To achieve that we provide the *LvsNLpools* function, which needs as input the batch corrected datasets, a factor indicating the treatments to be compared, and a logical value indicating whether the treatments are averaged. The function then calculates the ratios between equivalent labelled and non-labelled steady states and plots the ratios as a heatmap. An ideal scenario would be steady state pools with a ratio of 1, which would indicate that the biology between the labelled and non-labelled dataset is fully preserved across treatments. Thus, this function provides an efficient filter to decide which molecular species to further consider for evaluation.
 
 
 ```{r}
+
 library(reshape2)
 library(ggplot2)
 library(ggridges)
 library(sva)
 library(ComplexHeatmap)
-library(RColorBrewer)
 library(circlize)
-library(reshape2)
+library(RColorBrewer)
 
+source("Functions/Documented/ProxySelection.R")
+source("Functions/Documented/ClassDistribution.R")
 
-## Batch correction & Comparing the biology
+proxy_M0M1 <- suppressWarnings(ProxySelection(LabelledFileDir = "SteadyStatePools/SteadyStatePoolsM0M1.csv",
+                                         TreatmentFileDir = "SteadyStatePools/Treatments_L.csv", 
+                                         NLSteadyStatePoolsDir = "SteadyStatePools/SteadyStatePoolsM1M0_NL.csv",
+                                         BatchCorr = T,
+                                         TreatmentIntoMeans = T,
+                                         Factor = as.factor(c(rep("HD",6), rep("WT",6))),
+                                         Duplicate = F))
 
-### Imports the steady state pools to compare the biology
+proxy_M0Mn <- suppressWarnings(ProxySelection(LabelledFileDir = "SteadyStatePools/SteadyStatePoolsM0Mn.csv",
+                                         TreatmentFileDir = "SteadyStatePools/Treatments_L.csv", 
+                                         NLSteadyStatePoolsDir = "SteadyStatePools/SteadyStatePoolsM1M0_NL.csv",
+                                         BatchCorr = T,
+                                         TreatmentIntoMeans = T,
+                                         Factor = as.factor(c(rep("HD",6), rep("WT",6))),
+                                         Duplicate = F))
 
-### Imports the treatments file to define the factors for the heatmap
-
-test_proxy <- ProxySelection(array_dir = "Data/Steady_state_pools/SteadyStatePoolsM0M1.csv",
-               Treatments_dir = "Data/Steady_state_pools/Treatments_L.csv",
-               Duplicate = F,
-               BatchCorr = T,
-               DirSteadyStatePoolsNL = "Data/Steady_state_pools/SteadyStatePoolsM1M0_NL.csv",
-               Factor = "Genotype")
-               
 ```
 
 e.g., batch correction necessities in M1 + M0 steady state pools:
@@ -213,10 +222,12 @@ The following is the Heatmap of the labelled / non-labelled steady state pools. 
 
 ![Heatmap_LvsNL](images/Heatmap_LvsNL.png)
 
-Note that the Heatmap built on the sum from M0 to Mn contains fewer extreme values and thus can be regarded as a better proxy to the actual biology in our dataset. This can be observed in the returned ordered matrices that the function returns, which are equivalent to the actual heatmap.
+Note that the Heatmap built on the sum from M0 to Mn contains fewer extreme values and thus can be regarded as a better proxy to the actual biology in our dataset. This can be observed in the returned ordered matrices from the function, which are equivalent to the actual heatmap.
 
 As an example, we continue our analyses using all lipids but interpreted with caution isotope tracer results that are derived from species with a labelled / non-labelled ratio that lies outside a 0.6 - 1.4 range. Using a range, we allow for biological variation while getting rid of lipids with low abundances that are further diluted by deuterium causing a drop in the ratio. The upper range of the ratio does not contain outliers, but outliers in this area might indicate lipids with more isotopologues found during peak picking, which would contain "extra" biased abundances in the labelled treatments due to partial accurateness in NIA correction.
 
+
+#VOY ACA en RMD y PACKAGING
 
 ## Step 4 - Mapping spatial dynamics of the tracer
 
