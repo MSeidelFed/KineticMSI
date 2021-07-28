@@ -227,7 +227,7 @@ Note that the Heatmap built on the sum from M0 to Mn contains fewer extreme valu
 As an example, we continue our analyses using all lipids but interpreted with caution isotope tracer results that are derived from species with a labelled / non-labelled ratio that lies outside a 0.6 - 1.4 range. Using a range, we allow for biological variation while getting rid of lipids with low abundances that are further diluted by deuterium causing a drop in the ratio. The upper range of the ratio does not contain outliers, but outliers in this area might indicate lipids with more isotopologues found during peak picking, which would contain "extra" biased abundances in the labelled treatments due to partial accurateness in NIA correction.
 
 
-#VOY ACA en RMD y PACKAGING
+# VOY ACA en RMD y PACKAGING
 
 ## Step 4 - Mapping spatial dynamics of the tracer
 
