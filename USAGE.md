@@ -226,37 +226,55 @@ Note that the Heatmap built on the sum from M0 to Mn contains fewer extreme valu
 
 As an example, we continue our analyses using all lipids but interpreted with caution isotope tracer results that are derived from species with a labelled / non-labelled ratio that lies outside a 0.6 - 1.4 range. Using a range, we allow for biological variation while getting rid of lipids with low abundances that are further diluted by deuterium causing a drop in the ratio. The upper range of the ratio does not contain outliers, but outliers in this area might indicate lipids with more isotopologues found during peak picking, which would contain "extra" biased abundances in the labelled treatments due to partial accurateness in NIA correction.
 
-
-# VOY ACA en RMD y PACKAGING
-
 ## Step 4 - Mapping spatial dynamics of the tracer
 
-Following the enrichment calculation procedure, and aiming at taking advantage of the gained spatial dimensions provided by MSI, we explored the kinetics of the tracer in the tissue. To do that we built a fuction that uses percentages of enrichment from specific mass features to reconstruct the tissue slide gaining insigths on which tissue areas, if at all, have incorporated more tracer. The function has a dependency to the Cardinal R package (https://www.bioconductor.org/packages/release/bioc/html/Cardinal.html). Additionally the function partitions the pixels in every reconstruction using the k-means algorithm with a predefined k by the user.
+*A function to produce graphical reconstructions from MSI images using isotope tracer dynamics*
+
+This function allows to produce the first type of inference on the replicated datasets that KineticMSI offers. The function produces first boxplots that reflect the dispersion of the chosen isotope tracer proxy across MSI pixels and treatments. The boxplots are produced both for separate replicates and as treatment means. Afterwards the function reconstructs the MSI acquired images by extracting the coordinates from the .ibd .imzML input files and using them to build reconstructed images that reflect the isotope tracer dynamics within the samples specimen. The function has two different run possibilities, it may be run "before" or "after" the KineticMSI class discovery function. In the former case the function will build clusters during the spatial reconstruction of images using a K-mean clustering algorithm and attempting at clustering together pixels based on specific similarity or dissimilarity metrics. In the latter case the clusters are inherited from the kClassDiscoveryMSI function output when the parameter returnObject is set to "minDatasetPlusCoords".
+
+The function has a dependency to the [Cardinal](https://www.bioconductor.org/packages/release/bioc/html/Cardinal.html) R package . 
 
 ```{r}
+
+library(reshape2)
+library(ggplot2)
+library(gridExtra)
+library(viridis)
 library(Cardinal)
 library(ComplexHeatmap)
 library(circlize)
 library(matrixStats)
 
-example_reconstruct <- reconstruct_kMSI(path = "Data/",
-                                        as = "MSImagingExperiment",
-                                        position_intensities_legend = "topright",
-                                        position_cluster_legend = "bottomleft",
-                                        clust_method = "average",
-                                        clust_distance = "euclidean",
-                                        Km_bootstrap = 10,
-                                        k_means = 5,
-                                        RevOrdinates = T,
-                                        RevOrdinates = F)
+example_reconstruct <- kReconstructMSI(Reconstruct = "Before",
+                                       path = ".", 
+                                       PatternEnrichment = "MeanEnrichment.csv",
+                                       outpath = getwd(), 
+                                       as = "MSImagingExperiment",
+                                       PositionIntensitiesLegend = "topright",
+                                       PositionClusterLegend = "bottomleft",
+                                       clustMethod = "average", 
+                                       clustDistance = "euclidean", 
+                                       kmeans = 5, 
+                                       KmBoot = 10,
+                                       RevOrdinates = F,
+                                       RevAbscissas = F,
+                                       FactorName = "Genotype",
+                                       yLabName = "Enrichment (%)",
+                                       paletteSpatialPlots = magma,
+                                       ContrastPercentValue = 0.1,
+                                       SubSetRepsIntensities = F,
+                                       SubSetRepsMSI = F)
 
 ``` 
 
-The outcome from this visual evaluation is a PDF containing the spatial dynamics of the tracer in the tissue interrogated. In some cases it might be apparent thar there are zones of high enrichment or potential synthesis, e.g.:
+The outcome from this visual evaluation is a PDF containing the spatial dynamics of the tracer in the tissue interrogated. In some cases it might be apparent that there are areas of high enrichment or potential synthesis, e.g.:
 
 ![Tracer_dynamics](images/Tracer_dynamics.png)
 
 Note that K-mean partitions signal areas of tracer incorporation when those are spatially constrained.
+
+
+# VOY ACA en RMD y PACKAGING
 
 ## Step 5 - Data Quality Assesment
 
