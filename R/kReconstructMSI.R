@@ -193,17 +193,6 @@ kReconstructMSI <- function(Reconstruct = c("After", "Before"),
     )
   }
   
-  ### color gradient function
-  make_colour_gradient = function(x, brewer_palette = "Spectral") {
-    min_x = min(x)
-    max_x = max(x)
-    range_x = max_x - min_x
-    x_scaled = (x - min_x) / range_x
-    colours = scales::brewer_pal("seq", brewer_palette)(5)[2:5]
-    colour_vals = scales::colour_ramp(colours)(x_scaled)
-    colour_vals
-  }
-  
   #### https://www.rdocumentation.org/packages/qdapTools/versions/1.3.3/topics/list2df
   list2df <- function(x) 
   { 
