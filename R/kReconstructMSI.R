@@ -78,10 +78,10 @@ kReconstructMSI <- function(Reconstruct = c("After", "Before"),
       
     } else {
       
-      Abscissas = c(max(as.numeric(df_coords["X",])) + 30,
+      Abscissas = c(max(as.numeric(df_coords["x",])) + 30,
                     min(as.numeric(df_coords["x",])) - 10)
       
-      AbscissasContour = c(max(as.numeric(df_coords["X",])),
+      AbscissasContour = c(max(as.numeric(df_coords["x",])),
                            min(as.numeric(df_coords["x",])))
     }
     
