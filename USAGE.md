@@ -273,45 +273,58 @@ The outcome from this visual evaluation is a PDF containing the spatial dynamics
 
 Note that K-mean partitions signal areas of tracer incorporation when those are spatially constrained.
 
-
-# VOY ACA en RMD y PACKAGING
-
 ## Step 5 - Data Quality Assesment
 
-Users are given an option to assess the correctness of random sampling by plotting the ratio between the mean and StDev from the random samples against the full dataset, e.g.:
+*A function to perform an initial step of replicated data quality assessment on KineticMSI datsets*
+
+This function allows KineticMSI users to assess the quality in terms of reproducibility and mean distribution from measured molecular features across several independent treatments. The function first subsets all datasets to a common vector of molecular features and a common number of pixels. If molecular features are not the same across datatsets, the function produces new sets with the "Shared Features", which are named with this extension in the original IsoCorrectoR folders. Pixels are previously sorted per sample according to their magnitude, e.g., in the case of enrichment percentage from high to low enrichment. An alternative to sorting by magnitude is sorting by acquisition time, which allows the users later on to evaluate differences that might be constrained in space or dependent on the instrument performance during a single sample. 
 
 ```{r}
+
 library(matrixStats)
-library(RandodiStats)
-library(fitdistrplus)
-library(raster)
 library(reshape2)
 library(ggplot2)
 library(ggridges)
+library(RandoDiStats)
+library(fitdistrplus)
+library(raster)
 
-ex_assesment <- DatAssesment(FilesPath = "Data/IsoCorectoR_Files/",
-                             pattern = "MeanEnrichment.csv",
-                             CompareSampledSet = T,
-                             returnObject = "minDataset",
-                             factorVector = c(rep("HD", 6),
-                                              rep("WT", 6)),
-                             fun_to_clust = "Enrichment",
-                             logiTransformation = F)
+ex_assesment <- kAssesmentMSI(path = "OutputIsoCorrectoR/", 
+                              PatternEnrichment = "MeanEnrichment_SharedFeatures", 
+                              SubSetRepsIntensities = FALSE, 
+                              CompareSampledSet = TRUE,
+                              returnObject = "ClassComparisonInput",
+                              factorVector = c(rep("HD", 6),
+                                               rep("WT", 6)),
+                              fun2clust = "Enrichment",
+                              logiTransformation = FALSE,
+                              ScalingFactorXaxisDensityPlot = NULL)
 
 ```
+### St.Dev and means comparison
+
+After sorting, a plot reflecting the ratio of means from subset and entire sets is produced in order to evaluate whether the subsetting procedure is skewing the data or whether the change trends will be fully preserved.
+
 ![RandomSetQuality](images/Stdev&MeansComparison.png)
 
-#Users can also define the type of function used to sort before the clustering takes place, i.e., parameter "fun_to_clust", the options are to sort the joint dataset by enrichment percentages or by acquisition time or spatial coordinates. Both functions serve different experimental questions. In the latter case if there are spatial constraints in the mean enrichemnt percentages, significant grouping will be found, whereas the first function suits the purpose of finding high versus low enriched states that can be randomly distributed across the entire ion image.If the func_to_clust parameter is set to Enrichment, pixels will be sorted based on enrichment values. OR if it is set to acquisition time, pixels are sorted based on acquisition time. Additionally the DatAssesment.R function retunrs distribution plots of treatments that allow interpreting shifts in data that would otherwise remain unnoticed, e.g.:
+### Data distribution assessment
+
+The function returns distribution plots in a PDF file across treatments that allow interpreting shifts in data that would otherwise remain unnoticed.
 
 ![IndidvidualRepsDistributions](images/distributionAssesment.png)
 
-Finally, the function also averages all pixels into a single mean per treatment and evaluates the resulting numeric vector distribution to suggest a link function for the glm regression according to the procedure detailed in the [RandoDiStats](https://github.com/MSeidelFed/RandodiStats_package) R package, e.g.:
+### Regression family suggestion for parametrized mean comparison
+
+The function also averages all pixels into a single mean per treatment and evaluates the resulting numeric vector distribution to suggest a link function for the glm regression according to the procedure detailed in the [RandoDiStats](https://github.com/MSeidelFed/RandodiStats_package) R package.
 
 ![AverageMSIdist](images/RowMeansDistribution.png)
 
 If the suggested link is Gaussian, as in the example, any parametric test will suffice to compare means and the *P*-values will be legitimate. If on the contrary, the suggested link is non-parametric we strongly suggest using a parametrized glm as means of class comparison. 
 
-Consequenlty, the DatAssesment.R function returns in the R enviroment an object with the means to be evaluated or the minimum dataset by tuning the parameter "returnObject".
+Finally the function also returns either a list with the minimum datasets for all matrices or the compressed matrices used for mean distribution assessment and later for mean class comparison across samples.
+
+
+# VOY ACA en RMD y PACKAGING
 
 ## Step 6 - Data subsetting ####### EDITING HERE
 
