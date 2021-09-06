@@ -290,7 +290,7 @@ library(fitdistrplus)
 library(raster)
 
 ex_assesment <- kAssesmentMSI(path = "OutputIsoCorrectoR/", 
-                              PatternEnrichment = "MeanEnrichment_SharedFeatures", 
+                              PatternEnrichment = "MeanEnrichment", 
                               SubSetRepsIntensities = FALSE, 
                               CompareSampledSet = TRUE,
                               returnObject = "ClassComparisonInput",
