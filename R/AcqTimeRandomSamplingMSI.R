@@ -12,7 +12,7 @@
 #' ...
 
 
-AcqTimeRandomSampling_MSI <- function(path,
+AcqTimeRandomSamplingMSI <- function(path,
                                       PatternEnrichment = "MeanEnrichment.csv",
                                       RepsOrPath = c("reps", "path"),
                                       featureChoice = 0) {
