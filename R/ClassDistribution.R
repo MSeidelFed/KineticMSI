@@ -48,15 +48,20 @@ ClassDistribution <- function(inMat,
     
     for (i in 1:length(unique_factors)) {
       
-      runner <- grep(unique(factorVector)[i], mydata4.4$X1_1)
-      
-      out_vec <- c(out_vec, rep(unique_factors[i], length(runner)))
-      
-    }
-    
+      if(length(grep(unique(factorVector)[i], mydata4.4$X1_1)) == 0) {
+        
+        stop("ERROR: factorVector does not coincide with file names")
+        
+      } else {
+       
+        runner <- grep(unique(factorVector)[i], mydata4.4$X1_1)
+        
+        out_vec <- c(out_vec, rep(unique_factors[i], length(runner))) 
+        
+      }
+    }    
   }
-  
-  
+    
   if(plots == T) {
     
     if(is.null(ScalingFactorXaxis)){
