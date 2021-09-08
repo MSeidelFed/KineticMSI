@@ -174,9 +174,9 @@ kAssesmentMSI <- function(path,
     } else if (fun2clust == "AcqTime") {
       
       runner <- AcqTimeRandomSamplingMSI(path = reps,
-                                          RepsOrPath = "reps",
-                                          PatternEnrichment = PatternEnrichment,
-                                          featureChoice = i)
+                                         RepsOrPath = "reps",
+                                         PatternEnrichment = PatternEnrichment,
+                                         featureChoice = i)
       
     } else {
       
