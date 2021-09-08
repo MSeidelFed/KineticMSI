@@ -13,9 +13,9 @@
 
 
 AcqTimeRandomSamplingMSI <- function(path,
-                                      PatternEnrichment = "MeanEnrichment.csv",
-                                      RepsOrPath = c("reps", "path"),
-                                      featureChoice = 0) {
+                                     PatternEnrichment = "MeanEnrichment.csv",
+                                     RepsOrPath = c("reps", "path"),
+                                     featureChoice = 0) {
   
   ### list2df
   
