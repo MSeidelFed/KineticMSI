@@ -303,7 +303,28 @@ kAssesmentMSI <- function(path,
   
   dev.off()
   
+  
   ### returning output
+  
+  erase_index <- c()
+  
+  for (i in 1:length(list_out)) {
+    
+    if(dim(list_out[[i]])[1] == 0 | dim(list_out[[i]])[2] == 0) {
+      
+      erase_index <- c(erase_index, i)
+      
+    }
+    
+  }
+  
+  ### cropping output lists
+  
+  list_out <- list_out[-c(erase_index)]
+  
+  list_out2 <- list_out2[-c(erase_index)]
+  
+  ### returning objects
   
   if (returnObject == "minDataset") {
     
