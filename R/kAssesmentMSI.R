@@ -318,11 +318,15 @@ kAssesmentMSI <- function(path,
     
   }
   
-  ### cropping output lists
+  ### cropping output lists if necessary
   
-  list_out <- list_out[-c(erase_index)]
-  
-  list_out2 <- list_out2[-c(erase_index)]
+  if(!is.null(erase_index)){
+    
+    list_out <- list_out[-c(erase_index)]
+    
+    list_out2 <- list_out2[-c(erase_index)]
+    
+  }
   
   ### returning objects
   
