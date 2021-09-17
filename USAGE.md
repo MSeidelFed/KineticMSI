@@ -50,7 +50,7 @@ Peak picking is performed according to the user preference and the tables must b
 
 This function allows you to remove MSI pixels that would impair interpretation of true 0% enrichment in the downstream calculations. The function generates corrected .csv files and a list with the corrected matrices as a return object in the R environment.The function takes an entire directory and it grabs all .csv files within the provided directory. The function then grabs each isotopologue envelope and sets to NA all of those pixels that would produce a misinterpretation of the NIA correction leading to misinterpreted enrichment percentages. 
 
-* Filtering step 1 – All pixels with M_0 = 0 are deleted (replaced with NA).
+* Filtering step 1 – All pixels with M<sub>0</sub> = 0 are deleted (replaced with NA). 
 
 * Filtering step 2 – All pixels with all isotopologues = 0 are deleted (replaced with NA).
 
@@ -162,27 +162,27 @@ IncorporationProxies(Parent_dir = "OutputIsoCorrectoR/",
 
 * The function produces:
 
-    * A file with the corrected M_0s
+    * A file with the corrected M<sub>0</sub>s or A<sub>0</sub>s
 
-    * A file with the corrected M_1s
+    * A file with the corrected M<sub>1</sub>s or A<sub>1</sub>s
 
-    * A file with the M_1 / M_0 ratios
+    * A file with the M<sub>1</sub> or A<sub>0</sub>s / M<sub>0</sub> or A<sub>1</sub>s ratios 
 
-    * A file with the M_1 fraction relative to a steady state pool calculated only based on the sum of M_1 + M_0
+    * A file with the M<sub>1</sub> or A<sub>1</sub>s fraction relative to a steady state pool calculated only based on the sum of M<sub>1</sub> or or A<sub>1</sub>s + M<sub>0</sub> or or A<sub>0</sub>s
     
     * A file with the *de novo* synthesized pool either normalized or not
     
-    * Two files containing the steady state pools as calculated from the M_0 + M_1 sum or the M_0 +....+ M_n sum. These files are used to determine which one resembles the biology best in the step 3b. This requires an additionally matrix with non-labelled steady states, which will be used as comparison. The steady state files contain means across pixels from each molecular species in all datasets. Thus, since these are not related to a single preexisting IsoCorrectoR folder but to all folders at once, the output are allocated into a new directory that defaults to the current workspace if not specified.
+    * Two files containing the steady state pools as calculated from the M<sub>0</sub> + M<sub>1</sub> sum or the M<sub>0</sub> +....+ M<sub>n</sub> sum. These files are used to determine which one resembles the biology best in the step 3b. This requires an additionally matrix with non-labelled steady states, which will be used as comparison. The steady state files contain means across pixels from each molecular species in all datasets. Thus, since these are not related to a single preexisting IsoCorrectoR folder but to all folders at once, the output are allocated into a new directory that defaults to the current workspace if not specified.
 
 ## Step 5 - Selection of isotopic flux proxies: legitimate reflection of the biological system
 
 *A function to select an isotope proxy that best reflects the changes seen in steady state pools measured without stable isotope assisted mass spectrometry*
 
-This function allows to compare the steady state pools from molecular features that were measured through both stable assisted and conventional mass spectrometry. By contrasting the results from different isotope combinations (e.g., A_0 or M0 to A_n or M_n versus A_0 or M_0  to A_1 or M_1) users can easily define how many isotopes reflect the actual pool changes of the target molecular features in their biological systems. The input files must have the same treatment rows while molecular feature may vary. The algorithm will select the features in common for the calculations.
+This function allows to compare the steady state pools from molecular features that were measured through both stable assisted and conventional mass spectrometry. By contrasting the results from different isotope combinations (e.g., A<sub>0</sub> or M<sub>0</sub> to A<sub>n</sub> or M<sub>n</sub> versus A<sub>0</sub> or M<sub>0</sub>  to A<sub>1</sub> or M<sub>1</sub>) users can easily define how many isotopes reflect the actual pool changes of the target molecular features in their biological systems. The input files must have the same treatment rows while molecular feature may vary. The algorithm will select the features in common for the calculations.
 
 Examples:
  
-   * As an example we have provided a [file](https://github.com/MSeidelFed/KineticMSI/blob/master/Data/Steady_state_pools/SteadyStatePoolsM1M0_NL.csv) containing the steady state pools from non-labelled controls compared to the labelled exemplary datasets*). The exemplary file was built based on the unlabelled features, taking the monoisotopic peak as a proxy of the feature pool. Consequently the derived labelled steady states were built by summing the non-corrected M0 abundances plus its corrected isotopologues (M_1 or A_1....M_n or A_n or only M_1 or A_1). Corrected M_0 contains the NIA and thus summing it with the isotopologues would not be equivalent to the non-labelled picked M_0 peaks.
+   * As an example we have provided a [file](https://github.com/MSeidelFed/KineticMSI/blob/master/Data/Steady_state_pools/SteadyStatePoolsM1M0_NL.csv) containing the steady state pools from non-labelled controls compared to the labelled exemplary datasets*). The exemplary file was built based on the unlabelled features, taking the monoisotopic peak as a proxy of the feature pool. Consequently the derived labelled steady states were built by summing the non-corrected M0 abundances plus its corrected isotopologues (M<sub>1</sub> or A<sub>1</sub>....M<sub>n</sub> or A<sub>n</sub> or only M<sub>1</sub> or A<sub>1</sub>). Corrected M<sub>0</sub> contains the NIA and thus summing it with the isotopologues would not be equivalent to the non-labelled picked M<sub>0</sub> peaks.
 
    * The first step is to remove any batch effect from the steady state pools. To achieve that we provide the BatchCorrection function, which depends on ComBat correction as detailed in the [SVA package](https://rdrr.io/bioc/sva/man/ComBat.html). The procedure was defined for microarray data to correct for between chip variation. Similarly, MSI data from different days may suffer from batch effects that systemically affect abundances either positively or negatively. The function is interactive and must be run from the console in order to take advantage of its interactive features, i.e., the function progressively shows the user how the data is distributed among batches in order to decide if batch correction is actually needed. There is an option to duplicate data in case not enough Batch members exist and that precludes the correction.
     
@@ -220,7 +220,7 @@ proxy_M0Mn <- suppressWarnings(ProxySelection(LabelledFileDir = "SteadyStatePool
 
 ```
 
-e.g., batch correction necessities in M_1 + M_0 steady state pools:
+e.g., batch correction necessities in M<sub>1</sub> + M<sub>0</sub> steady state pools:
 
 ![Batch_correction](images/Batch_correction.png)
 
@@ -230,7 +230,7 @@ The following is the Heatmap of the labelled / non-labelled steady state pools. 
 
 ![Heatmap_LvsNL](images/Heatmap_LvsNL.png)
 
-Note that the Heatmap built on the sum from M_0 to M_n contains fewer extreme values and thus can be regarded as a better proxy to the actual biology in our dataset. This can be observed in the returned ordered matrices from the function, which are equivalent to the actual heatmap.
+Note that the Heatmap built on the sum from M<sub>0</sub> to M<sub>n</sub> contains fewer extreme values and thus can be regarded as a better proxy to the actual biology in our dataset. This can be observed in the returned ordered matrices from the function, which are equivalent to the actual heatmap.
 
 As an example, we continue our analyses using all lipids but interpreted with caution isotope tracer results that are derived from species with a labelled / non-labelled ratio that lies outside a 0.6 - 1.4 range. Using a range, we allow for biological variation while getting rid of lipids with low abundances that are further diluted by deuterium causing a drop in the ratio. The upper range of the ratio does not contain outliers, but outliers in this area might indicate lipids with more isotopologues found during peak picking, which would contain "extra" biased abundances in the labelled treatments due to partial accurateness in NIA correction.
 
