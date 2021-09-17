@@ -76,7 +76,7 @@ Enrichment percentages are calculated using the algorithms described in
   
   *Millard, P., Delépine, B., Guionnet, M., Heuillet, M., Bellvert, F., Létisse, F., and Wren, J. (2019). IsoCor: Isotope correction for high-resolution MS labeling experiments. Bioinformatics 35:4484–4487.*
 
-The procedures correct the endogenous metabolite or peptide pools for natural isotopic abundance (NIA) according to the chemical formula before calculating enrichment percentages via a simple A_0 or M_0 to A_n or M_n division. The IsoCorrectoR can be used in R and the IsoCor in python to obtain equivalent NIA correction and subsequent percentages of enrichment from molecular species.
+The procedures correct the endogenous metabolite or peptide pools for natural isotopic abundance (NIA) according to the chemical formula before calculating enrichment percentages via a simple A<sub>0</sub> or M<sub>0</sub> to A<sub>n</sub> or M<sub>n</sub> division. The IsoCorrectoR can be used in R and the IsoCor in python to obtain equivalent NIA correction and subsequent percentages of enrichment from molecular species.
 
 ### IsoCorrectoR workflow
 
@@ -152,7 +152,7 @@ The following steps aim to derive various isotope incorporation proxies from the
 
 *A function to produce files that describe through different proxies the tracer dynamics within kineticMSI datasets*
 
-This function allows to calculate across MSI pixels various values that reflect different aspects of the tracer dynamics. The function tests if the molecular features are shared across all datasets, if these are not shared, the function produces files with the common features before carrying on with the calculations. This is to prevent errors in the joined steady state pool files that are generated. The function outputs the isotope incorporation proxies as csv files to the same input directories.
+This function allows to calculate across MSI pixels various values that reflect different aspects of the tracer dynamics. The function tests if the molecular features are shared across all datasets, if these are not shared, the function produces files with the common features before carrying on with the calculations. This is to prevent errors in the joined steady state pool files that are generated. The function outputs the isotope incorporation proxies as .csv files to the same input directories.
 
 ```{r}
 IncorporationProxies(Parent_dir = "OutputIsoCorrectoR/",
@@ -162,17 +162,17 @@ IncorporationProxies(Parent_dir = "OutputIsoCorrectoR/",
 
 * The function produces:
 
-    * A file with the corrected M<sub>0</sub>s or A<sub>0</sub>s
+    * A file with the corrected M<sub>0s</sub> or A<sub>0s</sub>
 
-    * A file with the corrected M<sub>1</sub>s or A<sub>1</sub>s
+    * A file with the corrected M<sub>1s</sub> or A<sub>1s</sub>
 
-    * A file with the M<sub>1</sub> or A<sub>0</sub>s / M<sub>0</sub> or A<sub>1</sub>s ratios 
+    * A file with the M<sub>1</sub> or A<sub>0</sub> / M<sub>0</sub> or A<sub>1</sub> ratios 
 
-    * A file with the M<sub>1</sub> or A<sub>1</sub>s fraction relative to a steady state pool calculated only based on the sum of M<sub>1</sub> or or A<sub>1</sub>s + M<sub>0</sub> or or A<sub>0</sub>s
+    * A file with the M<sub>1</sub> or A<sub>1</sub> fraction relative to a steady state pool calculated only based on the sum of M<sub>1</sub> or or A<sub>1</sub> + M<sub>0</sub> or or A<sub>0</sub>
     
     * A file with the *de novo* synthesized pool either normalized or not
     
-    * Two files containing the steady state pools as calculated from the M<sub>0</sub> + M<sub>1</sub> sum or the M<sub>0</sub> +....+ M<sub>n</sub> sum. These files are used to determine which one resembles the biology best in the step 3b. This requires an additionally matrix with non-labelled steady states, which will be used as comparison. The steady state files contain means across pixels from each molecular species in all datasets. Thus, since these are not related to a single preexisting IsoCorrectoR folder but to all folders at once, the output are allocated into a new directory that defaults to the current workspace if not specified.
+    * Two files containing the steady state pools as calculated from the M<sub>0</sub> or A<sub>0</sub> + M<sub>1</sub> A<sub>1</sub> sum or the M<sub>0</sub> or A<sub>0</sub> +....+ M<sub>n</sub> or A<sub>n</sub> sum. These files are used to determine which one resembles the biology best in the step 3b. This requires an additionally matrix with non-labelled steady states, which will be used as comparison. The steady state files contain means across pixels from each molecular species in all datasets. Thus, since these are not related to a single preexisting IsoCorrectoR folder but to all folders at once, the output are allocated into a new directory that defaults to the current workspace if not specified.
 
 ## Step 5 - Selection of isotopic flux proxies: legitimate reflection of the biological system
 
@@ -182,7 +182,7 @@ This function allows to compare the steady state pools from molecular features t
 
 Examples:
  
-   * As an example we have provided a [file](https://github.com/MSeidelFed/KineticMSI/blob/master/Data/Steady_state_pools/SteadyStatePoolsM1M0_NL.csv) containing the steady state pools from non-labelled controls compared to the labelled exemplary datasets*). The exemplary file was built based on the unlabelled features, taking the monoisotopic peak as a proxy of the feature pool. Consequently the derived labelled steady states were built by summing the non-corrected M0 abundances plus its corrected isotopologues (M<sub>1</sub> or A<sub>1</sub>....M<sub>n</sub> or A<sub>n</sub> or only M<sub>1</sub> or A<sub>1</sub>). Corrected M<sub>0</sub> contains the NIA and thus summing it with the isotopologues would not be equivalent to the non-labelled picked M<sub>0</sub> peaks.
+   * As an example we have provided a [file](https://github.com/MSeidelFed/KineticMSI/blob/master/Data/Steady_state_pools/SteadyStatePoolsM1M0_NL.csv) containing the steady state pools from non-labelled controls compared to the labelled exemplary datasets*). The exemplary file was built based on the unlabelled features, taking the monoisotopic peak as a proxy of the feature pool. Consequently the derived labelled steady states were built by summing the non-corrected M<sub>0</sub> or A<sub>0</sub> abundances plus its corrected isotopologues (M<sub>1</sub> or A<sub>1</sub>....M<sub>n</sub> or A<sub>n</sub> or only M<sub>1</sub> or A<sub>1</sub>). Corrected M<sub>0</sub> or A<sub>0</sub> contains the NIA and thus summing it with the isotopologues would not be equivalent to the non-labelled picked M<sub>0</sub> or or A<sub>0</sub> peaks.
 
    * The first step is to remove any batch effect from the steady state pools. To achieve that we provide the BatchCorrection function, which depends on ComBat correction as detailed in the [SVA package](https://rdrr.io/bioc/sva/man/ComBat.html). The procedure was defined for microarray data to correct for between chip variation. Similarly, MSI data from different days may suffer from batch effects that systemically affect abundances either positively or negatively. The function is interactive and must be run from the console in order to take advantage of its interactive features, i.e., the function progressively shows the user how the data is distributed among batches in order to decide if batch correction is actually needed. There is an option to duplicate data in case not enough Batch members exist and that precludes the correction.
     
