@@ -1,5 +1,5 @@
 # kineticMSI
-Functions to interpret stable isotope assisted mass spectrometry imaging experiments
+***Functions to interpret stable isotope assisted mass spectrometry imaging experiments***
 
 ## Usage Instructions
 KineticMSI has been divided in several steps:
