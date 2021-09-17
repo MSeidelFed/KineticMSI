@@ -1,8 +1,8 @@
 # kineticMSI
-Functions to interpret stable isotope assisted mass spec imaging experiments
+Functions to interpret stable isotope assisted mass spectrometry imaging experiments
 
 ## Usage Instructions
-kineticMSI has been divided in several steps:
+KineticMSI has been divided in several steps:
 
 1.  Input data: Necessary to start are data matrices featuring normalized or ready-to-compare abundances across MSI pixels.
 
@@ -12,16 +12,15 @@ kineticMSI has been divided in several steps:
 
 1. Assembling of isotopic flux proxies for analyzing the tracer dynamics.
 
-1. Determining the best isotopic flux proxy. TVisualization of isotopic flux proxies
-he used proxy can vary with diverse experimental strategies, i.e., tracer used, metabolic targets, detected isotopologues, enrichment percentages, isotopic envelope shifts.
+1. Visualization and determination of the best isotopic flux proxies. The used proxy can vary with diverse experimental strategies, i.e., tracer used, metabolic targets, detected isotopologues, enrichment percentages, isotopic envelope shifts.
 
-1. Visualization of isotopic flux proxies and analyses of the tracer spatial dynamics. This step is meant to reconstruct MSI images based on the derived proxies of isotope enrichment.
+1. Visualization of isotopic flux proxies and analyses of the tracer spatial dynamics. This step is meant to reconstruct kMSI images based on the derived proxies of isotope enrichment.
 
 1. Quality assessment of consolidated data matrices.
 
-1. Class comparison using pixel population.
+1. Class comparison using pixel populations.
 
-1. Subsetting of consolidated data matrices into alike pixel sets. This step classifies the coordinates from individual molecular species in subclasses based on the enrichment proxies selected in order to prevent dilution of the biology by averaging an entire region. The procedure enables comparison to anatomical regions of interest obtained through unsupervised statistical methods (From Cardinal SSC or SCiLS k-Means clustering).
+1. Subsetting of consolidated data matrices into alike pixel sets. This step classifies the coordinates from individual molecular species in subclasses based on the enrichment proxies selected in order to prevent dilution of the biology by averaging an entire region. The procedure enables comparison to anatomical regions of interest obtained through unsupervised statistical methods (e.g., from [Cardinal](https://cardinalmsi.org/) SSC or [SCiLS](https://scils.de/) K-means clustering).
 
 1. Class comparison using pixel subsets. The final step entails an integrated user-assisted relative quantitation and comparison analyses of the enrichment dynamics of the labelled metabolic targets. The procedure uses the classes discovered in the previous step.
 
