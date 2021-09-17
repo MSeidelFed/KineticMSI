@@ -4,21 +4,32 @@ Functions to interpret stable isotope assisted mass spec imaging experiments
 ## Usage Instructions
 kineticMSI has been divided in several steps:
 
-1.   Data preprocessing: The procedure is meant to delete potentially confounding pixels, which might be misinterpreted as enriched if left on the datasets during natural isotopic enrichment corrections.
+1.  Input data: Necessary to start are data matrices featuring normalized or ready-to-compare abundances across MSI pixels.
+
+1.  Data preprocessing: The procedure is meant to delete potentially confounding pixels, which might be misinterpreted as enriched if left on the datasets during natural isotopic enrichment corrections.
 
 1. Correcting for natural isotopic abundance (NIA): from the corrected isotopologue pools, the enrichment percentages can be easily derived.
 
-1. Determining the best proxy of enrichment: the used proxy can vary with diverse experimental strategies, i.e., tracer used, metabolic targets, detected isotopologues, enrichment percentages, isotopic envelope shifts.
+1. Assembling of isotopic flux proxies for analyzing the tracer dynamics.
 
-1. Analyses of the tracer spatial dynamics and incorporation rates: This step is meant to reconstruct MSI images based on the derived proxies of isotope enrichment.
+1. Determining the best isotopic flux proxy. TVisualization of isotopic flux proxies
+he used proxy can vary with diverse experimental strategies, i.e., tracer used, metabolic targets, detected isotopologues, enrichment percentages, isotopic envelope shifts.
 
-1. Assesment of the quality of the data.
+1. Visualization of isotopic flux proxies and analyses of the tracer spatial dynamics. This step is meant to reconstruct MSI images based on the derived proxies of isotope enrichment.
 
-1. Selecting pixel subsets instead of averaging all pixels: This step classifies the coordinates from individual molecular species in subclasses based on the enrichment proxies selected in order to prevent dilution of the biology by averaging an entire region. The procedure enables comparison to anatomical regions of interest obtained through unsupervised statistical methods (From Cardinal SSC or SCiLS k-Means clustering).
+1. Quality assessment of consolidated data matrices.
 
-1. Relative quantitation of the isotope flux: The final step entails an integrated user-assisted relative quantitation and comparison analyses of the enrichment dynamics of the labelled metabolic targets. The procedure uses the classes discovered in the previous step.
+1. Class comparison using pixel population.
 
-## Step 0 - Input files
+1. Subsetting of consolidated data matrices into alike pixel sets. This step classifies the coordinates from individual molecular species in subclasses based on the enrichment proxies selected in order to prevent dilution of the biology by averaging an entire region. The procedure enables comparison to anatomical regions of interest obtained through unsupervised statistical methods (From Cardinal SSC or SCiLS k-Means clustering).
+
+1. Class comparison using pixel subsets. The final step entails an integrated user-assisted relative quantitation and comparison analyses of the enrichment dynamics of the labelled metabolic targets. The procedure uses the classes discovered in the previous step.
+
+1. Class comparison using enriched pixel proportions.
+
+1. KineticMSI summary results.
+
+## Step 1 -Input matrices: normalized abundances across MSI pixels
 
 Peak picking is performed according to the user preference and the tables must be produced from the peak picking process. The input table must contain all metabolites or peptide mass features to be corrected along with their respective isotopologue envelopes. In the first column, the metabolite identifiers are followed through a floor dash to the isotopologue number starting with 0 that represents the monoisotopic peak. Each column after the first contains the peak abundance across measured pixels in a MSI experiment.
 
@@ -33,11 +44,11 @@ Peak picking is performed according to the user preference and the tables must b
                          [6,] "Met2_a1"     | "54163.9"  | "44717.6"  | "43496.6"     |  "149206.6"    | "59616.02"  |
 
 
-## Step 1 - Preparing the dataset
+## Step 2 - Preprocessing: subset of good quality MSI pixels
 
-*This function allows removal of MSI pixels that would impair interpretation of true 0% enrichment in the downstream calculations.*
+*A function to crop input kMSI datasets*
 
-The function generates corrected csv files and a list with the corrected matrices as a return object in the R environment.The function takes an entire directory and it grabs all csv files within the provided directory. The function grabs each isotopologue envelope and sets to NA all of those pixels that would produce a misinterpretation of the NIA correction leading to misinterpreted enrichment percentages. 
+This function allows you to remove MSI pixels that would impair interpretation of true 0% enrichment in the downstream calculations. The function generates corrected .csv files and a list with the corrected matrices as a return object in the R environment.The function takes an entire directory and it grabs all .csv files within the provided directory. The function then grabs each isotopologue envelope and sets to NA all of those pixels that would produce a misinterpretation of the NIA correction leading to misinterpreted enrichment percentages. 
 
 * Filtering step 1 – All pixels with M0 = 0 are deleted (replaced with NA).
 
@@ -46,19 +57,19 @@ The function generates corrected csv files and a list with the corrected matrice
 
 ```{r}
 
-NullPixel_rm_test <- rmNullPixel(MeasurementFileDir = "OriginalData/",
-                                 pattern = "csv",
-                                 SubSetReps = F, 
-                                 csvReturn = T,
-                                 OnlyDeletePixelsWOIsotopologs = F,
-                                 verbose = F,
-                                 verboseFeature = F,
-                                 rmDataStore = "NewDir",
-                                 outdir = "rmOutput")
+rmNullPixel_test <- rmNullPixel(MeasurementFileDir = "OriginalData/",
+                                pattern = "csv",
+                                SubSetReps = FALSE, 
+                                csvReturn = TRUE,
+                                OnlyDeletePixelsWOIsotopologs = FALSE,
+                                verbose = FALSE,
+                                verboseFeature = FALSE,
+                                rmDataStore = "NewDir",
+                                outdir = "rmOutput")
 
 ```
 
-## Step 2 - Natural Isotopic Abundance Correction
+## Step 3 - Natural Isotopic Abundance (NIA) correction: percentage of isotopic enrichment per pixel
 
 Enrichment percentages are calculated using the algorithms described in 
 
@@ -66,7 +77,7 @@ Enrichment percentages are calculated using the algorithms described in
   
   *Millard, P., Delépine, B., Guionnet, M., Heuillet, M., Bellvert, F., Létisse, F., and Wren, J. (2019). IsoCor: Isotope correction for high-resolution MS labeling experiments. Bioinformatics 35:4484–4487.*
 
-The procedures correct the endogenous metabolite or peptide pools for natural isotopic abundance (NIA) according to the chemical formula before calculating enrichment percentages via a simple A0 to An division. The IsoCorrectoR can be used in R and the IsoCor in Python to obtain equivalent percentages of enrichment and NIA correction of molecular species with cross validation from both platforms.
+The procedures correct the endogenous metabolite or peptide pools for natural isotopic abundance (NIA) according to the chemical formula before calculating enrichment percentages via a simple A0 or M0 to An or An division. The IsoCorrectoR can be used in R and the IsoCor in python to obtain equivalent NIA correction and subsequent percentages of enrichment from molecular species.
 
 ### IsoCorrectoR workflow
 
@@ -74,7 +85,7 @@ The procedures correct the endogenous metabolite or peptide pools for natural is
 
 [IsoCorrectoR](https://www.bioconductor.org/packages/release/bioc/html/IsoCorrectoR.html) has been installed and used according to the instructions provided upon releasing of the package in BioConductor.
 
-This function allows you to correct isotopologue envelopes for NIA inheriting all specifications from the R package IsoCorrectoR. The function calculates the percentage of enrichment of a defined stable isotope as well as other important values that reflect tracer dynamics within enrichment experiments. The function takes an entire directory and grabs all the csv files contained within in a recursive manner. Subsequently, the function generates csv files with each of the relevant returns in the *kinetic*MSI context. Each column in the input table "MeasurementFile.csv" belongs to a single coordinate on the original image where the isotopologues could be measured and mined out.
+This function allows you to correct isotopologue envelopes for NIA inheriting all specifications from the R package IsoCorrectoR. The function calculates the percentage of enrichment of a defined stable isotope as well as other important values that reflect tracer dynamics within enrichment experiments. The function takes an entire directory and grabs all the csv files contained within in a recursive manner. Subsequently, the function generates .csv files with each of the relevant returns in the *kinetic*MSI context. Each column in the input table "MeasurementFile.csv" belongs to a single coordinate on the original image where the isotopologues could be measured and mined out.
 
 ```{r}
 
@@ -136,11 +147,9 @@ IsoCor_test <- IsoCorTables(PathToCSV = "IsoCorInputTable.csv")
 ```
 Subsequently, the output table can be directly used by [IsoCor](https://github.com/MetaSys-LISBP/IsoCor) following the published instructions.
 
-## Step 3 - Selection of the best tracer incorporation proxy
+The following steps aim to derive various isotope incorporation proxies from the tables produced by IsoCorrectoR and determine which proxy describes best the biology of the system. In this sense, these functions are a tool to legitimate the tracer dynamics within the studied system. The procedure detailed is subdivided in two independent steps, which do not need to be completed to be useful, users may rather use one or the other depending on the data availability.
 
-This step aims to derive various isotope incorporation proxies from the tables produced by IsoCorrectoR and determine which proxy describes best the biology of the system. In this sense, these functions are a tool to legitimate the tracer dynamics within the studied system. Step 3 is subdivided in two independent steps, which do not need to be completed to be useful, users may rather use one or the other depending on the data availability.
-
-### Step 3a - Building isotope proxies
+## Step 4 - Assembly of isotopic flux proxies
 
 *A function to produce files that describe through different proxies the tracer dynamics within kineticMSI datasets*
 
@@ -166,7 +175,7 @@ IncorporationProxies(Parent_dir = "OutputIsoCorrectoR/",
     
     * Two files containing the steady state pools as calculated from the M0 + M1 sum or the M0+....+Mn sum. These files are used to determine which one resembles the biology best in the step 3b. This requires an additionally matrix with non-labelled steady states, which will be used as comparison. The steady state files contain means across pixels from each molecular species in all datasets. Thus, since these are not related to a single preexisting IsoCorrectoR folder but to all folders at once, the output are allocated into a new directory that defaults to the current workspace if not specified.
 
-### Step 3b - Selecting the best isotope proxy that best reflects the biology
+## Step 5 - Selection of isotopic flux proxies: legitimate reflection of the biological system
 
 *A function to select an isotope proxy that best reflects the changes seen in steady state pools measured without stable isotope assisted mass spectrometry*
 
@@ -226,7 +235,7 @@ Note that the Heatmap built on the sum from M0 to Mn contains fewer extreme valu
 
 As an example, we continue our analyses using all lipids but interpreted with caution isotope tracer results that are derived from species with a labelled / non-labelled ratio that lies outside a 0.6 - 1.4 range. Using a range, we allow for biological variation while getting rid of lipids with low abundances that are further diluted by deuterium causing a drop in the ratio. The upper range of the ratio does not contain outliers, but outliers in this area might indicate lipids with more isotopologues found during peak picking, which would contain "extra" biased abundances in the labelled treatments due to partial accurateness in NIA correction.
 
-## Step 4 - Mapping spatial dynamics of the tracer
+## Step 6 - Visualization of isotopic flux proxies: spatial dynamics of the tracer
 
 *A function to produce graphical reconstructions from MSI images using isotope tracer dynamics*
 
@@ -273,7 +282,7 @@ The outcome from this visual evaluation is a PDF containing the spatial dynamics
 
 Note that K-mean partitions signal areas of tracer incorporation when those are spatially constrained.
 
-## Step 5 - Data Quality Assesment
+## Step 7 - Quality assesment of consolidated data matrices
 
 *A function to perform an initial step of replicated data quality assessment on KineticMSI datsets*
 
@@ -323,10 +332,46 @@ If the suggested link is Gaussian, as in the example, any parametric test will s
 
 Finally the function also returns either a list with the minimum datasets for all matrices or the compressed matrices used for mean distribution assessment and later for mean class comparison across samples.
 
+VOY ACA en RMD y PACKAGING
 
-# VOY ACA en RMD y PACKAGING
+## Step 8 - Class comparison using pixel populations
 
-## Step 6 - Data subsetting ####### EDITING HERE
+*A function that allows class comparison in replicated KineticMSI datasets*
+
+This function allows KineticMSI users to assess the quality in terms of reproducibility and mean distribution from measured molecular features across several independent treatments. The function first subsets all datasets to a common vector of molecular features and a common number of pixels. If molecular features are not the same across datatsets, the function produces new sets with the "Shared Features", which are named with this extension in the original IsoCorrectoR folders. Pixels are previously sorted per sample according to their magnitude, e.g., in the case of enrichment percentage from high to low enrichment. Afterwards a plot reflecting the ratio of means from subset and entire sets is produced in order to evaluate whether the subsetting procedure is skewing the data or whether the change trends will be fully preserved. An alternative to sorting by magnitude is sorting by acquisition time, which allows the users later on to evaluate differences that might be constrained in space or dependent on the instrument performance during a single sample. The function returns distribution plots in a PDF file across treatments that allow interpreting shifts in data that would otherwise remain unnoticed. Finally the function also returns either a list with the minimum datasets for all matrices or the compressed matrices used for mean distribution assessment and later for mean class comparison across samples.
+
+```{r}
+
+```
+## Step 9 - Subsetting of consolidated data matrices into alike pixel sets 
+
+```{r}
+
+```
+
+## Step 10 - Class comparison using pixel subsets
+
+```{r}
+
+```
+
+## Step 11 - Class comparison using enriched pixel proportions
+
+*A function to compare proportions within selected tracer enrichment proxies across pixels in replicated KineticMSI datasets*
+
+This function allows KineticMSI users to compare the proportion of pixels that fall within specific ranges of selected tracer enrichment proxies. The user must define a threshold from which proportions are calculated and comparisons made using the parameter "ProportionLimit". Additionally the function provides the parameter "ProportionOperator" to define whether the comparisons are drawn in pixels "equal" to, "less" or "greater" than the predefined limit. The function returns to the R environment a matrix containing the values of the proportion comparison across molecular features (including statistical test outcomes) and an optional PDF with the graphical HeatMap representation of that matrix. 
+
+```{r}
+```
+
+## Step 12 - Statistical summary of relevant results
+
+```{r}
+
+```
+
+
+# NO HE USADO ESTE TEXTO
 
 This step takes advantage of the gained resolution provided by Mass Spectrometry Imaging to bypass the limitation of averaging a intensity from a metabolite of interest across a large tissue area. Instead we provide options to rationalize the tissue segmentation based on the tracer dynamics, and this allows us to gain insight into metabolic hotspots for the target compounds.
 
