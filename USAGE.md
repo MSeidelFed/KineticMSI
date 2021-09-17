@@ -46,7 +46,7 @@ Peak picking is performed according to the user preference and the tables must b
 
 ## Step 2 - Preprocessing: subset of good quality MSI pixels
 
-*A function to crop input kMSI datasets*
+*A function to crop input KineticMSI datasets*
 
 This function allows you to remove MSI pixels that would impair interpretation of true 0% enrichment in the downstream calculations. The function generates corrected .csv files and a list with the corrected matrices as a return object in the R environment.The function takes an entire directory and it grabs all .csv files within the provided directory. The function then grabs each isotopologue envelope and sets to NA all of those pixels that would produce a misinterpretation of the NIA correction leading to misinterpreted enrichment percentages. 
 
@@ -80,7 +80,7 @@ The procedures correct the endogenous metabolite or peptide pools for natural is
 
 ### IsoCorrectoR workflow
 
-*A function to correct natural isotopic abundances (NIA) from kineticMSI datasets or multiple csv files with the right format*
+*A function to correct natural isotopic abundances (NIA) from KineticMSI datasets or multiple csv files with the right format*
 
 [IsoCorrectoR](https://www.bioconductor.org/packages/release/bioc/html/IsoCorrectoR.html) has been installed and used according to the instructions provided upon releasing of the package in BioConductor.
 
@@ -285,7 +285,7 @@ Note that K-mean partitions signal areas of tracer incorporation when those are 
 
 *A function to perform an initial step of replicated data quality assessment on KineticMSI datsets*
 
-This function allows KineticMSI users to assess the quality in terms of reproducibility and mean distribution from measured molecular features across several independent treatments. The function first subsets all datasets to a common vector of molecular features and a common number of pixels. If molecular features are not the same across datatsets, the function produces new sets with the "Shared Features", which are named with this extension in the original IsoCorrectoR folders. Pixels are previously sorted per sample according to their magnitude, e.g., in the case of enrichment percentage from high to low enrichment. An alternative to sorting by magnitude is sorting by acquisition time, which allows the users later on to evaluate differences that might be constrained in space or dependent on the instrument performance during a single sample. 
+This function allows KineticMSI users to assess the quality in terms of reproducibility and mean distribution from measured molecular features across several independent treatments. The function first subsets all datasets to a common vector of molecular features and a common number of pixels. If molecular features are not the same across datatsets, the function produces new sets with the "Shared_Features", which are named with this extension in the original IsoCorrectoR folders. Pixels are previously sorted per sample according to their magnitude, e.g., in the case of enrichment percentage from high to low enrichment. An alternative to sorting by magnitude is sorting by acquisition time, which allows the users later on to evaluate differences that might be constrained in space or dependent on the instrument performance during a single sample. 
 
 ```{r}
 
