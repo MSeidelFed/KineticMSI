@@ -340,6 +340,25 @@ This function allows KineticMSI users to assess the quality in terms of reproduc
 
 ```{r}
 
+library(reshape2)
+library(RandoDiStats)
+library(fitdistrplus)
+library(raster)
+library(matrixStats)
+library(lawstat)
+library(circlize)
+
+test_kclcomp <- kClassComparisonMSI(kAssesmentOutput = ex_assesment,
+                                    factorVector = c(rep("HD", 6),
+                                                     rep("WT", 6)),
+                                    PDFname = "Population_ClassComparison", 
+                                    returnGLMplots = TRUE,
+                                    patternGLMplot = "Q values",
+                                    ylabTukey = "test y",
+                                    xlabTukey = NULL,
+                                    ylabGLM = "test x",
+                                    xlabGLM = NULL)
+
 ```
 ## Step 9 - Subsetting of consolidated data matrices into alike pixel sets 
 
@@ -360,6 +379,22 @@ This function allows KineticMSI users to assess the quality in terms of reproduc
 This function allows KineticMSI users to compare the proportion of pixels that fall within specific ranges of selected tracer enrichment proxies. The user must define a threshold from which proportions are calculated and comparisons made using the parameter "ProportionLimit". Additionally the function provides the parameter "ProportionOperator" to define whether the comparisons are drawn in pixels "equal" to, "less" or "greater" than the predefined limit. The function returns to the R environment a matrix containing the values of the proportion comparison across molecular features (including statistical test outcomes) and an optional PDF with the graphical HeatMap representation of that matrix. 
 
 ```{r}
+
+library(ComplexHeatmap)
+library(circlize)
+
+test_proportions <- EnrichmentProportions(path = "OutputIsoCorrectoR/",
+                                          PatternEnrichment = "MeanEnrichment_SharedFeatures", 
+                                          SubSetRepsIntensities = FALSE,
+                                          factorVector = c(rep("_HD", 6),
+                                                           rep("_WT", 6)),
+                                          ProportionOperator = "equal",
+                                          ProportionLimit = 0, 
+                                          kmeans = 5,
+                                          KmBoot = 100,
+                                          ClustMethod = "average", 
+                                          returnProprotionsHeatmap = TRUE)
+
 ```
 
 ## Step 12 - Statistical summary of relevant results
