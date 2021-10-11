@@ -297,14 +297,15 @@ library(fitdistrplus)
 library(raster)
 
 ex_assesment <- kAssesmentMSI(path = "OutputIsoCorrectoR/", 
-                              PatternEnrichment = "MeanEnrichment", 
+                              PatternEnrichment = "MeanEnrichment_SharedFeatures", 
                               SubSetRepsIntensities = FALSE, 
                               CompareSampledSet = TRUE,
-                              returnObject = "ClassComparisonInput",
+                              returnObject = "RowMeansDataset",
                               factorVector = c(rep("HD", 6),
                                                rep("WT", 6)),
                               fun2clust = "Enrichment",
                               logiTransformation = FALSE,
+                              ZeroAction = "replace",
                               ScalingFactorXaxisDensityPlot = NULL)
 
 ```
@@ -330,8 +331,6 @@ If the suggested link is Gaussian, as in the example, any parametric test will s
 
 Finally the function also returns either a list with the minimum datasets for all matrices or the compressed matrices used for mean distribution assessment and later for mean class comparison across samples.
 
-VOY ACA en RMD y PACKAGING
-
 ## Step 8 - Class comparison using pixel populations
 
 *A function that allows class comparison in replicated KineticMSI datasets*
@@ -347,6 +346,7 @@ library(raster)
 library(matrixStats)
 library(lawstat)
 library(circlize)
+library(effsize)
 
 test_kclcomp <- kClassComparisonMSI(kAssesmentOutput = ex_assesment,
                                     factorVector = c(rep("HD", 6),
@@ -360,6 +360,9 @@ test_kclcomp <- kClassComparisonMSI(kAssesmentOutput = ex_assesment,
                                     xlabGLM = NULL)
 
 ```
+
+VOY ACA en RMD y PACKAGING
+
 ## Step 9 - Subsetting of consolidated data matrices into alike pixel sets 
 
 ```{r}
