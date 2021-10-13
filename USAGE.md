@@ -327,7 +327,7 @@ The function also averages all pixels into a single mean per treatment and evalu
 
 ![AverageMSIdist](images/RowMeansDistribution.png)
 
-If the suggested link is Gaussian, as in the example, any parametric test will suffice to compare means and the *P*-values will be legitimate. If on the contrary, the suggested link is non-parametric we strongly suggest using a parametrized glm as means of class comparison. 
+If the suggested link is Gaussian, as in the example, any parametric test will suffice to compare means and the *P*-values will be legitimate. If on the contrary, the suggested link is non-parametric we strongly suggest using a parameterized glm as means of class comparison. 
 
 Finally the function also returns either a list with the minimum datasets for all matrices or the compressed matrices used for mean distribution assessment and later for mean class comparison across samples.
 
