@@ -361,13 +361,36 @@ test_kclcomp <- kClassComparisonMSI(kAssesmentOutput = ex_assesment,
 
 ```
 
-VOY ACA en RMD y PACKAGING
-
 ## Step 9 - Subsetting of consolidated data matrices into alike pixel sets 
+
+*A function to subset consolidated KineticMSI datasets into groups of related pixels*
+
+This function allows users to subset consolidated KineticMSI matrices (see our kAssesmentMSI.R function for details) into subsets that are validated internally by the data structure. The function clusters consolidated data matrices using a hierarchical clustering algorithm (HCA) with bootstrapping, which is a dependency from the R package pvclust. Then using a user defined significance threshold the function grabs an optimized number of significant clusters that feature AU-P values above the threshold. The optimization increases the threshold when many significant clusters are found until it optimizes the outcome to the minimum cluster number, or if there are any significant clusters then the optimization parameter lowers the threshold until obtaining significant partitions. The outcome from this tuning process is returned to the console. The function returns to the R environment a list of abundances and coordinates matrices per molecular feature that can be used to both map the clusters onto the original MSI images using kReconstructMSI.R or perform class comparison using the clustered subsets using kSubSetClassComparisonMSI.R. Additionally the function returns to the working directory a number of diagnostic plots that allow users to better contextualize the partitions in their datasets.
 
 ```{r}
 
+library(reshape2)
+library(multcompView)
+library(testthat)
+library(pvclust)
+library(matrixStats)
+
+ClassDiscovery_test <- kClassDiscoveryMSI(path = "OutputIsoCorrectoR/",
+                                          PatternEnrichment = "MeanEnrichment_SharedFeatures",
+                                          DistMethod = "abscor",
+                                          nboot = 100,
+                                          alpha = 0.95,
+                                          SigClustHist = TRUE, 
+                                          SubSetRepsIntensities = TRUE,
+                                          CompareSampledSet = TRUE,
+                                          fun2clust = "Enrichment",
+                                          ZeroAction = "replace",
+                                          returnObject = "minDatasetPlusCoords",
+                                          logiTransformation = FALSE)
+
 ```
+
+VOY ACA en RMD y PACKAGING
 
 ## Step 10 - Class comparison using pixel subsets
 
