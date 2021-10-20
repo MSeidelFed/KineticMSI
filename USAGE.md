@@ -387,10 +387,41 @@ ClassDiscovery_test <- kClassDiscoveryMSI(path = "OutputIsoCorrectoR/",
                                           ZeroAction = "replace",
                                           returnObject = "minDatasetPlusCoords",
                                           logiTransformation = FALSE)
+                                          
+### Reconstruct Picked Clusters into KineticMSI images
+
+library(reshape2)
+library(ggplot2)
+library(gridExtra)
+library(viridis)
+library(Cardinal)
+library(ComplexHeatmap)
+library(circlize)
+library(matrixStats)
+
+kReconstructMSI(Reconstruct = "After", 
+                kClustersMSI = ClassDiscovery_test,
+                path = ".", 
+                PatternEnrichment = "MeanEnrichment.csv",
+                outpath = getwd(), 
+                as = "MSImagingExperiment",
+                PositionClusterLegend = "bottomleft",
+                RevOrdinates = F,
+                RevAbscissas = F,
+                FactorName = "Genotype",
+                yLabName = "Enrichment (%)",
+                paletteSpatialPlots = magma,
+                ContrastPercentValue = 0.1,
+                SubSetRepsIntensities = F,
+                SubSetRepsMSI = F, 
+                returnObject = F)
 
 ```
 
-VOY ACA en RMD y PACKAGING
+Just as before, the Reconstruct = "After" parameter inside the kReconstructMSI.R function will yield PDF files with the reconstructed maps of kClassDiscovery clusters.
+
+
+# VOY ACA en RMD y PACKAGING
 
 ## Step 10 - Class comparison using pixel subsets
 
