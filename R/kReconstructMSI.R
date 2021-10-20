@@ -20,6 +20,7 @@
 #' @param ContrastPercentValue defaults to 0.1. Allows to define the minimum value to build contrast in the intensity plots. 
 #' @param SubSetRepsIntensities defaults to FALSE. Allows to subset the MSI file list found in path.
 #' @param SubSetRepsMSI defaults to FALSE. Allows to subset the csv file list found in path.
+#' @param returnObject defaults to TRUE. Allows to return the list of matrices to the R enviroment. When FALSE, only the output files are produced
 #' @keywords Image Reconstruction Isotope Tracer Dynamics
 #' @export
 #' @examples
@@ -48,7 +49,8 @@ kReconstructMSI <- function(Reconstruct = c("After", "Before"),
                                                     rocket, turbo),
                             ContrastPercentValue = 0.1,
                             SubSetRepsIntensities = FALSE,
-                            SubSetRepsMSI = FALSE) {
+                            SubSetRepsMSI = FALSE,
+                            returnObject = TRUE) {
   
   ## Functions needed
   ### plots function
@@ -675,8 +677,16 @@ kReconstructMSI <- function(Reconstruct = c("After", "Before"),
     cluster_list_of_lists[[m]] <- cluster_list
     
   }
-
-  return(cluster_list_of_lists)
+  
+  if(returnObject == T) {
+    
+    return(cluster_list_of_lists)
+    
+  } else {
+    
+    cat("Finished building the output plots")
+    
+  }
 
 }
 
