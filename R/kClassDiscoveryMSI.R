@@ -33,11 +33,11 @@ kClassDiscoveryMSI <- function(path,
                                ZeroAction = c(NULL, "remove", "replace"),
                                logiTransformation = FALSE) {
   
- 
+  
   
   
   ## functions needed for the main
-
+  
   ### numeric.factor
   
   as.numeric.factor <- function(x) {as.numeric(levels(x))[x]}
@@ -60,7 +60,7 @@ kClassDiscoveryMSI <- function(path,
     colnames(DF) <- paste("V", seq(ncol(DF)), sep = "")   
     DF 
   } 
-
+  
   
   
   ## Main
@@ -176,9 +176,9 @@ kClassDiscoveryMSI <- function(path,
   
   par(mfrow = c(1,1))
   
-  list_out <- list()
+  list_out <- vector(mode = "list", length = length(feature_Nr))
   
-  list_out2 <- list()
+  list_out2 <- vector(mode = "list", length = length(feature_Nr))
   
   sig_clust_Nr <- c()
   
@@ -223,10 +223,16 @@ kClassDiscoveryMSI <- function(path,
     colnames(runner) <- paste0(rep("X", dim(runner)[2]), c(1:dim(runner)[2]))
     
     colnames(runner_coords) <- paste0(rep("X", dim(runner)[2]), c(1:dim(runner)[2]))
-
+    
     #### Zero action taken on the datasets
     
     if(is.null(ZeroAction)) {
+      
+      if(length(which(colSds(runner) == 0)) > 0) {
+        
+        stop("ERROR: there are columns in the assembled matrices with NULL sd, please select an appropriate ZeroAction parameter in the function call")
+        
+      }
       
       runner_WO_zeros <- as.matrix(runner)
       
@@ -243,13 +249,10 @@ kClassDiscoveryMSI <- function(path,
       rownames(runner_coords_WO_zeros) <- rownames(runner_WO_zeros)
       
     } else if(ZeroAction == "replace") {
-      
-      if(length(which(colSds(runner) == 0)) > 0) {
         
-        runner[runner == 0] <- rnorm(length(which(runner == 0)),
-                                               mean = 0.0000000000001,
-                                               sd = 0.00000000001)
-      }
+      runner[runner == 0] <- rnorm(length(which(runner == 0)),
+                                   mean = 0.0000000000001,
+                                   sd = 0.00000000001)
       
       runner_WO_zeros <- as.matrix(runner)
       
@@ -310,6 +313,10 @@ kClassDiscoveryMSI <- function(path,
       
       #### getting rid of metabolites that produce an error in the pvclust function
       
+      #### need to produce NULLs here to coincide with the feature Nr.
+      
+      feature_names[i] <- feature_Nr[i]
+      
       cat("...\n")
       cat(paste0("Error: ", feature_Nr[i], " - ", i, "\n"))
       cat("...\n")
@@ -317,14 +324,14 @@ kClassDiscoveryMSI <- function(path,
     } else {
       
       cat(paste0("Successful: ", feature_Nr[i]," - ", i, "\n"))
-    
+      
       ## bootstrapping the clustering on the final object
       
       HCA_boot_feature <- pvclust(runner_WO_zeros,
-                                method.hclust = "average",
-                                method.dist = DistMethod,
-                                nboot = nboot, 
-                                quiet = T)
+                                  method.hclust = "average",
+                                  method.dist = DistMethod,
+                                  nboot = nboot, 
+                                  quiet = T)
       
       if (dim(runner_WO_zeros)[2] > 0.2 * dim(runner)[2]) { 
         
@@ -505,12 +512,16 @@ kClassDiscoveryMSI <- function(path,
           
         } else {
           
+          feature_names[i] <- feature_Nr[i]
+          
           cat(paste0("ommited - too few or too many significant K classes ", feature_Nr[i]," - ", i, "\n"))
           cat("...\n")
           
         }
         
       } else {
+        
+        feature_names[i] <- feature_Nr[i]
         
         cat(paste0("Error in dendrogram plot (too many Zeros): ", feature_Nr[i]," - ", i, "\n"))
         cat("...\n") 
@@ -545,6 +556,6 @@ kClassDiscoveryMSI <- function(path,
     return(list_out2)
     
   } 
-   
+  
 }
 
