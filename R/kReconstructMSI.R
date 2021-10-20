@@ -7,7 +7,6 @@
 #' @param PatternEnrichment defaults to "MeanEnrichment.csv". character vector used to grab input csv enrichment files
 #' @param outpath defaults to getwd(). Defines where the output files are written. 
 #' @param as inherits from Cardinal, type of MSI experimental file.  
-#' @param PositionIntensitiesLegend defaults to "topright". Allows to define the position of the legend in the intensities plot.
 #' @param PositionClusterLegend defaults to "bottomleft". Allows to define the position of the legend in the cluster plot.
 #' @param clustMethod defaults to "average". Inherits from ComplexHeatmap and supports all clustering methods described there. 
 #' @param clustDistance defaults to "euclidean". Inherits from ComplexHeatmap and supports all clustering methods described there.
@@ -34,7 +33,6 @@ kReconstructMSI <- function(Reconstruct = c("After", "Before"),
                             PatternEnrichment = "MeanEnrichment.csv",
                             outpath = getwd(),
                             as = c("MSImageSet","MSImagingExperiment"),
-                            PositionIntensitiesLegend = "topright",
                             PositionClusterLegend = "bottomleft",
                             clustMethod = "average",
                             clustDistance = "euclidean",
@@ -64,7 +62,6 @@ kReconstructMSI <- function(Reconstruct = c("After", "Before"),
                                     positionClusterLegend = PositionClusterLegend,
                                     clusterOut,
                                     enrichmentFile,
-                                    positionIntensitiesLegend = PositionIntensitiesLegend,
                                     paletteChosen,
                                     ContrastPercent = ContrastPercentValue) {
     ##### defining coords
@@ -532,7 +529,6 @@ kReconstructMSI <- function(Reconstruct = c("After", "Before"),
                                 positionClusterLegend = PositionClusterLegend,
                                 clusterOut = cluster_out,
                                 enrichmentFile = enrichment_file,
-                                positionIntensitiesLegend = PositionIntensitiesLegend, 
                                 paletteChosen = paletteSpatialPlots,
                                 ContrastPercent = ContrastPercentValue)
           
@@ -622,7 +618,6 @@ kReconstructMSI <- function(Reconstruct = c("After", "Before"),
                                 positionClusterLegend = PositionClusterLegend,
                                 clusterOut = cluster_out,
                                 enrichmentFile = enrichment_file,
-                                positionIntensitiesLegend = PositionIntensitiesLegend, 
                                 paletteChosen = paletteSpatialPlots,
                                 ContrastPercent = ContrastPercentValue)
           
