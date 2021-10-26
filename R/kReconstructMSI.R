@@ -411,7 +411,7 @@ kReconstructMSI <- function(Reconstruct = c("After", "Before"),
     
     pdf(file = paste0(outpath, "/", "sMZ_SubStr", "_" , MSI_file_names[m], ".pdf"), height = 3)
     
-    cluster_list <- list()
+    cluster_list <- vector(mode = "list", length = dim(enrichment_file)[1])
     
     ##### building single reconstructed plots within each file
     
@@ -425,10 +425,7 @@ kReconstructMSI <- function(Reconstruct = c("After", "Before"),
         
         if (is.null(kClustersMSI[[i]][["Coordinates"]])){
           
-          cluster_out <- NULL
-          
-          cluster_list[[i]] <- cluster_out
-          
+          #### NULL objects by default          
           
         } else if (rownames(enrichment_file)[i] != names(kClustersMSI)[i]) {
           
