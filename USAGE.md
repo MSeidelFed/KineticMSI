@@ -202,20 +202,20 @@ source("Functions/Documented/ProxySelection.R")
 source("Functions/Documented/ClassDistribution.R")
 
 proxy_M0M1 <- suppressWarnings(ProxySelection(LabelledFileDir = "SteadyStatePools/SteadyStatePoolsM0M1.csv",
-                                         TreatmentFileDir = "SteadyStatePools/Treatments_L.csv", 
-                                         NLSteadyStatePoolsDir = "SteadyStatePools/SteadyStatePoolsM1M0_NL.csv",
-                                         BatchCorr = T,
-                                         TreatmentIntoMeans = T,
-                                         Factor = as.factor(c(rep("HD",6), rep("WT",6))),
-                                         Duplicate = F))
+                                              TreatmentFileDir = "SteadyStatePools/Treatments_L.csv", 
+                                              NLSteadyStatePoolsDir = "SteadyStatePools/SteadyStatePoolsM1M0_NL.csv",
+                                              BatchCorr = T,
+                                              TreatmentIntoMeans = T,
+                                              Factor = as.factor(c(rep("HD",6), rep("WT",6))),
+                                              Duplicate = F))
 
 proxy_M0Mn <- suppressWarnings(ProxySelection(LabelledFileDir = "SteadyStatePools/SteadyStatePoolsM0Mn.csv",
-                                         TreatmentFileDir = "SteadyStatePools/Treatments_L.csv", 
-                                         NLSteadyStatePoolsDir = "SteadyStatePools/SteadyStatePoolsM1M0_NL.csv",
-                                         BatchCorr = T,
-                                         TreatmentIntoMeans = T,
-                                         Factor = as.factor(c(rep("HD",6), rep("WT",6))),
-                                         Duplicate = F))
+                                              TreatmentFileDir = "SteadyStatePools/Treatments_L.csv", 
+                                              NLSteadyStatePoolsDir = "SteadyStatePools/SteadyStatePoolsM1M0_NL.csv",
+                                              BatchCorr = T,
+                                              TreatmentIntoMeans = T,
+                                              Factor = as.factor(c(rep("HD",6), rep("WT",6))),
+                                              Duplicate = F))
 
 ```
 
