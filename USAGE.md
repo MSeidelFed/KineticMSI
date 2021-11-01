@@ -420,6 +420,19 @@ kReconstructMSI(Reconstruct = "After",
 
 Just as before, the Reconstruct = "After" parameter inside the kReconstructMSI.R function will yield PDF files with the reconstructed maps of kClassDiscovery clusters.
 
+### Step 9' - Targeted subsetting of consolidated data matrices
+
+*A function to manually subset consolidated data matrices into alike pixel groups using their distribution*
+
+The function is interactive and needs to be run directly from the console to enhance the interactive mode. Thee function provides manual partition based on data distribution for molecular features that failed to be successfully subset using pvclust. The function will build a distribution density plot for each indexed molecular feature. The user then will be able to select how many partitions each feature has according to the histogram. Typically multi-modal distributions feature multiple peaks that can be captured this way. Subsequently the user will define and x-lim before which all pixels will be grabbed to integrate them into a subset; this procedure will be iterated for how many partitions the user previously defined. Finally, the function will return the mean partitions, just as the class discovery function before it.
+
+```{r}
+
+test_manual_partition <- kUserAssistedPartitionMSI(kAssesmentOutput = ex_assesment,
+                                                   indexVector = c(58:59),
+                                                   ZeroAction = "replace")
+
+```
 
 # VOY ACA en RMD y PACKAGING
 
