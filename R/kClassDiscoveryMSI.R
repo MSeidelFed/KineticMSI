@@ -250,9 +250,9 @@ kClassDiscoveryMSI <- function(path,
       
     } else if(ZeroAction == "replace") {
         
-      runner[runner == 0] <- rnorm(length(which(runner == 0)),
-                                   mean = 0.0000000000001,
-                                   sd = 0.00000000001)
+      runner[runner == 0] <- abs(rnorm(length(which(runner == 0)),
+                                       mean = 0.0000000000001,
+                                       sd = 0.00000000001))
       
       runner_WO_zeros <- as.matrix(runner)
       
