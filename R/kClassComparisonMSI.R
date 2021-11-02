@@ -27,89 +27,6 @@ kClassComparisonMSI <- function(kAssesmentOutput,
                                 ylabGLM = NULL,
                                 xlabGLM = NULL) {
   
-  ## functions needed
-  
-  GLMplot_CustomizedMSI <- function(Variable,
-                                    factor_glm,
-                                    P_values,
-                                    patternGLMplot = patternGLMplot,
-                                    MainTitle = "",
-                                    ylabGLMs = ylabGLM,
-                                    xlabGLMs = xlabGLM){
-    
-    colorVector = rand_color(length(levels(factor_glm)))
-    
-    FactorNumber <- length(levels(factor_glm))
-    
-    
-    #### Using the glm P-values
-    
-    color_plot <- rep(colorVector, (length(P_values)/FactorNumber))
-    
-    #### assigning stars to P-values, ° = +inf:0.1, * = 0.1:0.05, ** 0.05:0.01, *** 0.01:0
-    
-    stars_out <- c()
-    
-    for (i in 1:length(P_values)) {
-      
-      if (P_values[i] < 0.1 & P_values[i] > 0.05) {
-        runner = "*"
-      } else if (P_values[i] < 0.05 & P_values[i] > 0.01) {
-        runner = "**"
-      } else if (P_values[i] < 0.01) {
-        runner = "***"
-      } else {
-        runner = "°"
-      }
-      
-      stars_out[i] <- runner 
-      
-    }
-    
-    stars_out[1] <- "C"
-    
-    #### plotting
-    
-    boxplot(Variable ~ factor_glm,
-            ylim = c(0, (max(Variable) + mean(Variable))), 
-            main = MainTitle,
-            las = 2,
-            col = color_plot,
-            xlab = xlabGLMs,
-            ylab = ylabGLMs)
-    
-    text(x = c(1:length(unique(factor_glm))),
-         y = (max(Variable) + mean(Variable)),
-         labels = round(P_values, 2))
-    
-    text(x = c(1:length(unique(factor_glm))),
-         y = (max(Variable) + (mean(Variable))/2),
-         labels = stars_out)
-    
-    
-    #### Add data points (https://www.r-graph-gallery.com/96-boxplot-with-jitter.html)
-    
-    data <- data.frame(names = factor_glm, value = Variable)
-    
-    #### Add data points (https://www.r-graph-gallery.com/96-boxplot-with-jitter.html)
-    
-    mylevels <- levels(data$names)
-    levelProportions <- summary(data$names)/nrow(data)
-    
-    for(i in 1:length(mylevels)){
-      
-      thislevel <- mylevels[i]
-      thisvalues <- data[data$names==thislevel, "value"]
-      
-      ##### take the x-axis indices and add a jitter, proportional to the N in each level
-      myjitter <- jitter(rep(i, length(thisvalues)), amount=levelProportions[i]/2)
-      
-      points(myjitter, thisvalues, pch=20, col=rgb(0,0,0,.9)) 
-      
-    }
-    
-  }
-  
   ## main
   
   input_list <- kAssesmentOutput
@@ -202,7 +119,9 @@ kClassComparisonMSI <- function(kAssesmentOutput,
           TukeyCustomized(variable = runner,
                           factor = as.factor(factorVector),
                           MainTitle = names(input_list)[i],
-                          returnObject = "Letters")
+                          returnObject = "Letters",
+                          ylabTukeys = ylabTukey,
+                          xlabTukeys = xlabTukey)
           
           ## saving data for GLM test
           
@@ -334,10 +253,11 @@ kClassComparisonMSI <- function(kAssesmentOutput,
       
       for (i in 1:dim(p_Adjustment)[1]) {
         
-        GLMplot_CustomizedMSI(Variable = as.numeric(p_Adjustment[i,5:(5+(dim(test_mat)[1])-1)]),
-                              factor_glm = as.factor(factorVector),
-                              P_values =as.numeric(p_Adjustment[i,grep(patternGLMplot, colnames(p_Adjustment))]),
-                              MainTitle = rownames(p_Adjustment)[i])
+        GLMplotCustomizedMSI(Variable = as.numeric(p_Adjustment[i,5:(5+(dim(test_mat)[1])-1)]),
+                             factor_glm = as.factor(factorVector),
+                             P_values =as.numeric(p_Adjustment[i,grep(patternGLMplot, colnames(p_Adjustment))]),
+                             MainTitle = rownames(p_Adjustment)[i],
+                             ylabGLMs = ylabGLM, xlabGLMs = xlabGLM)
         
       }
       
