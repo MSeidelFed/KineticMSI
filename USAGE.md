@@ -375,19 +375,32 @@ library(testthat)
 library(pvclust)
 library(matrixStats)
 
-ClassDiscovery_test <- kClassDiscoveryMSI(path = "OutputIsoCorrectoR/",
-                                          PatternEnrichment = "MeanEnrichment_SharedFeatures",
-                                          DistMethod = "abscor",
-                                          nboot = 100,
-                                          alpha = 0.95,
-                                          SigClustHist = TRUE, 
-                                          SubSetRepsIntensities = TRUE,
-                                          CompareSampledSet = TRUE,
-                                          fun2clust = "Enrichment",
-                                          ZeroAction = "replace",
-                                          returnObject = "minDatasetPlusCoords",
-                                          logiTransformation = FALSE)
-                                          
+ClassDiscovery_HD_test <- kClassDiscoveryMSI(path = "OutputIsoCorrectoR/",
+                                             PatternEnrichment = "MeanEnrichment_SharedFeatures",
+                                             DistMethod = "abscor",
+                                             nboot = 100,
+                                             alpha = 0.95,
+                                             SigClustHist = TRUE, 
+                                             SubSetRepsIntensities = TRUE,
+                                             CompareSampledSet = TRUE,
+                                             fun2clust = "Enrichment",
+                                             ZeroAction = "replace",
+                                             returnObject = "minDatasetPlusCoords",
+                                             logiTransformation = FALSE)
+
+ClassDiscovery_WT_test <- kClassDiscoveryMSI(path = "OutputIsoCorrectoR/",
+                                             PatternEnrichment = "MeanEnrichment_SharedFeatures",
+                                             DistMethod = "abscor",
+                                             nboot = 100,
+                                             alpha = 0.95,
+                                             SigClustHist = TRUE, 
+                                             SubSetRepsIntensities = TRUE,
+                                             CompareSampledSet = TRUE,
+                                             fun2clust = "Enrichment",
+                                             ZeroAction = "replace",
+                                             returnObject = "minDatasetPlusCoords",
+                                             logiTransformation = FALSE)
+
 ### Reconstruct Picked Clusters into KineticMSI images
 
 library(reshape2)
@@ -434,11 +447,38 @@ test_manual_partition <- kUserAssistedPartitionMSI(kAssesmentOutput = ex_assesme
 
 ```
 
-# VOY ACA en RMD y PACKAGING
-
 ## Step 10 - Class comparison using pixel subsets
 
+*A function that allows class comparison in replicated KineticMSI data subsets*
+
+This function allows KineticMSI users to use classical class comparison algorithms such as ANOVA + Tukey HSD or generalized linear models (GLMs) + FDR correction. The input for the function comes from the previous kClassDiscoveryMSI.R output. The general assumption of this step is that multi-factorial designs were split at the class discovery level to allow discovery of inner data structures that are factor specific, which are then herein compared. The function outputs graphics embedded in PDF files detailing the results from the class comparison algorithms. Additionally, a table with all the results is returned to the environment when the output is assigned to an object. 
+
 ```{r}
+
+library(reshape2)
+library(effsize)
+library(RandoDiStats)
+library(fitdistrplus)
+library(raster)
+library(matrixStats)
+library(lawstat)
+library(circlize)
+library(multcompView)
+library(arrangements)
+
+test_kSubset_R <- kSubSetClassComparisonMSI(kDiscoveryFactor1 = ClassDiscovery_HD_test,
+                                            kDiscoveryFactor2 = ClassDiscovery_WT_test,
+                                            factor1 = "HD",
+                                            factor2 = "WT", 
+                                            repNumber1 = 6,
+                                            repNumber2 = 6,
+                                            PDFname = "test", 
+                                            returnGLMplots = TRUE,
+                                            patternGLMplot = "Q values",
+                                            ylabTukey = "Tukey HSD",
+                                            xlabTukey = NULL,
+                                            ylabGLM = "GLM",
+                                            xlabGLM = NULL)
 
 ```
 
@@ -466,6 +506,8 @@ test_proportions <- EnrichmentProportions(path = "OutputIsoCorrectoR/",
                                           returnProprotionsHeatmap = TRUE)
 
 ```
+
+# VOY ACA en RMD y PACKAGING
 
 ## Step 12 - Statistical summary of relevant results
 
