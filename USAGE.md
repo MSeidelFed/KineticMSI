@@ -493,17 +493,17 @@ This function allows KineticMSI users to compare the proportion of pixels that f
 library(ComplexHeatmap)
 library(circlize)
 
-test_proportions <- EnrichmentProportions(path = "OutputIsoCorrectoR/",
-                                          PatternEnrichment = "MeanEnrichment_SharedFeatures", 
-                                          SubSetRepsIntensities = FALSE,
-                                          factorVector = c(rep("_HD", 6),
-                                                           rep("_WT", 6)),
-                                          ProportionOperator = "equal",
-                                          ProportionLimit = 0, 
-                                          kmeans = 5,
-                                          KmBoot = 100,
-                                          ClustMethod = "average", 
-                                          returnProprotionsHeatmap = TRUE)
+test_proportions <- kEnrichmentProportionsMSI(path = "OutputIsoCorrectoR/",
+                                              PatternEnrichment = "MeanEnrichment_SharedFeatures", 
+                                              SubSetRepsIntensities = FALSE,
+                                              factorVector = c(rep("_HD", 6),
+                                                               rep("_WT", 6)),
+                                              ProportionOperator = "equal",
+                                              ProportionLimit = 0, 
+                                              kmeans = 5,
+                                              KmBoot = 100,
+                                              ClustMethod = "average", 
+                                              returnProprotionsHeatmap = TRUE)
 
 ```
 
