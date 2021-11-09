@@ -203,11 +203,17 @@ kClassComparisonMSI <- function(kAssesmentOutput,
     
     ## stat test
     
+    repNumber1 <- length(grep(unique(factorVector)[1], factorVector))
+    
+    repNumber2 <- length(grep(unique(factorVector)[2], factorVector))
+    
     Pvalues_test <- OmicsUnivariateStats(class_comparison_mat = test_mat,
-                                         Factor1 = factorVector,
+                                         Factor1 = c(rep("F1", repNumber1), rep("F2_GLM", repNumber2)),
                                          Contrast = F,
-                                         TukeyReturns = "Letters", 
+                                         TukeyReturns = "MeanComparisons", 
                                          returnObject = "OmicsTests")
+    
+    colnames(Pvalues_test)[length(colnames(Pvalues_test))] <- "Factor1F2_TukeyHSD_Padj"
     
     Original_NAs <- which(is.na(as.numeric(colMeans(test_mat))))
     
@@ -254,8 +260,8 @@ kClassComparisonMSI <- function(kAssesmentOutput,
       for (i in 1:dim(p_Adjustment)[1]) {
         
         GLMplotCustomizedMSI(Variable = as.numeric(p_Adjustment[i,5:(5+(dim(test_mat)[1])-1)]),
-                             factor_glm = as.factor(factorVector),
-                             P_values =as.numeric(p_Adjustment[i,grep(patternGLMplot, colnames(p_Adjustment))]),
+                             factorVector = as.factor(factorVector),
+                             Pvalues = as.numeric(p_Adjustment[i,grep(patternGLMplot, colnames(p_Adjustment))]),
                              MainTitle = rownames(p_Adjustment)[i],
                              ylabGLMs = ylabGLM, xlabGLMs = xlabGLM)
         
