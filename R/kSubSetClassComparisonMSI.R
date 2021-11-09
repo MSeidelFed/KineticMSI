@@ -281,17 +281,35 @@ kSubSetClassComparisonMSI <- function(kDiscoveryFactor1,
   
   names(normality_test) <- names(input_list)
   
-  ## stat test
+  ## stat test (remove NAs from the output objects if present)
   
-  test_mat <- test_mat[,!is.na(colMeans(test_mat))]
+  test_mat1 <- test_mat[,!is.na(colMeans(test_mat))]
+  
+  if(dim(test_mat1)[2] != dim(test_mat)[2]) {
+  
+    test_mat <- test_mat1 
+    
+    normality_test <- normality_test[!is.na(colMeans(test_mat))]
+    
+    p_value <- p_value[!is.na(colMeans(test_mat))]
+    
+    E_size <- E_size[!is.na(colMeans(test_mat))]
+    
+    MC_vector <- MC_vector[!is.na(colMeans(test_mat))]
+    
+    factorVectorList <- factorVectorList[!is.na(colMeans(test_mat))]
+    
+  }
   
   ## use factorVectorList to customize the output of the tests
   
   Pvalues_test <- OmicsUnivariateStats(class_comparison_mat = test_mat,
-                                       Factor1 = as.factor(c(rep(factor1, repNumber1), rep(factor2, repNumber2))),
+                                       Factor1 = as.factor(c(rep("F1", repNumber1), rep("F2_GLM", repNumber2))),
                                        Contrast = F,
                                        TukeyReturns = "MeanComparisons",
                                        returnObject = "OmicsTests")
+  
+  colnames(Pvalues_test)[length(colnames(Pvalues_test))] <- "Factor1F2_TukeyHSD_Padj"
   
   ## out_object
   
@@ -324,4 +342,3 @@ kSubSetClassComparisonMSI <- function(kDiscoveryFactor1,
   return(p_Adjustment)
   
 }
-
