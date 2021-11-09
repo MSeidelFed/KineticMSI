@@ -347,6 +347,7 @@ library(matrixStats)
 library(lawstat)
 library(circlize)
 library(effsize)
+library(arrangements)
 
 test_kclcomp <- kClassComparisonMSI(kAssesmentOutput = ex_assesment,
                                     factorVector = c(rep("HD", 6),
@@ -507,104 +508,107 @@ test_proportions <- kEnrichmentProportionsMSI(path = "OutputIsoCorrectoR/",
 
 ```
 
-# VOY ACA en RMD y PACKAGING
-
 ## Step 12 - Statistical summary of relevant results
 
-```{r}
+*A function that allows summarizing the statistical output from KineticMSI full workflow*
 
-```
-
-
-# NO HE USADO ESTE TEXTO
-
-This step takes advantage of the gained resolution provided by Mass Spectrometry Imaging to bypass the limitation of averaging a intensity from a metabolite of interest across a large tissue area. Instead we provide options to rationalize the tissue segmentation based on the tracer dynamics, and this allows us to gain insight into metabolic hotspots for the target compounds.
-
-* Main procedure: The ultimate aim is to perform mean comparison using legitimate isotope enrichment proxies and building a single dataset from all treatments using a randomly sampled number of pixels that matches a minimum subset dimension between input files.Class comparison is achieved using either a generalized linear model or an ANOVA followed by Tukey HSD posthoc test. Class comparison can be perform averaging all pixels into a single value, which would not use the extra information gained by kMSI. Alternatively users can partition the datasets in a unsupervised or assisted maner, for the former a number of K-mean clusters is determined for individual metabolites based on a bootstrapped HCA (customizable alpha - AU *P* value). For the latter, the user specifies the indexes of features of interest and performs an assisted partiotn of the total sets based on density plots that indicate accumulation of pixels in one or several peaks.
-
-The functions take the main path to IsoCorrectoR folders and grab the files to perform class & mean comparison from there. The files are selected based on the "pattern" feature that defaults to "MeanEnrichment.csv". Mean comparison is performed alphabetically and thus factorVector needs to be a simple vector containing the replicated factors in your design. There are two options for class comparison, either a GLM or an ANOVA. If GLM is selected the number of experimental factors must be inputed as well as a vector containing a number of colors names equal to the number of factors, in this case the boxplots will be colored with the defined colors. Clustering options include the distance used as measure to build the clusters and inherits the classes allowed by pvclust. Additionally the bootstrapp iteration number "nboot", which is recommended to be set at least to 1000, the alpha corresponds to the boundary that the user sets to determine if a cluster is significant. If only one cluster is found the function will try to reduce the alpha until finding more clusters, the alphas and dendrograms are outputed in a PDF file. A second PDF contains the boxplots that feature the mean comparisons. Finally the user can define the type of function used to sort before the clustering takes place, i.e., parameter "fun_to_clust", the options are to sort the joint dataset by enrichment percentages or by acquisition time or spatial coordinates, as in the case of DatAssesment function in Step 5. In the latter case if there are spatial contraints in the mean enrichemnt percentages significant grouping will be found, whereas the first function suits the purpose of finding high versus low enriched states that can be randomly distributed across the entire ion image.
-
-Note: The order of the factorVector follows the alphabetic order of the files in the IsoCorrector folders.
+This function allows KineticMSI users to to summarize KineticMSI output in two complementary steps. First the function offers and option to draw volcano plots using the different previously calculated metrics as axes. For instance, P values, Q values, Tukey HSD Padj, Kolmogorov-Smirnov P values in the y-axis, and Log fold changes or Cohen's D statistic in the x-axis. from parameter two until 25, the function call allows to fine tune the volcano plot that comes out from the calculations, extending the customization for enhanced biological understanding. Second, the function allows to perform a pathway enrichment analyses given the appropriate file format with the pathway information (see exemplary file in ...). Parameters 26 to 41 allow to fine tune the details of the pathway enrichment analysis output, which is performed thorugh a Fisher exact test. The test inherits the full categories from the input files and hence supports its legitimacy on the biological accuracy of the files that are provided by the user. Finally, the function is able to return a list of plots with the desired outcome as well as the Fisher enriched categories, if present, in a .csv file named "FisherResults.csv".
 
 ```{r}
-library(reshape2)
-library(multcompView)
-library(testthat)
-library(pvclust)
 
-ClassDiscovery_List <- ClassDiscovery_kMSI(FilesPath = "Data/IsoCorectoR_Files/",
-                                           method.dist = "abscor", 
-                                           nboot = 100, 
-                                           return_SigClustHist = T, 
-                                           fun_to_clust = "Enrichment", 
-                                           pattern = "MeanEnrichment.csv",
-                                           alpha = 0.9)
-
-
-ClassComparison_list <- ClassComparison_kMSI(ClassDiscoveryList = ClassDiscovery_List,
-                                            factorVector = c(rep("_HD", 6),
-                                                             rep("_WT", 6)),
-                                            colorVector = c("tomato3", "peachpuff3"),
-                                            FactorNumber = 2, 
-                                            ClassComparison = "GLM")
-
-```
-
-## Step 7 - Class comparison ############ still needs to be separated from last section here (will do when finished)
-
-
-Test if gender is a confounding variable, if yes, add it as a covariate and run an ANCOVA.
-
-We also provide the option to test for changed proportions of enriched pixels less, greater or equal to a user predefined limit. The function returns a heatmap with the annotated features that isgnificantly change the proportion of x enrichment value between the conditions inputted in factorVector. The factorVector has to alphabetically coincide with the files provided just as the previous class comparison function
-
-```{r}
-test_proportions <- EnrichmentProportions_comparison(FilesPath = "Data/IsoCorectoR_Files/",
-                                                     pattern = "MeanEnrichment.csv",
-                                                     ProportionOperator = "equal",
-                                                     ProportionLimit = 0,
-                                                     factorVector = c(rep("_HD", 6),
-                                                                      rep("_WT", 6)),
-                                                     k = 5,
-                                                     n_boot = 100,
-                                                     ClustMethod = "average",
-                                                     returnProprotionsHeatmap = T)
-```
-
-Finally, we provide a function to gain a general overview of the investigated features that partition into different number of clusters. We group them by significant k number and from there build heatmaps and volcanoes from the resulting matrices in order to interprete in a global context the significant changes of mass features as changed by experimental treatments. The function requires the objects that were produced with "ClassDiscovery_kMSI" & "ClassComparison_kMSI"
-
-
-```{r}
-library(reshape2)
 library(ggplot2)
 library(ggrepel)
-  
-test_Gen <- GeneralExpOverview(ClassDiscovery_List = ClassDiscovery_List,
-                               ClassComparison_list = ClassComparison_list,
-                               ControlSample = "_WT",
-                               returnHeatmaps = T)
+library(scales)
+library(tidyverse)
+
+### Working with the entire dataset
+
+test_summary_dataset <- kSummaryMSI(kComparisonOutput = test_kclcomp,
+                                    Abscissa = "Cohensd",
+                                    Ordinate = "KS_pAdjusted", 
+                                    SigBndrie = 0.05,  
+                                    xBndrie = 0.3,   
+                                    label = "EntityName",  
+                                    plotTitle = "", 
+                                    factor1 = "HD", 
+                                    factor2 = "WT", 
+                                    returnPlotsPNGs = T,  
+                                    AbscissasName = "",  
+                                    OrdinatesName = expression(-Log[10]~italic(P)[adj]~ ~value),     
+                                    width = 15,                  
+                                    height = 25,          
+                                    AxesIndexSize = 30,  
+                                    AxesTitleSize = 30, 
+                                    LegendFontSize = 30,   
+                                    LegendKeySize = 10,  
+                                    LegendTitleSize = 30,
+                                    LabelSize = 8,     
+                                    ColorAllDots = T, 
+                                    DotsSize = 4,  
+                                    FisherTermsDir =  "OriginalData/Pathway analysis terms_V3.csv",
+                                    returnSigFisher = F,
+                                    returnQvaluesFisher = F,  
+                                    h1Fisher = "greater",
+                                    ColorCategory = "Anatomical_location",
+                                    PathwayColorsDir = "OriginalData/Pathway analysis terms_colors_V3.txt",
+                                    returnObject = "FisherPlots",
+                                    BarNumbersPlot = "pSigEntInClassToTotEntInClass",
+                                    FisherCatNumSize = 6,
+                                    FisherCatAxisFontSize = 17.5,
+                                    FisherAxesTitleSize = 17.5,
+                                    FisherLegendFontSize = 20,
+                                    FisherLegendTitleSize = 20,
+                                    FisherLegendKeySize = 17.5,
+                                    LowerLimitFisher = NULL, 
+                                    UpperLimitFisher =  NULL,
+                                    LowerLimitVolcano = NULL,
+                                    UpperLimitVolcano = NULL,
+                                    FisherLegendPosition = "right",
+                                    VolcanoLegendPosition = "right")
+
+### Working with the subsets
+
+test_summary_subset <- kSummaryMSI(kComparisonOutput = test_kSubset_R,
+                                   Abscissa = "Cohensd",
+                                   Ordinate = "Factor1F2_TukeyHSD_Padj", 
+                                   SigBndrie = 0.05,  
+                                   xBndrie = 0.3,   
+                                   label = "EntityName",  
+                                   plotTitle = "", 
+                                   factor1 = "HD", 
+                                   factor2 = "WT", 
+                                   returnPlotsPNGs = T,  
+                                   AbscissasName = "",  
+                                   OrdinatesName = expression(-Log[10]~italic(P)[adj]~ ~value),     
+                                   width = 15,                  
+                                   height = 25,          
+                                   AxesIndexSize = 30,  
+                                   AxesTitleSize = 30, 
+                                   LegendFontSize = 30,   
+                                   LegendKeySize = 10,  
+                                   LegendTitleSize = 30,
+                                   LabelSize = 8,     
+                                   ColorAllDots = T, 
+                                   DotsSize = 4,  
+                                   FisherTermsDir =  "OriginalData/Pathway analysis terms_V3.csv",
+                                   returnSigFisher = F,
+                                   returnQvaluesFisher = F,  
+                                   h1Fisher = "greater",
+                                   ColorCategory = "Anatomical_location",
+                                   PathwayColorsDir = "OriginalData/Pathway analysis terms_colors_V3.txt",
+                                   returnObject = "FisherPlots",
+                                   BarNumbersPlot = "pSigEntInClassToTotEntInClass",
+                                   FisherCatNumSize = 6,
+                                   FisherCatAxisFontSize = 17.5,
+                                   FisherAxesTitleSize = 17.5,
+                                   FisherLegendFontSize = 20,
+                                   FisherLegendTitleSize = 20,
+                                   FisherLegendKeySize = 17.5,
+                                   LowerLimitFisher = NULL, 
+                                   UpperLimitFisher =  NULL,
+                                   LowerLimitVolcano = NULL,
+                                   UpperLimitVolcano = NULL,
+                                   FisherLegendPosition = "right",
+                                   VolcanoLegendPosition = "right")
+
 ```
-
-### drawing the SCC image and selecting an specific cluster as output
-
-There is one mandatory parameter in the function, file_name_WO_extension, which refers to the directory and name of your .ibd and .imzML files. Furthermore there are four optional parameters; type, refers to the kind of Cardinal object that the workflow will use (options are "MSImageSet" and "MSImagingExperiment"). Then you can tune the mathematical parameters of your partitions r, k and s. And the last parameter refers to the cluster_Nr that you want to obtain a data matrix of. Specially usefull to isolate a matrix of your experimental segment
-
-``` 
-example_SSC <- segmentation_initial_steps(file_name_WO_extension = "Imaging_File_Directory", type = "MSImageSet", r = 1, k = 5, s = 3, cluster_Nr = 2)
-``` 
-
-The output is a segmented image of your file and a data matrix containing the information of your selected cluster.
-
-``` 
-example_SSC[1:5,1:3]
-
-                             x = 49, y = 2, z = 1         x = 50, y = 2, z = 1          x = 40, y = 3, z = 1
-286.984753095237             7.712556                     8.307419                      7.192391
-289.058499875001             5.743113                     5.350798                      5.144504
-290.100985837298             0.000000                     0.000000                      3.810359
-315.017782775377             0.000000                     0.000000                      0.000000
-325.13129680233              0.000000                     0.000000                      0.000000
-``` 
-
-
-
-
