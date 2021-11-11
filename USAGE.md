@@ -69,11 +69,13 @@ rmNullPixel_test <- rmNullPixel(MeasurementFileDir = "OriginalData/",
 
 ## Step 3 - Natural Isotopic Abundance (NIA) correction: percentage of isotopic enrichment per pixel
 
+
 Enrichment percentages are calculated using the algorithms described in 
 
   *Heinrich, P., Kohler, C., Ellmann, L., Kuerner, P., Spang, R., Oefner, P. J., and Dettmer, K. (2018). Correcting for natural isotope abundance and tracer impurity in MS-, MS/MS- and high-resolution-multiple-tracer-data from stable isotope labeling experiments with IsoCorrectoR. Sci. Rep. 8.*
   
   *Millard, P., Delépine, B., Guionnet, M., Heuillet, M., Bellvert, F., Létisse, F., and Wren, J. (2019). IsoCor: Isotope correction for high-resolution MS labeling experiments. Bioinformatics 35:4484–4487.*
+
 
 The procedures correct the endogenous metabolite or peptide pools for natural isotopic abundance (NIA) according to the chemical formula before calculating enrichment percentages via a simple A<sub>0</sub> or M<sub>0</sub> to A<sub>n</sub> or M<sub>n</sub> division. The IsoCorrectoR can be used in R and the IsoCor in python to obtain equivalent NIA correction and subsequent percentages of enrichment from molecular species.
 
@@ -88,6 +90,7 @@ This function allows you to correct isotopologue envelopes for NIA inheriting al
 ```{r}
 
 library(IsoCorrectoR)
+
 
 suppressWarnings(NIAcorrection(MeasurementFileDir = "Data/",
                                pattern = "_rm0", 
@@ -116,10 +119,11 @@ Additionally, as a cross validation step of the enrichment percentage calculatio
 
 This function allows you to produce the input files needed for the Python tool [IsoCor](https://pypi.org/project/IsoCor/) that corrects isotopologue envelopes for NIA. The function takes a single csv file with the right format and transforms it. Subsequently, the function generates a matrix to the R environment that can be exported in any desired format to serve as input for IsoCor.
 
+
 Python version when working with a modular system was:
 
-
                                                       module add devel/Python-3.8.0
+
 
 
 IsoCor input tables have the following format:
@@ -133,8 +137,8 @@ IsoCor input tables have the following format:
                          [5,] "Sample_X"    | "PIP2492"  | ""         | "4"           |  "0"           | "70000"     |
                          [6,] "Sample_X"    | "PIP2492"  | ""         | "5"           |  "0"           | "70000"     |
 
-The exemplary format can be obtained from the provided universal input csv format file ("IsoCorInputTable.csv").
 
+The exemplary format can be obtained from the provided universal input csv format file ("IsoCorInputTable.csv").
 
 ```{r}
 
