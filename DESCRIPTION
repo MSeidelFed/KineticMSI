@@ -7,11 +7,11 @@ Authors@R:
            role = c("aut", "cre"),
            email = "mseidel@mpimp-golm.mpg.de",
            comment = c(ORCID = "0000-0002-1410-2492")),
-	person(given = "Farheen",
+    person(given = "Farheen",
            family = "Farzana",
            role = c("aut"),
            email = "ffarheen@student.unimelb.edu.au"),
-	person(given = "Berin A",
+    person(given = "Berin A",
            family = "Boughton",
            role = c("aut"),
            email = "Berin.Boughton@murdoch.edu.au")
