@@ -89,9 +89,6 @@ This function allows you to correct isotopologue envelopes for NIA inheriting al
 
 ```{r}
 
-library(IsoCorrectoR)
-
-
 suppressWarnings(NIAcorrection(MeasurementFileDir = "Data/",
                                pattern = "_rm0", 
                                SubSetReps = TRUE,
@@ -142,8 +139,6 @@ The exemplary format can be obtained from the provided universal input csv forma
 
 ```{r}
 
-library(reshape2)
-
 IsoCor_test <- IsoCorTables(PathToCSV = "IsoCorInputTable.csv")
 
 ```
@@ -158,6 +153,7 @@ The following steps aim to derive various isotope incorporation proxies from the
 This function allows to calculate across MSI pixels various values that reflect different aspects of the tracer dynamics. The function tests if the molecular features are shared across all datasets, if these are not shared, the function produces files with the common features before carrying on with the calculations. This is to prevent errors in the joined steady state pool files that are generated. The function outputs the isotope incorporation proxies as .csv files to the same input directories.
 
 ```{r}
+
 IncorporationProxies(Parent_dir = "OutputIsoCorrectoR/",
                      SteadyStatePools_dir = "SteadyStatePools/",
                      ColSumNorm = FALSE)
@@ -193,17 +189,6 @@ Examples:
 
 
 ```{r}
-
-library(reshape2)
-library(ggplot2)
-library(ggridges)
-library(sva)
-library(ComplexHeatmap)
-library(circlize)
-library(RColorBrewer)
-
-source("Functions/Documented/ProxySelection.R")
-source("Functions/Documented/ClassDistribution.R")
 
 proxy_M0M1 <- suppressWarnings(ProxySelection(LabelledFileDir = "SteadyStatePools/SteadyStatePoolsM0M1.csv",
                                               TreatmentFileDir = "SteadyStatePools/Treatments_L.csv", 
@@ -247,15 +232,6 @@ The function has a dependency to the [Cardinal](https://www.bioconductor.org/pac
 
 ```{r}
 
-library(reshape2)
-library(ggplot2)
-library(gridExtra)
-library(viridis)
-library(Cardinal)
-library(ComplexHeatmap)
-library(circlize)
-library(matrixStats)
-
 example_reconstruct <- kReconstructMSI(Reconstruct = "Before",
                                        path = ".", 
                                        PatternEnrichment = "MeanEnrichment.csv",
@@ -291,14 +267,6 @@ Note that K-mean partitions signal areas of tracer incorporation when those are 
 This function allows KineticMSI users to assess the quality in terms of reproducibility and mean distribution from measured molecular features across several independent treatments. The function first subsets all datasets to a common vector of molecular features and a common number of pixels. If molecular features are not the same across datatsets, the function produces new sets with the "Shared Features", which are named with this extension in the original IsoCorrectoR folders. Pixels are previously sorted per sample according to their magnitude, e.g., in the case of enrichment percentage from high to low enrichment. Afterwards a plot reflecting the ratio of means from subset and entire sets is produced in order to evaluate whether the subsetting procedure is skewing the data or whether the change trends will be fully preserved. An alternative to sorting by magnitude is sorting by acquisition time, which allows the users later on to evaluate differences that might be constrained in space or dependent on the instrument performance during a single sample. The function returns distribution plots in a PDF file across treatments that allow interpreting shifts in data that would otherwise remain unnoticed. Finally the function also returns either a list with the minimum datasets for all matrices or the compressed matrices used for mean distribution assessment and later for mean class comparison across samples.
 
 ```{r}
-
-library(matrixStats)
-library(reshape2)
-library(ggplot2)
-library(ggridges)
-library(RandoDiStats)
-library(fitdistrplus)
-library(raster)
 
 ex_assesment <- kAssesmentMSI(path = "OutputIsoCorrectoR/", 
                               PatternEnrichment = "MeanEnrichment_SharedFeatures", 
@@ -343,16 +311,6 @@ This function allows KineticMSI users to use classical class comparison algorith
 
 ```{r}
 
-library(reshape2)
-library(RandoDiStats)
-library(fitdistrplus)
-library(raster)
-library(matrixStats)
-library(lawstat)
-library(circlize)
-library(effsize)
-library(arrangements)
-
 test_kclcomp <- kClassComparisonMSI(kAssesmentOutput = ex_assesment,
                                     factorVector = c(rep("HD", 6),
                                                      rep("WT", 6)),
@@ -373,12 +331,6 @@ test_kclcomp <- kClassComparisonMSI(kAssesmentOutput = ex_assesment,
 This function allows users to subset consolidated KineticMSI matrices (see our kAssesmentMSI.R function for details) into subsets that are validated internally by the data structure. The function clusters consolidated data matrices using a hierarchical clustering algorithm (HCA) with bootstrapping, which is a dependency from the R package pvclust. Then using a user defined significance threshold the function grabs an optimized number of significant clusters that feature AU-P values above the threshold. The optimization increases the threshold when many significant clusters are found until it optimizes the outcome to the minimum cluster number, or if there are any significant clusters then the optimization parameter lowers the threshold until obtaining significant partitions. The outcome from this tuning process is returned to the console. The function returns to the R environment a list of abundances and coordinates matrices per molecular feature that can be used to both map the clusters onto the original MSI images using kReconstructMSI.R or perform class comparison using the clustered subsets using kSubSetClassComparisonMSI.R. Additionally the function returns to the working directory a number of diagnostic plots that allow users to better contextualize the partitions in their datasets.
 
 ```{r}
-
-library(reshape2)
-library(multcompView)
-library(testthat)
-library(pvclust)
-library(matrixStats)
 
 ClassDiscovery_HD_test <- kClassDiscoveryMSI(path = "OutputIsoCorrectoR/",
                                              PatternEnrichment = "MeanEnrichment_SharedFeatures",
@@ -407,15 +359,6 @@ ClassDiscovery_WT_test <- kClassDiscoveryMSI(path = "OutputIsoCorrectoR/",
                                              logiTransformation = FALSE)
 
 ### Reconstruct Picked Clusters into KineticMSI images
-
-library(reshape2)
-library(ggplot2)
-library(gridExtra)
-library(viridis)
-library(Cardinal)
-library(ComplexHeatmap)
-library(circlize)
-library(matrixStats)
 
 kReconstructMSI(Reconstruct = "After", 
                 kClustersMSI = ClassDiscovery_test,
@@ -460,17 +403,6 @@ This function allows KineticMSI users to use classical class comparison algorith
 
 ```{r}
 
-library(reshape2)
-library(effsize)
-library(RandoDiStats)
-library(fitdistrplus)
-library(raster)
-library(matrixStats)
-library(lawstat)
-library(circlize)
-library(multcompView)
-library(arrangements)
-
 test_kSubset_R <- kSubSetClassComparisonMSI(kDiscoveryFactor1 = ClassDiscovery_HD_test,
                                             kDiscoveryFactor2 = ClassDiscovery_WT_test,
                                             factor1 = "HD",
@@ -495,9 +427,6 @@ This function allows KineticMSI users to compare the proportion of pixels that f
 
 ```{r}
 
-library(ComplexHeatmap)
-library(circlize)
-
 test_proportions <- kEnrichmentProportionsMSI(path = "OutputIsoCorrectoR/",
                                               PatternEnrichment = "MeanEnrichment_SharedFeatures", 
                                               SubSetRepsIntensities = FALSE,
@@ -519,11 +448,6 @@ test_proportions <- kEnrichmentProportionsMSI(path = "OutputIsoCorrectoR/",
 This function allows KineticMSI users to to summarize KineticMSI output in two complementary steps. First the function offers and option to draw volcano plots using the different previously calculated metrics as axes. For instance, P values, Q values, Tukey HSD Padj, Kolmogorov-Smirnov P values in the y-axis, and Log fold changes or Cohen's D statistic in the x-axis. from parameter two until 25, the function call allows to fine tune the volcano plot that comes out from the calculations, extending the customization for enhanced biological understanding. Second, the function allows to perform a pathway enrichment analyses given the appropriate file format with the pathway information (see exemplary file in ...). Parameters 26 to 41 allow to fine tune the details of the pathway enrichment analysis output, which is performed thorugh a Fisher exact test. The test inherits the full categories from the input files and hence supports its legitimacy on the biological accuracy of the files that are provided by the user. Finally, the function is able to return a list of plots with the desired outcome as well as the Fisher enriched categories, if present, in a .csv file named "FisherResults.csv".
 
 ```{r}
-
-library(ggplot2)
-library(ggrepel)
-library(scales)
-library(tidyverse)
 
 ### Working with the entire dataset
 
