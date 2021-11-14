@@ -5,7 +5,7 @@ KineticMSI is a collection of scripts to assist in accurate data preparing and a
 
 The repo follows this file structure, in order of relevance:
 
-1. [Usage Instructions](https://github.com/MSeidelFed/KineticMSI/blob/Packaging/USAGE.md): _detailed and recommended usage of python and bash script code to run the analysis step-by-step._
+1. [Usage Instructions](https://github.com/MSeidelFed/KineticMSI/blob/master/USAGE.md): _detailed and recommended usage of python and bash script code to run the analysis step-by-step._
 1. [Data](): _sample data used in the original project from which the usage examples are based. Use  this to reproduce our results._
 1. [R_Functions](): _collection of R scripts to carry out various steps of the analysis._
 
