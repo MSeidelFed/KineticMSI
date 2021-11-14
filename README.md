@@ -24,8 +24,11 @@ Below is an illustration of the workflow. Current work is in progress to develop
 
 ## Installation
 
-Clone the repo:
 ```
-git clone https://github.com/MSeidelFed/KineticMSI.git
+library(devtools)
+
+devtools::install_github("MSeidelFed/KineticMSI")
+
+library(KineticMSI)
 ```
 
