@@ -7,7 +7,7 @@ The repo follows this file structure, in order of relevance:
 
 1. [Usage Instructions](https://github.com/MSeidelFed/KineticMSI/blob/master/USAGE.md): _detailed and recommended usage of python and bash script code to run the analysis step-by-step._
 1. [Data](): _sample data used in the original project from which the usage examples are based. Use  this to reproduce our results._
-1. [R_Functions](): _collection of R scripts to carry out various steps of the analysis._
+1. [R_Functions](https://github.com/MSeidelFed/KineticMSI/tree/master/R): _collection of R scripts to carry out various steps of the analysis._
 
 1. [Images](): _some figures relevant to the repo_
 
