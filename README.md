@@ -9,7 +9,7 @@ The repo follows this file structure, in order of relevance:
 1. [Data](https://github.com/MSeidelFed/KineticMSI/tree/master/inst/extdata): _sample data used in the original project from which the usage examples are based. Use  this to reproduce our results._
 1. [R_Functions](https://github.com/MSeidelFed/KineticMSI/tree/master/R): _collection of R scripts to carry out various steps of the analysis._
 
-1. [Images](): _some figures relevant to the repo_
+1. [Images](https://github.com/MSeidelFed/KineticMSI/tree/master/images): _some figures relevant to the repo_
 
 Below is an illustration of the workflow. Current work is in progress to develop the modules further into one connected pipeline. 
 
