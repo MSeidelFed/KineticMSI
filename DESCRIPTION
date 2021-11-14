@@ -1,6 +1,6 @@
 Package: KineticMSI
-Title: What the Package Does (One Line, Title Case)
-Version: 0.0.0.9000
+Title: Functions to interpret stable isotope assisted mass spec imaging experiments
+Version: 0.0.1
 Authors@R: 
     c(person(given = "Federico",
              family = "Martinez-Seidel",
