@@ -32,7 +32,7 @@ devtools::install_github("MSeidelFed/KineticMSI")
 library(KineticMSI)
 ```
 
-## getting the exemplary datasets directory after installation
+## Getting the exemplary datasets directory after installation
 
 ```
 system.file("extdata", package = "KineticMSI")
