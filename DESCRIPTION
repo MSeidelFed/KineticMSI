@@ -2,19 +2,19 @@ Package: KineticMSI
 Title: What the Package Does (One Line, Title Case)
 Version: 0.0.0.9000
 Authors@R: 
-    person(given = "Federico",
-           family = "Martinez-Seidel",
-           role = c("aut", "cre"),
-           email = "mseidel@mpimp-golm.mpg.de",
-           comment = c(ORCID = "0000-0002-1410-2492")),
-    person(given = "Farheen",
-           family = "Farzana",
-           role = c("aut"),
-           email = "ffarheen@student.unimelb.edu.au"),
-    person(given = "Berin A",
-           family = "Boughton",
-           role = c("aut"),
-           email = "Berin.Boughton@murdoch.edu.au")
+    c(person(given = "Federico",
+             family = "Martinez-Seidel",
+             role = c("aut", "cre"),
+             email = "mseidel@mpimp-golm.mpg.de",
+             comment = c(ORCID = "0000-0002-1410-2492")),
+      person(given = "Farheen",
+             family = "Farzana",
+             role = c("aut"),
+             email = "ffarheen@student.unimelb.edu.au"),
+      person(given = "Berin A",
+             family = "Boughton",
+             role = c("aut"),
+             email = "Berin.Boughton@murdoch.edu.au"))
 Depends: R (>= 3.6.1), BiocGenerics (>= 0.1.12), Biobase (>= 2.5.5)
 Imports: 
 		IsoCorrectoR,
