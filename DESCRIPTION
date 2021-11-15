@@ -28,7 +28,6 @@ Imports:
 		gridExtra,
 		viridis,
 		Cardinal,
-		ComplexHeatmap,
 		matrixStats,
 		RandoDiStats,
 		fitdistrplus,
