@@ -187,6 +187,6 @@ ProxySelection <- function(LabelledFileDir,
                                 top_annotation = ha)
   print(h)
 
-  return(ratio_L_NL[row_order(h),])
+  return(ratio_L_NL[ComplexHeatmap::row_order(h),])
 
 }
