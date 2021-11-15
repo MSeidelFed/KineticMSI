@@ -5,21 +5,21 @@
 \title{A function to crop input kMSI datasets}
 \usage{
 rmNullPixel(
-  MeasurementFileDir,
-  pattern = "csv",
-  SubSetReps = F,
-  csvReturn = T,
-  OnlyDeletePixelsWOIsotopologs = F,
-  verbose = F,
-  verboseFeature = F,
+  MeasurementFileDir = system.file("extdata", package = "KineticMSI"),
+  pattern = "rep.\\\\.csv",
+  SubSetReps = FALSE,
+  csvReturn = TRUE,
+  OnlyDeletePixelsWOIsotopologs = FALSE,
+  verbose = FALSE,
+  verboseFeature = FALSE,
   rmDataStore = c("NewDir", "InputDir"),
   outdir = "rmOutput"
 )
 }
 \arguments{
-\item{MeasurementFileDir}{directory where the input files are stored.}
+\item{MeasurementFileDir}{directory where the input files are stored. Defaults to KineticMSI external data folder where exemplary files are stored.}
 
-\item{pattern}{defaults to "csv". It is used to define the pattern on which input files are looked for in the MeasurementFileDir}
+\item{pattern}{defaults to "repx.csv" as in the exemplary KineticMSI files. It is used to define the pattern on which input files are looked for in the MeasurementFileDir.}
 
 \item{SubSetReps}{defaults to FALSE. Allows to subset the file list found in MeasurementFileDir.}
 
