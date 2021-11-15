@@ -251,6 +251,8 @@ The function has a dependency to the [Cardinal](https://www.bioconductor.org/pac
 
 ```{r}
 
+library(viridis)
+
 example_reconstruct <- kReconstructMSI(Reconstruct = "Before",
                                        path = ".", 
                                        PatternEnrichment = "MeanEnrichment.csv",
