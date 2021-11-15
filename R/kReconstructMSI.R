@@ -328,7 +328,7 @@ kReconstructMSI <- function(Reconstruct = c("After", "Before"),
     a_reps <- ggplot2::ggplot(test_to_melt, ggplot2::aes(x=Var1, y=value, color= Factor)) +
               ggplot2::geom_boxplot() +
               ggplot2::coord_flip() +
-              ggplot2::geom_jitter(shape=1, position=position_jitter(0.2))+ ggplot2::ylab(yLabName) +
+              ggplot2::geom_jitter(shape = 1, position = ggplot2::position_jitter(0.2))+ ggplot2::ylab(yLabName) +
               ggplot2::xlab(FactorName)+
               ggplot2::theme_classic()+
               ggplot2::ggtitle(lipid_Nr[i])
@@ -338,7 +338,7 @@ kReconstructMSI <- function(Reconstruct = c("After", "Before"),
     a_mean <- ggplot2::ggplot(test_to_melt, ggplot2::aes(x=Var1, y=value, color= Factor)) +
               ggplot2::geom_boxplot() +
               ggplot2::coord_flip() +
-              ggplot2::geom_jitter(shape=1, position=position_jitter(0.2))+ ggplot2::ylab(yLabName) +
+              ggplot2::geom_jitter(shape = 1, position = ggplot2::position_jitter(0.2))+ ggplot2::ylab(yLabName) +
               ggplot2::xlab(FactorName)+
               ggplot2::theme_classic()+
               ggplot2::ggtitle(lipid_Nr[i])
@@ -376,7 +376,7 @@ kReconstructMSI <- function(Reconstruct = c("After", "Before"),
 
     if (as == "MSImageSet") {
 
-      path_m <- strsplit(MSI_files[m], "\\.")[[1]][1:(length(strsplit(MSI_files[m], "\\.")[[1]])-1)]
+      path_m <- paste0(strsplit(MSI_files[1], "\\.")[[1]][1:(length(strsplit(MSI_files[1], "\\.")[[1]])-1)], collapse = ".")
 
       cat(path_m)
 
@@ -390,7 +390,7 @@ kReconstructMSI <- function(Reconstruct = c("After", "Before"),
 
     } else if (as == "MSImagingExperiment") {
 
-      path_m <- strsplit(MSI_files[m], "\\.")[[1]][1:(length(strsplit(MSI_files[m], "\\.")[[1]])-1)]
+      path_m <- paste0(strsplit(MSI_files[1], "\\.")[[1]][1:(length(strsplit(MSI_files[1], "\\.")[[1]])-1)], collapse = ".")
 
       coords_file <- Cardinal::readImzML(name = path_m,
                                          as = "MSImagingExperiment")
