@@ -376,11 +376,10 @@ kReconstructMSI <- function(Reconstruct = c("After", "Before"),
 
     if (as == "MSImageSet") {
 
-      path_m <- paste0(strsplit(MSI_files[1], "\\.")[[1]][1:(length(strsplit(MSI_files[1], "\\.")[[1]])-1)], collapse = ".")
-
-      cat(path_m)
+      path_m <- paste0(strsplit(MSI_files[m], "\\.")[[1]][1:(length(strsplit(MSI_files[m], "\\.")[[1]])-1)], collapse = ".")
 
       coords_file <- Cardinal::readImzML(name = path_m,
+                                         folder = MSIPath,
                                          as = "MSImageSet")
 
       coords_ <- Cardinal::coord(coords_file)
@@ -390,9 +389,10 @@ kReconstructMSI <- function(Reconstruct = c("After", "Before"),
 
     } else if (as == "MSImagingExperiment") {
 
-      path_m <- paste0(strsplit(MSI_files[1], "\\.")[[1]][1:(length(strsplit(MSI_files[1], "\\.")[[1]])-1)], collapse = ".")
+      path_m <- paste0(strsplit(MSI_files[m], "\\.")[[1]][1:(length(strsplit(MSI_files[m], "\\.")[[1]])-1)], collapse = ".")
 
       coords_file <- Cardinal::readImzML(name = path_m,
+                                         folder = MSIPath,
                                          as = "MSImagingExperiment")
 
       File_coords1 <- Cardinal::coord(coords_file)
