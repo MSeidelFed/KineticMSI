@@ -32,7 +32,7 @@
 kReconstructMSI <- function(Reconstruct = c("After", "Before"),
                             kClustersMSI,
                             EnrPath,
-                            MSIPath,
+                            MSIPath = system.file("extdata", package = "KineticMSI"),
                             PatternEnrichment = "MeanEnrichment.csv",
                             outpath = getwd(),
                             as = c("MSImageSet","MSImagingExperiment"),
@@ -316,7 +316,7 @@ kReconstructMSI <- function(Reconstruct = c("After", "Before"),
     rownames(Single_lipid) <- paste0(rep(lipid_Nr[i],
                                          length(MSI_file_names)), "_", MSI_file_names)
 
-    test_to_melt <- melt(Single_lipid)
+    test_to_melt <- reshape2::melt(Single_lipid)
 
     ##### plotting
 
@@ -325,25 +325,25 @@ kReconstructMSI <- function(Reconstruct = c("After", "Before"),
 
     names(Factor) <- NULL
 
-    a_reps <- ggplot(test_to_melt, aes(x=Var1, y=value, color= Factor)) +
-      geom_boxplot() +
-      coord_flip() +
-      geom_jitter(shape=1, position=position_jitter(0.2))+ ylab(yLabName) +
-      xlab(FactorName)+
-      theme_classic()+
-      ggtitle(lipid_Nr[i])
+    a_reps <- ggplot2::ggplot(test_to_melt, aes(x=Var1, y=value, color= Factor)) +
+              ggplot2::geom_boxplot() +
+              ggplot2::coord_flip() +
+              ggplot2::geom_jitter(shape=1, position=position_jitter(0.2))+ ylab(yLabName) +
+              ggplot2::xlab(FactorName)+
+              ggplot2::theme_classic()+
+              ggplot2::ggtitle(lipid_Nr[i])
 
     test_to_melt[,"Var1"] <- Factor
 
-    a_mean <- ggplot(test_to_melt, aes(x=Var1, y=value, color= Factor)) +
-      geom_boxplot() +
-      coord_flip() +
-      geom_jitter(shape=1, position=position_jitter(0.2))+ ylab(yLabName) +
-      xlab(FactorName)+
-      theme_classic()+
-      ggtitle(lipid_Nr[i])
+    a_mean <- ggplot2::ggplot(test_to_melt, aes(x=Var1, y=value, color= Factor)) +
+              ggplot2::geom_boxplot() +
+              ggplot2::coord_flip() +
+              ggplot2::geom_jitter(shape=1, position=position_jitter(0.2))+ ylab(yLabName) +
+              ggplot2::xlab(FactorName)+
+              ggplot2::theme_classic()+
+              ggplot2::ggtitle(lipid_Nr[i])
 
-    grid.arrange(a_reps, a_mean, nrow = 2)
+    gridExtra::grid.arrange(a_reps, a_mean, nrow = 2)
 
   }
 
@@ -376,20 +376,20 @@ kReconstructMSI <- function(Reconstruct = c("After", "Before"),
 
     if (as == "MSImageSet") {
 
-      coords_file <- readImzML(name = strsplit(MSI_files[m], "\\.")[[1]][(length(strsplit(MSI_files[m], "\\.")[[1]])-1)],
-                               as = "MSImageSet")
+      coords_file <- Cardinal::readImzML(name = strsplit(MSI_files[m], "\\.")[[1]][1:(length(strsplit(MSI_files[m], "\\.")[[1]])-1)],
+                                         as = "MSImageSet")
 
-      coords_ <- coord(coords_file)
+      coords_ <- Cardinal::coord(coords_file)
 
       df_coords_ <- as.data.frame(rbind(x = coords_$x, y = coords_$y))
       colnames(df_coords_) <- rownames(coords_)
 
     } else if (as == "MSImagingExperiment") {
 
-      coords_file <- readImzML(name = strsplit(MSI_files[m], "\\.")[[1]][(length(strsplit(MSI_files[m], "\\.")[[1]])-1)],
-                               as = "MSImagingExperiment")
+      coords_file <- Cardinal::readImzML(name = strsplit(MSI_files[m], "\\.")[[1]][1:(length(strsplit(MSI_files[m], "\\.")[[1]])-1)],
+                                         as = "MSImagingExperiment")
 
-      File_coords1 <- coord(coords_file)
+      File_coords1 <- Cardinal::coord(coords_file)
 
       coords_ <- as.data.frame(cbind(x = File_coords1$x, y = File_coords1$y),
                                row.names = paste0("x =" , ", ",

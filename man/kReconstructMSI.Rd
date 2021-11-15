@@ -8,7 +8,7 @@ kReconstructMSI(
   Reconstruct = c("After", "Before"),
   kClustersMSI,
   EnrPath,
-  MSIPath,
+  MSIPath = system.file("extdata", package = "KineticMSI"),
   PatternEnrichment = "MeanEnrichment.csv",
   outpath = getwd(),
   as = c("MSImageSet", "MSImagingExperiment"),
