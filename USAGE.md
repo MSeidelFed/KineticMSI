@@ -277,7 +277,7 @@ The outcome from this visual evaluation is a PDF containing the spatial dynamics
 
 ![Tracer_dynamics](images/Tracer_dynamics.png)
 
-Note that K-mean partitions signal areas of tracer incorporation when those are spatially constrained.
+Note that K-mean partitions signal areas of tracer incorporation when those are spatially constrained. The boxplots representing pixel enrichment dispersions are detailed in the next section. 
 
 ## Step 7 - Quality assesment of consolidated data matrices
 
