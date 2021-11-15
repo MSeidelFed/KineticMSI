@@ -376,7 +376,7 @@ kReconstructMSI <- function(Reconstruct = c("After", "Before"),
 
     if (as == "MSImageSet") {
 
-      path_m <- strsplit(strsplit(MSI_files[1], "/")[[1]][length(strsplit(MSI_files[1], "/")[[1]])], "\\.")[[1]][1]
+      path_m <- strsplit(strsplit(MSI_files[m], "/")[[1]][length(strsplit(MSI_files[m], "/")[[1]])], "\\.")[[1]][1]
 
       coords_file <- Cardinal::readImzML(name = path_m,
                                          folder = MSIPath,
@@ -389,7 +389,7 @@ kReconstructMSI <- function(Reconstruct = c("After", "Before"),
 
     } else if (as == "MSImagingExperiment") {
 
-      path_m <- strsplit(strsplit(MSI_files[1], "/")[[1]][length(strsplit(MSI_files[1], "/")[[1]])], "\\.")[[1]][1]
+      path_m <- strsplit(strsplit(MSI_files[m], "/")[[1]][length(strsplit(MSI_files[m], "/")[[1]])], "\\.")[[1]][1]
 
       coords_file <- Cardinal::readImzML(name = path_m,
                                          folder = MSIPath,
@@ -547,8 +547,8 @@ kReconstructMSI <- function(Reconstruct = c("After", "Before"),
 
         ##### setting a boundary for almost empty matrices
 
-        if (show_condition(code = column_order(Heatmap(as.numeric(enrichment_file[i,]),
-                                                       km = kmeans)) == "error") == "error" |
+        if (show_condition(code = column_order(ComplexHeatmap::Heatmap(as.numeric(enrichment_file[i,]),
+                                                                       km = kmeans)) == "error") == "error" |
             mean(apply(enrichment_file[i,], 2, as.numeric)) == 0) {
 
           ###### null plots
@@ -562,15 +562,15 @@ kReconstructMSI <- function(Reconstruct = c("After", "Before"),
 
         } else {
 
-          HM <- Heatmap(as.numeric(enrichment_file[i,]),
-                        km = kmeans,
-                        row_km_repeats = KmBoot,
-                        cluster_rows = F,
-                        clustering_method_rows = clustMethod,
-                        clustering_distance_rows = clustDistance,
-                        column_title = rownames(enrichment_file[i,]))
+          HM <- ComplexHeatmap::Heatmap(as.numeric(enrichment_file[i,]),
+                                        km = kmeans,
+                                        row_km_repeats = KmBoot,
+                                        cluster_rows = F,
+                                        clustering_method_rows = clustMethod,
+                                        clustering_distance_rows = clustDistance,
+                                        column_title = rownames(enrichment_file[i,]))
 
-          cluster_number <- row_order(HM)
+          cluster_number <- ComplexHeatmap::row_order(HM)
 
           #### loop to take out a matrix with cluster membership
 
@@ -595,7 +595,7 @@ kReconstructMSI <- function(Reconstruct = c("After", "Before"),
 
           plot_coords_ordered <- matrix(NA, nrow = 0, ncol = dim(coords_)[2])
 
-          color_vector <- viridis_pal(option = "D")(length(cluster_number))
+          color_vector <- viridis::viridis_pal(option = "D")(length(cluster_number))
 
           for (k in 1:length(cluster_number)) {
 
