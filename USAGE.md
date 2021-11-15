@@ -28,7 +28,7 @@ KineticMSI has been divided in several steps:
 
 1. KineticMSI summary results.
 
-## Installation
+## Step 0 - Installation
 
 ```{r}
 
@@ -103,20 +103,20 @@ This function allows you to correct isotopologue envelopes for NIA inheriting al
 
 ```{r}
 
-suppressWarnings(NIAcorrection(MeasurementFileDir = "Data/",
-                               pattern = "_rm0", 
-                               SubSetReps = TRUE,
-                               ElementFileDir = "Data/IsoCorectoR_Files/ElementFile.csv",
-                               MoleculeFileDir = "Data/IsoCorectoR_Files/MoleculeFile.csv",
-                               kCorrectTracerImpurity = TRUE,
-                               kCorrectTracerElementCore = TRUE,
-                               kCalculateMeanEnrichment = TRUE,
-                               kCorrectAlsoMonoisotopic = TRUE,
-                               kUltraHighRes = FALSE,
-                               kCalculationThreshold = 10^-8,
-                               kCalculationThreshold_UHR = 8,
-                               verbose = FALSE,
-                               outdir = "Data/IsoCorectoR_Files/"))
+suppressWarnings(KineticMSI::NIAcorrection(MeasurementFileDir = "rmOutput/",
+                                           pattern = "_rm0", 
+                                           SubSetReps = FALSE,
+                                           ElementFileDir = paste0(Path2ExemplaryFiles, "/ElementFile.csv"),
+                                           MoleculeFileDir = paste0(Path2ExemplaryFiles, "/MoleculeFile.csv"),
+                                           kCorrectTracerImpurity = TRUE,
+                                           kCorrectTracerElementCore = TRUE,
+                                           kCalculateMeanEnrichment = TRUE,
+                                           kCorrectAlsoMonoisotopic = TRUE,
+                                           kUltraHighRes = FALSE,
+                                           kCalculationThreshold = 10^-8,
+                                           kCalculationThreshold_UHR = 8,
+                                           verbose = FALSE,
+                                           outdir = "OutputIsoCorrectoR"))
 
 ```
 
