@@ -71,7 +71,7 @@ ClassDistribution <- function(inMat,
                            ggplot2::ggtitle(PlotMain) +
                            ggridges::geom_density_ridges_gradient(scale = 2, rel_min_height = 0.01, gradient_lwd = 1.) +
                            ggridges::theme_ridges(font_size = 10, grid = TRUE) +
-                           ggplot2::theme(axis.title.y = element_blank())))
+                           ggplot2::theme(axis.title.y = ggplot2::element_blank())))
 
 
     suppressMessages(print(ggplot2::ggplot(mydata4.4, ggplot2::aes(x = as.numeric(value), fill = X1_1, color = out_vec)) +
