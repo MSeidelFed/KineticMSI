@@ -11,7 +11,7 @@ The repo follows this file structure, in order of relevance:
 
 1. [Images](https://github.com/MSeidelFed/KineticMSI/tree/master/images): _some figures relevant to the repo_
 
-Below is an illustration of the workflow. Current work is in progress to develop the modules further into one connected pipeline. 
+Below is an illustration of the workflow.
 
 **Workflow PART I**
 
