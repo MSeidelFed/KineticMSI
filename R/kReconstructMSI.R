@@ -22,6 +22,7 @@
 #' @param SubSetRepsIntensities defaults to FALSE. Allows to subset the MSI file list found in path.
 #' @param SubSetRepsMSI defaults to FALSE. Allows to subset the csv file list found in path.
 #' @param returnObject defaults to TRUE. Allows to return the list of matrices to the R enviroment. When FALSE, only the output files are produced
+#' @import viridis
 #' @keywords Image Reconstruction Isotope Tracer Dynamics
 #' @export
 #' @examples
