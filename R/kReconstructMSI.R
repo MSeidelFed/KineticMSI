@@ -325,20 +325,20 @@ kReconstructMSI <- function(Reconstruct = c("After", "Before"),
 
     names(Factor) <- NULL
 
-    a_reps <- ggplot2::ggplot(test_to_melt, aes(x=Var1, y=value, color= Factor)) +
+    a_reps <- ggplot2::ggplot(test_to_melt, ggplot2::aes(x=Var1, y=value, color= Factor)) +
               ggplot2::geom_boxplot() +
               ggplot2::coord_flip() +
-              ggplot2::geom_jitter(shape=1, position=position_jitter(0.2))+ ylab(yLabName) +
+              ggplot2::geom_jitter(shape=1, position=position_jitter(0.2))+ ggplot2::ylab(yLabName) +
               ggplot2::xlab(FactorName)+
               ggplot2::theme_classic()+
               ggplot2::ggtitle(lipid_Nr[i])
 
     test_to_melt[,"Var1"] <- Factor
 
-    a_mean <- ggplot2::ggplot(test_to_melt, aes(x=Var1, y=value, color= Factor)) +
+    a_mean <- ggplot2::ggplot(test_to_melt, ggplot2::aes(x=Var1, y=value, color= Factor)) +
               ggplot2::geom_boxplot() +
               ggplot2::coord_flip() +
-              ggplot2::geom_jitter(shape=1, position=position_jitter(0.2))+ ylab(yLabName) +
+              ggplot2::geom_jitter(shape=1, position=position_jitter(0.2))+ ggplot2::ylab(yLabName) +
               ggplot2::xlab(FactorName)+
               ggplot2::theme_classic()+
               ggplot2::ggtitle(lipid_Nr[i])
@@ -376,7 +376,11 @@ kReconstructMSI <- function(Reconstruct = c("After", "Before"),
 
     if (as == "MSImageSet") {
 
-      coords_file <- Cardinal::readImzML(name = strsplit(MSI_files[m], "\\.")[[1]][1:(length(strsplit(MSI_files[m], "\\.")[[1]])-1)],
+      path_m <- strsplit(MSI_files[m], "\\.")[[1]][1:(length(strsplit(MSI_files[m], "\\.")[[1]])-1)]
+
+      cat(path_m)
+
+      coords_file <- Cardinal::readImzML(name = path_m,
                                          as = "MSImageSet")
 
       coords_ <- Cardinal::coord(coords_file)
@@ -386,7 +390,9 @@ kReconstructMSI <- function(Reconstruct = c("After", "Before"),
 
     } else if (as == "MSImagingExperiment") {
 
-      coords_file <- Cardinal::readImzML(name = strsplit(MSI_files[m], "\\.")[[1]][1:(length(strsplit(MSI_files[m], "\\.")[[1]])-1)],
+      path_m <- strsplit(MSI_files[m], "\\.")[[1]][1:(length(strsplit(MSI_files[m], "\\.")[[1]])-1)]
+
+      coords_file <- Cardinal::readImzML(name = path_m,
                                          as = "MSImagingExperiment")
 
       File_coords1 <- Cardinal::coord(coords_file)
