@@ -253,25 +253,25 @@ The function has a dependency to the [Cardinal](https://www.bioconductor.org/pac
 
 library(viridis)
 
-example_reconstruct <- kReconstructMSI(Reconstruct = "Before",
-                                       path = ".", 
-                                       PatternEnrichment = "MeanEnrichment.csv",
-                                       outpath = getwd(), 
-                                       as = "MSImagingExperiment",
-                                       PositionIntensitiesLegend = "topright",
-                                       PositionClusterLegend = "bottomleft",
-                                       clustMethod = "average", 
-                                       clustDistance = "euclidean", 
-                                       kmeans = 5, 
-                                       KmBoot = 10,
-                                       RevOrdinates = F,
-                                       RevAbscissas = F,
-                                       FactorName = "Genotype",
-                                       yLabName = "Enrichment (%)",
-                                       paletteSpatialPlots = magma,
-                                       ContrastPercentValue = 0.1,
-                                       SubSetRepsIntensities = F,
-                                       SubSetRepsMSI = F)
+example_reconstruct <- KineticMSI::kReconstructMSI(Reconstruct = "Before", 
+                                                   EnrPath = ".", 
+                                                   MSIPath = Path2ExemplaryFiles,  
+                                                   PatternEnrichment = "MeanEnrichment.csv",
+                                                   outpath = getwd(), 
+                                                   as = "MSImagingExperiment",
+                                                   PositionClusterLegend = "bottomleft",
+                                                   clustMethod = "average", 
+                                                   clustDistance = "euclidean", 
+                                                   kmeans = 5, 
+                                                   KmBoot = 10,
+                                                   RevOrdinates = FALSE,
+                                                   RevAbscissas = FALSE,
+                                                   FactorName = "Genotype",
+                                                   yLabName = "Enrichment (%)",
+                                                   paletteSpatialPlots = magma,
+                                                   ContrastPercentValue = 0.1,
+                                                   SubSetRepsIntensities = FALSE,
+                                                   SubSetRepsMSI = FALSE)
 
 ``` 
 
