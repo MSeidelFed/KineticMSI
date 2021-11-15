@@ -65,20 +65,20 @@ ClassDistribution <- function(inMat,
 
     }
 
-    suppressMessages(print(ggplot2::ggplot(mydata4.4, aes(x = as.numeric(value), y = X1_1, color = out_vec)) +
-                                     xlim(summary(as.numeric(mydata4.4$value))["Min."] - summary(as.numeric(mydata4.4$value))["Mean"],
-                                          summary(as.numeric(mydata4.4$value))["Mean"] + ScalingFactorXaxis) +
-                                     ggtitle (PlotMain) +
-                                     ggridges::geom_density_ridges_gradient(scale = 2, rel_min_height = 0.01, gradient_lwd = 1.) +
-                                     theme_ridges(font_size = 10, grid = TRUE) +
-                                     theme(axis.title.y = element_blank())))
+    suppressMessages(print(ggplot2::ggplot(mydata4.4, ggplot2::aes(x = as.numeric(value), y = X1_1, color = out_vec)) +
+                           ggplot2::xlim(summary(as.numeric(mydata4.4$value))["Min."] - summary(as.numeric(mydata4.4$value))["Mean"],
+                                         summary(as.numeric(mydata4.4$value))["Mean"] + ScalingFactorXaxis) +
+                           ggplot2::ggtitle(PlotMain) +
+                           ggridges::geom_density_ridges_gradient(scale = 2, rel_min_height = 0.01, gradient_lwd = 1.) +
+                           ggridges::theme_ridges(font_size = 10, grid = TRUE) +
+                           ggplot2::theme(axis.title.y = element_blank())))
 
 
-    suppressMessages(print(ggplot2::ggplot(mydata4.4, aes(x = as.numeric(value), fill = X1_1, color = out_vec)) +
-                                     geom_density(alpha = 0.2, position = "identity") +
-                                     xlim(summary(as.numeric(mydata4.4$value))["Min."] - summary(as.numeric(mydata4.4$value))["Mean"],
-                                          summary(as.numeric(mydata4.4$value))["Mean"] * ScalingFactorXaxis) +
-                                     ggtitle (PlotMain)))
+    suppressMessages(print(ggplot2::ggplot(mydata4.4, ggplot2::aes(x = as.numeric(value), fill = X1_1, color = out_vec)) +
+                           ggplot2::geom_density(alpha = 0.2, position = "identity") +
+                           ggplot2::xlim(summary(as.numeric(mydata4.4$value))["Min."] - summary(as.numeric(mydata4.4$value))["Mean"],
+                                         summary(as.numeric(mydata4.4$value))["Mean"] * ScalingFactorXaxis) +
+                           ggplot2::ggtitle(PlotMain)))
 
   }
 

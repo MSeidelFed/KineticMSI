@@ -1,7 +1,7 @@
 #' A function to produce the input files for Python-based correction of natural isotopic abundances (NIA)
 #'
 #' This function allows you to produce the input files needed for the Python tool [IsoCor](https://pypi.org/project/IsoCor/) that corrects isotopologue envelopes for NIA. The function takes a single csv file with the right format and transforms it. Subsequently, the function generates a matrix to the R environment that can be exported in any desired format to serve as input for IsoCor.
-#' @param PathToCSV directory where the input file is stored. Defaults to supplemental exemplary file.
+#' @param PathToCSV directory where the input file is stored.
 #' @keywords KineticMSI NIA correction IsoCor
 #' @export
 #' @examples
@@ -11,7 +11,7 @@
 
 
 
-IsoCorTables <- function(PathToCSV = paste0(system.file("extdata", package = "KineticMSI"), "/IsoCorInputTable.csv")) {
+IsoCorTables <- function(PathToCSV) {
 
   WT1 <- read.csv(file = PathToCSV, header = T)
 

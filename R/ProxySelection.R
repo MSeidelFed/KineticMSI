@@ -78,8 +78,8 @@ ProxySelection <- function(LabelledFileDir,
 
     #### main
 
-    ClassDistribution(inMat = Numeric_array,
-                      Treatments = batch)
+    KineticMSI::ClassDistribution(inMat = Numeric_array,
+                                  Treatments = batch)
 
     batch_necessity <- readline(prompt="Do you want to proceed with Batch correction? (Y/N)")
 
