@@ -153,7 +153,7 @@ The exemplary format can be obtained from the provided universal input csv forma
 
 ```{r}
 
-IsoCor_test <- IsoCorTables(PathToCSV = "IsoCorInputTable.csv")
+IsoCor_test <- KineticMSI::IsoCorTables(PathToCSV = paste0(Path2ExemplaryFiles, "/IsoCorInputTable.csv"))
 
 ```
 Subsequently, the output table can be directly used by [IsoCor](https://github.com/MetaSys-LISBP/IsoCor) following the published instructions.
