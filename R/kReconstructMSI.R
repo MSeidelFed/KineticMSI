@@ -169,7 +169,7 @@ kReconstructMSI <- function(Reconstruct = c("After", "Before"),
     filled.contour(x = 1:nrow(in_contour),
                    y = 1:ncol(in_contour),
                    in_contour,
-                   color.palette = viridis::paletteChosen,
+                   color.palette = paletteChosen,
                    ylim = Ordinates,
                    xlim = AbscissasContour,
                    plot.title = title(main = rownames(enrichmentFile)[i]),
@@ -480,7 +480,7 @@ kReconstructMSI <- function(Reconstruct = c("After", "Before"),
             cluster_out_A[,j] <- c(kClustersMSI[[i]][["Values"]][[clusters_after[j]]][m,],
                                    rep(NA, max(max_clust_length) - length(kClustersMSI[[i]][["Values"]][[clusters_after[j]]][m,])))
 
-            color_vector <- viridis_pal(option = "D")(length(clusters_after))
+            color_vector <- viridis::viridis_pal(option = "D")(length(clusters_after))
 
             values_cluster_colors_featurei_filem <- c(values_cluster_colors_featurei_filem,
                                                       rep(color_vector[j], length(coords_after_filei)))
@@ -547,8 +547,8 @@ kReconstructMSI <- function(Reconstruct = c("After", "Before"),
 
         ##### setting a boundary for almost empty matrices
 
-        if (show_condition(code = column_order(ComplexHeatmap::Heatmap(as.numeric(enrichment_file[i,]),
-                                                                       km = kmeans)) == "error") == "error" |
+        if (show_condition(code = ComplexHeatmap::column_order(ComplexHeatmap::Heatmap(as.numeric(enrichment_file[i,]),
+                                                                                       km = kmeans)) == "error") == "error" |
             mean(apply(enrichment_file[i,], 2, as.numeric)) == 0) {
 
           ###### null plots
