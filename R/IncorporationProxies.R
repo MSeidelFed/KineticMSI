@@ -196,8 +196,6 @@ IncorporationProxies <- function(ParentDir,
       
     } else {
       
-      dir.create(path = SteadyStatePoolsDir, showWarnings = F)
-      
       write.csv(SteadyStatePoolsM1Mn, file = paste0(SteadyStatePoolsDir,
                                                     "/", "SteadyStatePoolsM0Mn.csv"))
       
