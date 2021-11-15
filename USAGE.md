@@ -168,9 +168,10 @@ This function allows to calculate across MSI pixels various values that reflect 
 
 ```{r}
 
-IncorporationProxies(Parent_dir = "OutputIsoCorrectoR/",
-                     SteadyStatePools_dir = "SteadyStatePools/",
-                     ColSumNorm = FALSE)
+KineticMSI::IncorporationProxies(ParentDir = "OutputIsoCorrectoR/", 
+                                 SteadyStatePoolsDir = "SteadyStatePools/",
+                                 ColSumNorm = FALSE)
+                                 
 ```
 
 * The function produces:
@@ -204,35 +205,39 @@ Examples:
 
 ```{r}
 
-proxy_M0M1 <- suppressWarnings(ProxySelection(LabelledFileDir = "SteadyStatePools/SteadyStatePoolsM0M1.csv",
-                                              TreatmentFileDir = "SteadyStatePools/Treatments_L.csv", 
-                                              NLSteadyStatePoolsDir = "SteadyStatePools/SteadyStatePoolsM1M0_NL.csv",
-                                              BatchCorr = T,
-                                              TreatmentIntoMeans = T,
-                                              Factor = as.factor(c(rep("HD",6), rep("WT",6))),
-                                              Duplicate = F))
-
-proxy_M0Mn <- suppressWarnings(ProxySelection(LabelledFileDir = "SteadyStatePools/SteadyStatePoolsM0Mn.csv",
-                                              TreatmentFileDir = "SteadyStatePools/Treatments_L.csv", 
-                                              NLSteadyStatePoolsDir = "SteadyStatePools/SteadyStatePoolsM1M0_NL.csv",
-                                              BatchCorr = T,
-                                              TreatmentIntoMeans = T,
-                                              Factor = as.factor(c(rep("HD",6), rep("WT",6))),
-                                              Duplicate = F))
+proxy_M0M1 <- suppressWarnings(KineticMSI::ProxySelection(LabelledFileDir = "SteadyStatePools/SteadyStatePoolsM0M1.csv",
+                                                          TreatmentFileDir = paste0(Path2ExemplaryFiles,
+                                                                                    "/Treatments_L.csv"), 
+                                                          NLSteadyStatePoolsDir = paste0(Path2ExemplaryFiles,
+                                                                                         "/SteadyStatePoolsM1M0_NL.csv"),
+                                                          BatchCorr = T,
+                                                          TreatmentIntoMeans = T,
+                                                          Factor = as.factor(c(rep("HD",6), rep("WT",6))),
+                                                          Duplicate = F))
 
 ```
 
-e.g., batch correction necessities in M<sub>1</sub> + M<sub>0</sub> steady state pools:
+```{r}
+
+proxy_M0Mn <- suppressWarnings(KineticMSI::ProxySelection(LabelledFileDir = "SteadyStatePools/SteadyStatePoolsM0Mn.csv",
+                                                          TreatmentFileDir = paste0(Path2ExemplaryFiles,
+                                                                                    "/Treatments_L.csv"), 
+                                                          NLSteadyStatePoolsDir = paste0(Path2ExemplaryFiles,
+                                                                                         "/SteadyStatePoolsM1M0_NL.csv"),
+                                                          BatchCorr = T,
+                                                          TreatmentIntoMeans = T,
+                                                          Factor = as.factor(c(rep("HD",6), rep("WT",6))),
+                                                          Duplicate = F))
+
+```
+
+e.g., The following exemplifies batch correction necessities in M<sub>1</sub> + M<sub>0</sub> steady state pools plus the Heatmap of the labelled / non-labelled steady state pools. The results indicate that for some lipids the biology is fully preserved (i.e., ratios around 1, whereas for others, abundances might be underestimated in one dataset as compared to the other, i.e., yellow abundances):
 
 ![Batch_correction](images/Batch_correction.png)
 
-After Batch correction, only non-empty rows remain, and that means that if the matrices contain many missing values, not all molecular species will be in the resulting file. In our example, the 85 lipids remain after batch correction. These 85 lipids are then used to compare the biology. The non-labelled steady state exemplary [file](https://github.com/MSeidelFed/KineticMSI/blob/master/Data/Steady_state_pools/SteadyStatePoolsM1M0_NL.csv) is already batch corrected.
-
-The following is the Heatmap of the labelled / non-labelled steady state pools. The results indicate that for some lipids the biology is fully preserved (i.e., ratios around 1, whereas for others, abundances might be underestimated in one dataset as compared to the other, i.e., yellow abundances):
-
-![Heatmap_LvsNL](images/Heatmap_LvsNL.png)
-
 Note that the Heatmap built on the sum from M<sub>0</sub> to M<sub>n</sub> contains fewer extreme values and thus can be regarded as a better proxy to the actual biology in our dataset. This can be observed in the returned ordered matrices from the function, which are equivalent to the actual heatmap.
+
+After Batch correction, only non-empty rows remain, and that means that if the matrices contain many missing values, not all molecular species will be in the resulting file. In our example, the 85 lipids remain after batch correction. These 85 lipids are then used to compare the biology. The non-labelled steady state exemplary file is already batch corrected.
 
 As an example, we continue our analyses using all lipids but interpreted with caution isotope tracer results that are derived from species with a labelled / non-labelled ratio that lies outside a 0.6 - 1.4 range. Using a range, we allow for biological variation while getting rid of lipids with low abundances that are further diluted by deuterium causing a drop in the ratio. The upper range of the ratio does not contain outliers, but outliers in this area might indicate lipids with more isotopologues found during peak picking, which would contain "extra" biased abundances in the labelled treatments due to partial accurateness in NIA correction.
 
