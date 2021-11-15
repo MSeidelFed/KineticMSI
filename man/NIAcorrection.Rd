@@ -5,11 +5,13 @@
 \title{A function to correct natural isotopic abundances (NIA) from kineticMSI datasets or multiple csv files with the right format}
 \usage{
 NIAcorrection(
-  MeasurementFileDir,
+  MeasurementFileDir = "rmOutput/",
   pattern = "_rm0",
-  SubSetReps = F,
-  ElementFileDir,
-  MoleculeFileDir,
+  SubSetReps = FALSE,
+  ElementFileDir = paste0(system.file("extdata", package = "KineticMSI"),
+    "/ElementFile.csv"),
+  MoleculeFileDir = paste0(system.file("extdata", package = "KineticMSI"),
+    "/MoleculeFile.csv"),
   kCorrectTracerImpurity = TRUE,
   kCorrectTracerElementCore = TRUE,
   kCalculateMeanEnrichment = TRUE,

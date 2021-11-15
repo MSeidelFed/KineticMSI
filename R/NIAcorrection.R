@@ -18,15 +18,15 @@
 #' @keywords KineticMSI NIA correction IsoCorrectoR
 #' @export
 #' @examples
-#' 
+#'
 #' ...
 
 
-NIAcorrection <- function(MeasurementFileDir,
+NIAcorrection <- function(MeasurementFileDir = "rmOutput/",
                           pattern = "_rm0",
-                          SubSetReps = F,
-                          ElementFileDir,
-                          MoleculeFileDir,
+                          SubSetReps = FALSE,
+                          ElementFileDir = paste0(system.file("extdata", package = "KineticMSI"), "/ElementFile.csv"),
+                          MoleculeFileDir = paste0(system.file("extdata", package = "KineticMSI"), "/MoleculeFile.csv"),
                           kCorrectTracerImpurity = TRUE,
                           kCorrectTracerElementCore = TRUE,
                           kCalculateMeanEnrichment = TRUE,
@@ -36,20 +36,20 @@ NIAcorrection <- function(MeasurementFileDir,
                           kCalculationThreshold_UHR = 8,
                           verbose = FALSE,
                           outdir){
-  
-  
+
+
   reps <- list.files(path = MeasurementFileDir, pattern = pattern,
                      all.files = FALSE, full.names = TRUE, recursive = TRUE,
                      ignore.case = FALSE, include.dirs = TRUE, no.. = FALSE)
-  
+
   if (SubSetReps == T) {
-    
+
     reps = SubSetInputFiles(reps = reps)
-    
+
   }
-  
+
   for (i in 1:length(reps)) {
-    
+
     IsoCorrectoR::IsoCorrection(MeasurementFile = reps[i],
                                 ElementFile = ElementFileDir,
                                 MoleculeFile = MoleculeFileDir,
@@ -58,16 +58,16 @@ NIAcorrection <- function(MeasurementFileDir,
                                 CalculateMeanEnrichment = kCalculateMeanEnrichment,
                                 UltraHighRes = kUltraHighRes,
                                 ReturnResultsObject = FALSE,
-                                CorrectAlsoMonoisotopic = kCorrectAlsoMonoisotopic, 
+                                CorrectAlsoMonoisotopic = kCorrectAlsoMonoisotopic,
                                 DirOut = outdir,
                                 FileOut = strsplit(strsplit(reps[i],
                                                             split = "/")[[1]][2],
                                                    split = "\\.")[[1]][1],
-                                FileOutFormat = "csv", 
+                                FileOutFormat = "csv",
                                 CalculationThreshold = kCalculationThreshold,
                                 CalculationThreshold_UHR = kCalculationThreshold_UHR,
                                 verbose = verbose)
-    
+
   }
-  
+
 }
