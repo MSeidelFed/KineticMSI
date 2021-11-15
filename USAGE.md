@@ -28,6 +28,20 @@ KineticMSI has been divided in several steps:
 
 1. KineticMSI summary results.
 
+## Installation
+
+```{r}
+
+library(devtools)
+devtools::install_github("MSeidelFed/KineticMSI")
+library(KineticMSI)
+
+## Getting the exemplary datasets directory after installation
+
+Path2ExemplaryFiles <- system.file("extdata", package = "KineticMSI")
+
+```
+
 ## Step 1 - Input matrices: normalized abundances across MSI pixels
 
 Peak picking is performed according to the user preference and the tables must be produced from the peak picking process. The input table must contain all metabolites or peptide mass features to be corrected along with their respective isotopologue envelopes. In the first column, the metabolite identifiers are followed through a floor dash to the isotopologue number starting with 0 that represents the monoisotopic peak. Each column after the first contains the peak abundance across measured pixels in a MSI experiment.
@@ -55,15 +69,15 @@ This function allows you to remove MSI pixels that would impair interpretation o
 
 ```{r}
 
-rmNullPixel_test <- rmNullPixel(MeasurementFileDir = "OriginalData/",
-                                pattern = "csv",
-                                SubSetReps = FALSE, 
-                                csvReturn = TRUE,
-                                OnlyDeletePixelsWOIsotopologs = FALSE,
-                                verbose = FALSE,
-                                verboseFeature = FALSE,
-                                rmDataStore = "NewDir",
-                                outdir = "rmOutput")
+rmNullPixel_test <- KineticMSI::rmNullPixel(MeasurementFileDir = Path2ExemplaryFiles,
+                                            pattern = "rep.\\.csv",
+                                            SubSetReps = FALSE,
+                                            csvReturn = TRUE,
+                                            OnlyDeletePixelsWOIsotopologs = FALSE,
+                                            verbose = FALSE,
+                                            verboseFeature = FALSE,
+                                            rmDataStore = "NewDir",
+                                            outdir = "rmOutput")
 
 ```
 
