@@ -302,27 +302,12 @@ ex_assesment <- KineticMSI::kAssesmentMSI(path = "OutputIsoCorrectoR/",
                                           ScalingFactorXaxisDensityPlot = NULL)
 
 ```
-### St.Dev and means comparison
 
-After sorting, a plot reflecting the ratio of means from subset and entire sets is produced in order to evaluate whether the subsetting procedure is skewing the data or whether the change trends will be fully preserved.
+After sorting, a plot reflecting the ratio of means from subset and entire sets is produced in order to evaluate whether the subsetting procedure is skewing the data or whether the change trends will be fully preserved (Panel B of Data Assesment Figure). Furthermore, the function returns distribution plots in a PDF file across treatments that allow interpreting shifts in data distributions that would otherwise remain unnoticed (Panel A of Data Assesment Figure). Finally, the function also averages all pixels into a single mean per treatment and evaluates the resulting numeric vector distribution to suggest a link function for the glm regression according to the procedure detailed in the [RandoDiStats](https://github.com/MSeidelFed/RandodiStats_package) R package (Panel C of Data Assesment Figure).
 
-![RandomSetQuality](images/Stdev&MeansComparison.png)
+![DatAssessment](images/DatAssesment.png)
 
-### Data distribution assessment
-
-The function returns distribution plots in a PDF file across treatments that allow interpreting shifts in data that would otherwise remain unnoticed.
-
-![IndidvidualRepsDistributions](images/distributionAssesment.png)
-
-### Regression family suggestion for parametrized mean comparison
-
-The function also averages all pixels into a single mean per treatment and evaluates the resulting numeric vector distribution to suggest a link function for the glm regression according to the procedure detailed in the [RandoDiStats](https://github.com/MSeidelFed/RandodiStats_package) R package.
-
-![AverageMSIdist](images/RowMeansDistribution.png)
-
-If the suggested link is Gaussian, as in the example, any parametric test will suffice to compare means and the *P*-values will be legitimate. If on the contrary, the suggested link is non-parametric we strongly suggest using a parameterized glm as means of class comparison. 
-
-Finally the function also returns either a list with the minimum datasets for all matrices or the compressed matrices used for mean distribution assessment and later for mean class comparison across samples.
+If the suggested link is Gaussian, as in the example, any parametric test will suffice to compare means and the *P*-values will be legitimate. If on the contrary, the suggested link is non-parametric we strongly suggest using a parameterized glm as means of class comparison. Finally, the function also returns either a list with the minimum dataset matrices or the compressed matrices used for mean distribution assessment and later for mean class comparison across samples.
 
 ## Step 8 - Class comparison using pixel populations
 
