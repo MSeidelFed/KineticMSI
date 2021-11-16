@@ -289,17 +289,17 @@ This function allows KineticMSI users to assess the quality in terms of reproduc
 
 ```{r}
 
-ex_assesment <- kAssesmentMSI(path = "OutputIsoCorrectoR/", 
-                              PatternEnrichment = "MeanEnrichment_SharedFeatures", 
-                              SubSetRepsIntensities = FALSE, 
-                              CompareSampledSet = TRUE,
-                              returnObject = "RowMeansDataset",
-                              factorVector = c(rep("HD", 6),
-                                               rep("WT", 6)),
-                              fun2clust = "Enrichment",
-                              logiTransformation = FALSE,
-                              ZeroAction = "replace",
-                              ScalingFactorXaxisDensityPlot = NULL)
+ex_assesment <- KineticMSI::kAssesmentMSI(path = "OutputIsoCorrectoR/", 
+                                          PatternEnrichment = "MeanEnrichment_SharedFeatures", 
+                                          SubSetRepsIntensities = FALSE, 
+                                          CompareSampledSet = TRUE,
+                                          returnObject = "minDataset",
+                                          factorVector = c(rep("HD", 6),
+                                                           rep("WT", 6)),
+                                          fun2clust = "Enrichment",
+                                          logiTransformation = FALSE,
+                                          ZeroAction = "replace",
+                                          ScalingFactorXaxisDensityPlot = NULL)
 
 ```
 ### St.Dev and means comparison
@@ -332,16 +332,16 @@ This function allows KineticMSI users to use classical class comparison algorith
 
 ```{r}
 
-test_kclcomp <- kClassComparisonMSI(kAssesmentOutput = ex_assesment,
-                                    factorVector = c(rep("HD", 6),
-                                                     rep("WT", 6)),
-                                    PDFname = "Population_ClassComparison", 
-                                    returnGLMplots = TRUE,
-                                    patternGLMplot = "Q values",
-                                    ylabTukey = "test y",
-                                    xlabTukey = NULL,
-                                    ylabGLM = "test x",
-                                    xlabGLM = NULL)
+test_kclcomp <- KineticMSI::kClassComparisonMSI(kAssesmentOutput = ex_assesment,
+                                                factorVector = c(rep("HD", 6),
+                                                                 rep("WT", 6)),
+                                                PDFname = "Population_ClassComparison", 
+                                                returnGLMplots = TRUE,
+                                                patternGLMplot = "Q values",
+                                                ylabTukey = "test y",
+                                                xlabTukey = NULL,
+                                                ylabGLM = "test x",
+                                                xlabGLM = NULL)
 
 ```
 
