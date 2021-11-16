@@ -10,7 +10,7 @@
 #' @keywords MSI Replicates Class Comparison Tracer Dynamics
 #' @export
 #' @examples
-#' 
+#'
 #' ...
 
 
@@ -20,22 +20,22 @@ GLMplotCustomizedMSI <- function(Variable,
                                  MainTitle = "",
                                  ylabGLMs = NULL,
                                  xlabGLMs = NULL){
-  
-  colorVector = rand_color(length(levels(factorVector)))
-  
+
+  colorVector = circlize::rand_color(length(levels(factorVector)))
+
   FactorNumber <- length(levels(factorVector))
-  
-  
+
+
   #### Using the glm P-values
-  
+
   color_plot <- rep(colorVector, (length(Pvalues)/FactorNumber))
-  
+
   #### assigning stars to P-values, ° = +inf:0.1, * = 0.1:0.05, ** 0.05:0.01, *** 0.01:0
-  
+
   stars_out <- c()
-  
+
   for (i in 1:length(Pvalues)) {
-    
+
     if (Pvalues[i] < 0.1 & Pvalues[i] > 0.05) {
       runner = "*"
     } else if (Pvalues[i] < 0.05 & Pvalues[i] > 0.01) {
@@ -45,54 +45,54 @@ GLMplotCustomizedMSI <- function(Variable,
     } else {
       runner = "°"
     }
-    
-    stars_out[i] <- runner 
-    
+
+    stars_out[i] <- runner
+
   }
-  
+
   stars_out[1] <- "C"
-  
+
   #### plotting
-  
+
   par(mar=c(10,5,3,2))
-  
+
   boxplot(Variable ~ factorVector,
-          ylim = c(0, (max(Variable) + mean(Variable))), 
+          ylim = c(0, (max(Variable) + mean(Variable))),
           main = MainTitle,
           las = 2,
           col = color_plot,
           xlab = xlabGLMs,
           ylab = ylabGLMs)
-  
+
   text(x = c(1:length(unique(factorVector))),
        y = (max(Variable) + mean(Variable)),
        labels = round(Pvalues, 2))
-  
+
   text(x = c(1:length(unique(factorVector))),
        y = (max(Variable) + (mean(Variable))/2),
        labels = stars_out)
-  
-  
+
+
   #### Add data points (https://www.r-graph-gallery.com/96-boxplot-with-jitter.html)
-  
+
   data <- data.frame(names = factorVector, value = Variable)
-  
+
   #### Add data points (https://www.r-graph-gallery.com/96-boxplot-with-jitter.html)
-  
+
   mylevels <- levels(data$names)
   levelProportions <- summary(data$names)/nrow(data)
-  
+
   for(i in 1:length(mylevels)){
-    
+
     thislevel <- mylevels[i]
     thisvalues <- data[data$names==thislevel, "value"]
-    
+
     ##### take the x-axis indices and add a jitter, proportional to the N in each level
     myjitter <- jitter(rep(i, length(thisvalues)), amount=levelProportions[i]/2)
-    
-    points(myjitter, thisvalues, pch=20, col=rgb(0,0,0,.9)) 
-    
+
+    points(myjitter, thisvalues, pch=20, col=rgb(0,0,0,.9))
+
   }
-  
+
 }
 
