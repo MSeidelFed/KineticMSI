@@ -314,14 +314,14 @@ kAssesmentMSI <- function(path,
                                   out_mat2,out_mat2,out_mat2,out_mat2,out_mat2,
                                   out_mat2,out_mat2,out_mat2,out_mat2,out_mat2))
 
-      plotting_distributions(test_mat = plot_mat,
-                             transparency = 0, vector_colors = "black",
-                             MainPlotName = c(paste0("Suggested link ",
-                                                     "(",
-                                                     feature_Nr[i],
-                                                     ") ",
-                                                     plot_name),
-                                              normality_test))
+      RandoDiStats::plotting_distributions(test_mat = plot_mat,
+                                           transparency = 0, vector_colors = "black",
+                                           MainPlotName = c(paste0("Suggested link ",
+                                                                   "(",
+                                                                   feature_Nr[i],
+                                                                   ") ",
+                                                                   plot_name),
+                                                            normality_test))
 
     }
 
