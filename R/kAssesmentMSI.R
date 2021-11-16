@@ -195,11 +195,11 @@ kAssesmentMSI <- function(path,
 
     } else if(ZeroAction == "remove") {
 
-      runner_WO_zeros <- as.matrix(runner[[1]][,as.numeric(colSds(runner[[1]])) != 0])
+      runner_WO_zeros <- as.matrix(runner[[1]][,as.numeric(matrixStats::colSds(runner[[1]])) != 0])
 
     } else if(ZeroAction == "replace") {
 
-      if(length(which(colSds(runner[[1]]) == 0)) > 0) {
+      if(length(which(matrixStats::colSds(runner[[1]]) == 0)) > 0) {
 
         runner[[1]][runner[[1]] == 0] <- abs(rnorm(length(which(runner[[1]] == 0)),
                                                    mean = 0.0000000000001,
