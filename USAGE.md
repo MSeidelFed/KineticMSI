@@ -375,16 +375,7 @@ ClassDiscovery_WT_test <- kClassDiscoveryMSI(path = "OutputIsoCorrectoR/",
                                              returnObject = "minDatasetPlusCoords",
                                              logiTransformation = FALSE)
                                              
-```
-The class discovery procedure as performed in KineticMSI is assisted by a bootstrapped hierarchical cluster analyses and can be visualized in the following figure.
-                                             
-![ClassComparison](images/ClassDiscovery.png)
-
-Following class discovery, users may visualize the picked significant cluster subsets using the kReconstructMSI.R function with the "Reconstruct" parameter set to "After":
-
-```{r}
-
-### Reconstruct Picked Clusters into KineticMSI images
+### Reconstruct Picked Clusters into KineticMSI images (example using joined WT + HD Class Discovery output)
 
 kReconstructMSI(Reconstruct = "After", 
                 kClustersMSI = ClassDiscovery_test,
@@ -402,8 +393,11 @@ kReconstructMSI(Reconstruct = "After",
                 SubSetRepsIntensities = F,
                 SubSetRepsMSI = F, 
                 returnObject = F)
-
+                                             
 ```
+The class discovery procedure as performed in KineticMSI is assisted by a bootstrapped hierarchical cluster analyses and can be visualized in the following figure. Following class discovery, users may visualize the picked significant cluster subsets using the kReconstructMSI.R function with the "Reconstruct" parameter set to "After", e.g.:
+                                             
+![ClassComparison](images/ClassDiscovery.png)
 
 Just as before, the Reconstruct = "After" parameter inside the kReconstructMSI.R function will yield PDF files with the reconstructed maps of kClassDiscovery clusters.
 
