@@ -378,7 +378,7 @@ ClassDiscovery_WT_test <- kClassDiscoveryMSI(path = "OutputIsoCorrectoR/",
 ```
 The class discovery procedure as performed in KineticMSI is assisted by a bootstrapped hierarchical cluster analyses and can be visualized in the following figure.
                                              
-![ClassComparison](images/ClassComparison.png)
+![ClassComparison](images/ClassDiscovery.png)
 
 Following class discovery, users may visualize the picked significant cluster subsets using the kReconstructMSI.R function with the "Reconstruct" parameter set to "After":
 
