@@ -27,8 +27,14 @@ Below is an illustration of the workflow.
 ```
 library(devtools)
 
-devtools::install_github("MSeidelFed/KineticMSI")
+### Get the latest installation of RandoDiStats (KineticMSI depends on it)
 
+devtools::install_github("MSeidelFed/RandodiStats_package")
+library(RandoDiStats)
+
+### Install KinetiMSI
+
+devtools::install_github("MSeidelFed/KineticMSI")
 library(KineticMSI)
 ```
 
