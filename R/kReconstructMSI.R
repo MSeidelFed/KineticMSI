@@ -686,34 +686,6 @@ kReconstructMSI <- function(Reconstruct = c("After", "Before"),
 
     names(cluster_list) <- rownames(enrichment_file)
 
-    out_mat <- matrix(NA, nrow = length(cluster_list), ncol = kmeans)
-
-    names_vector <- c()
-
-    for (n in 1:length(cluster_list)) {
-
-      names_vector[n] <- paste0(names(cluster_list)[n], "_", MSI_file_names[m])
-
-      if (is.null(dim(cluster_list[[n]]))) {
-        #### filters species for which the k means algorithm fails
-
-        out_mat[n,] <- rep(NA, kmeans)
-
-      } else if (dim(cluster_list[[n]])[2] != kmeans){
-        #### filters species could only be partitioned into less than the predefined n k means
-
-        out_mat[n,] <- rep(NA, kmeans)
-
-      } else {
-
-        out_mat[n,] <- colMeans(cluster_list[[n]], na.rm = T)
-
-      }
-
-    }
-
-    rownames(out_mat) <- names_vector
-
     ### this object is a matrix that can be used as a merged format of the filtered list if necessary
 
     cluster_list_of_lists[[m]] <- cluster_list
