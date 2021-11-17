@@ -169,35 +169,35 @@ kReconstructMSI <- function(Reconstruct = c("After", "Before"),
 
     if (paletteChosen == "viridis") {
 
-      paletteChosen1 <- function(){viridis::viridis}
+      paletteChosen1 <- function(n){viridis::viridis(n)}
 
     } else if (paletteChosen == "magma") {
 
-      paletteChosen1 <- function(){viridis::magma}
+      paletteChosen1 <- function(n){viridis::magma(n)}
 
     } else if (paletteChosen == "plasma") {
 
-      paletteChosen1 <- function(){viridis::plasma}
+      paletteChosen1 <- function(n){viridis::plasma(n)}
 
     } else if (paletteChosen == "inferno") {
 
-      paletteChosen1 <- function(){viridis::inferno}
+      paletteChosen1 <- function(n){viridis::inferno(n)}
 
     } else if (paletteChosen == "cividis") {
 
-      paletteChosen1 <- function(){viridis::cividis}
+      paletteChosen1 <- function(n){viridis::cividis(n)}
 
     } else if (paletteChosen == "mako") {
 
-      paletteChosen1 <- function(){viridis::mako}
+      paletteChosen1 <- function(n){viridis::mako(n)}
 
     } else if (paletteChosen == "rocket") {
 
-      paletteChosen1 <- function(){viridis::rocket}
+      paletteChosen1 <- function(n){viridis::rocket(n)}
 
     } else if (paletteChosen == "turbo") {
 
-      paletteChosen1 <- function(){viridis::turbo}
+      paletteChosen1 <- function(n){viridis::turbo(n)}
 
     }
 
