@@ -413,7 +413,7 @@ kClassDiscoveryMSI <- function(path,
 
         #### plotting dendrograms with significant clusters
 
-        pvclust::plot(x = HCA_boot_feature, print.pv = "au", print.num = T, cex = 1, lwd = 2, main = feature_Nr[i])
+        plot(x = HCA_boot_feature, print.pv = "au", print.num = T, cex = 1, lwd = 2, main = feature_Nr[i])
 
         pvclust::pvrect(HCA_boot_feature, alpha = alpha, pv="au")
 
