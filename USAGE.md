@@ -349,61 +349,57 @@ This function allows users to subset consolidated KineticMSI matrices (see our k
 
 ```{r}
 
-ClassDiscovery_HD_test <- kClassDiscoveryMSI(path = "OutputIsoCorrectoR/",
-                                             PatternEnrichment = "MeanEnrichment_SharedFeatures",
-                                             DistMethod = "abscor",
-                                             nboot = 100,
-                                             alpha = 0.95,
-                                             SigClustHist = TRUE, 
-                                             SubSetRepsIntensities = TRUE,
-                                             CompareSampledSet = TRUE,
-                                             fun2clust = "Enrichment",
-                                             ZeroAction = "replace",
-                                             returnObject = "minDatasetPlusCoords",
-                                             logiTransformation = FALSE)
+### subset files to HD samples
+ClassDiscovery_HD_test <- KineticMSI::kClassDiscoveryMSI(path = "OutputIsoCorrectoR/",
+                                                         PatternEnrichment = "MeanEnrichment_SharedFeatures",
+                                                         DistMethod = "abscor",
+                                                         nboot = 100,
+                                                         alpha = 0.95,
+                                                         SigClustHist = TRUE, 
+                                                         SubSetRepsIntensities = TRUE,
+                                                         CompareSampledSet = TRUE,
+                                                         fun2clust = "Enrichment",
+                                                         ZeroAction = "replace",
+                                                         returnObject = "minDatasetPlusCoords",
+                                                         logiTransformation = FALSE)
 
-ClassDiscovery_WT_test <- kClassDiscoveryMSI(path = "OutputIsoCorrectoR/",
-                                             PatternEnrichment = "MeanEnrichment_SharedFeatures",
-                                             DistMethod = "abscor",
-                                             nboot = 100,
-                                             alpha = 0.95,
-                                             SigClustHist = TRUE, 
-                                             SubSetRepsIntensities = TRUE,
-                                             CompareSampledSet = TRUE,
-                                             fun2clust = "Enrichment",
-                                             ZeroAction = "replace",
-                                             returnObject = "minDatasetPlusCoords",
-                                             logiTransformation = FALSE)
+## subset files to WT samples
+ClassDiscovery_WT_test <- KineticMSI::kClassDiscoveryMSI(path = "OutputIsoCorrectoR/",
+                                                         PatternEnrichment = "MeanEnrichment_SharedFeatures",
+                                                         DistMethod = "abscor",
+                                                         nboot = 100,
+                                                         alpha = 0.95,
+                                                         SigClustHist = TRUE, 
+                                                         SubSetRepsIntensities = TRUE,
+                                                         CompareSampledSet = TRUE,
+                                                         fun2clust = "Enrichment",
+                                                         ZeroAction = "replace",
+                                                         returnObject = "minDatasetPlusCoords",
+                                                         logiTransformation = FALSE)
+                                             
+### Reconstruct Picked Clusters into KineticMSI images (example using joined WT + HD Class Discovery output)
+KineticMSI::kReconstructMSI(Reconstruct = "After", 
+                            kClustersMSI = ClassDiscovery_test,
+                            EnrPath = ".", 
+                            MSIPath = Path2ExemplaryFiles,
+                            PatternEnrichment = "MeanEnrichment.csv",
+                            outpath = getwd(), 
+                            as = "MSImagingExperiment",
+                            PositionClusterLegend = "bottomleft",
+                            RevOrdinates = F,
+                            RevAbscissas = F,
+                            FactorName = "Genotype",
+                            yLabName = "Enrichment (%)",
+                            paletteSpatialPlots = "magma",
+                            ContrastPercentValue = 0.1,
+                            SubSetRepsIntensities = F,
+                            SubSetRepsMSI = F, 
+                            returnObject = F)
                                              
 ```
-The class discovery procedure as performed in KineticMSI is assisted by a bootstrapped hierarchical cluster analyses and can be visualized in the following figure.
+The class discovery procedure as performed in KineticMSI is assisted by a bootstrapped hierarchical cluster analyses and can be visualized in the following figure. Following class discovery, users may visualize the picked significant cluster subsets using the kReconstructMSI.R function with the "Reconstruct" parameter set to "After", e.g.:
                                              
 ![ClassComparison](images/ClassDiscovery.png)
-
-Following class discovery, users may visualize the picked significant cluster subsets using the kReconstructMSI.R function with the "Reconstruct" parameter set to "After":
-
-```{r}
-
-### Reconstruct Picked Clusters into KineticMSI images
-
-kReconstructMSI(Reconstruct = "After", 
-                kClustersMSI = ClassDiscovery_test,
-                path = ".", 
-                PatternEnrichment = "MeanEnrichment.csv",
-                outpath = getwd(), 
-                as = "MSImagingExperiment",
-                PositionClusterLegend = "bottomleft",
-                RevOrdinates = F,
-                RevAbscissas = F,
-                FactorName = "Genotype",
-                yLabName = "Enrichment (%)",
-                paletteSpatialPlots = magma,
-                ContrastPercentValue = 0.1,
-                SubSetRepsIntensities = F,
-                SubSetRepsMSI = F, 
-                returnObject = F)
-
-```
 
 Just as before, the Reconstruct = "After" parameter inside the kReconstructMSI.R function will yield PDF files with the reconstructed maps of kClassDiscovery clusters.
 
