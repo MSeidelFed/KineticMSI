@@ -31,12 +31,19 @@ KineticMSI has been divided in several steps:
 ## Step 0 - Installation
 
 ```{r}
-
 library(devtools)
+
+### Get the latest installation of RandoDiStats (KineticMSI depends on it)
+
+devtools::install_github("MSeidelFed/RandodiStats_package")
+library(RandoDiStats)
+
+### Install KineticMSI
+
 devtools::install_github("MSeidelFed/KineticMSI")
 library(KineticMSI)
 
-## Getting the exemplary datasets directory after installation
+### Getting the exemplary datasets directory after installation
 
 Path2ExemplaryFiles <- system.file("extdata", package = "KineticMSI")
 
