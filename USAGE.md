@@ -330,6 +330,10 @@ test_kclcomp <- KineticMSI::kClassComparisonMSI(kAssesmentOutput = ex_assesment,
 
 ```
 
+The function outputs summary statistics in graphical and numerical form as detailed in the following figure:
+
+![DatAssessment](images/ClassComparison.png)
+
 ## Step 9 - Subsetting of consolidated data matrices into alike pixel sets 
 
 *A function to subset consolidated KineticMSI datasets into groups of related pixels*
