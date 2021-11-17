@@ -339,7 +339,7 @@ test_kclcomp <- KineticMSI::kClassComparisonMSI(kAssesmentOutput = ex_assesment,
 
 The function outputs summary statistics in graphical and numerical form as detailed in the following figure:
 
-![DatAssessment](images/ClassComparison.png)
+![ClassComparison](images/ClassComparison.png)
 
 ## Step 9 - Subsetting of consolidated data matrices into alike pixel sets 
 
@@ -374,6 +374,15 @@ ClassDiscovery_WT_test <- kClassDiscoveryMSI(path = "OutputIsoCorrectoR/",
                                              ZeroAction = "replace",
                                              returnObject = "minDatasetPlusCoords",
                                              logiTransformation = FALSE)
+                                             
+```
+The class discovery procedure as performed in KineticMSI is assisted by a bootstrapped hierarchical cluster analyses and can be visualized in the following figure.
+                                             
+![ClassComparison](images/ClassComparison.png)
+
+Following class discovery, users may visualize the picked significant cluster subsets using the kReconstructMSI.R function with the "Reconstruct" parameter set to "After":
+
+```{r}
 
 ### Reconstruct Picked Clusters into KineticMSI images
 
