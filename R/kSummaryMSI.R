@@ -727,8 +727,8 @@ kSummaryMSI <- function(kComparisonOutput,
 
       Fisher_plots[[i]] <- runner
 
-      ggsave(runner, file=paste0("FisherBarplot_", names(list_HyperTest)[i], "_", plotTitle,".png"),
-             width = 44.45, height = 27.78, units = "cm", dpi=300)
+      ggplot2::ggsave(runner, file=paste0("FisherBarplot_", names(list_HyperTest)[i], "_", plotTitle,".png"),
+                      width = 44.45, height = 27.78, units = "cm", dpi=300)
 
     }
 
