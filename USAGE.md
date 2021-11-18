@@ -416,10 +416,11 @@ test_manual_partition <- kUserAssistedPartitionMSI(kAssesmentOutput = ex_assesme
                                                    ZeroAction = "replace")
 
 ```
+The visual outcome of the procedure is represented in the following figure:
 
-<p align="center">
-  <img width="460" height="300" src="https://github.com/MSeidelFed/KineticMSI/blob/master/images/UserAssistedPartition.png">
-</p>
+![UserAssistedPartition](images/UserAssistedPartition.png)
+
+When only one paek wants to be picked then users must select one partition and grab from the end of the respective peak as in the right panel of the above figure. The function returns the matrices with the partitions to the R environment.
 
 ## Step 10 - Class comparison using pixel subsets
 
