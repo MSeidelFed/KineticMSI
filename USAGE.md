@@ -403,6 +403,12 @@ The class discovery procedure as performed in KineticMSI is assisted by a bootst
 
 Just as before, the Reconstruct = "After" parameter inside the kReconstructMSI.R function will yield PDF files with the reconstructed maps of kClassDiscovery clusters.
 
+Additionally, the fucntion returns a figure that summarizes using a densities histogram the number of coherent partitions found across the evaluated features. The figure supplements nicely the results found:
+
+<p align="center">
+  <img width="600" height="400" src="https://github.com/MSeidelFed/KineticMSI/blob/master/images/DensitiesFeaturePartition.png">
+</p>
+
 ### Step 9' - Targeted subsetting of consolidated data matrices
 
 *A function to manually subset consolidated data matrices into alike pixel groups using their distribution*
