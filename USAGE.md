@@ -476,6 +476,11 @@ In the test example, it was predefined that the proportion of pixels equal to 0%
 
 ![EnrichmentProportions](images/EnrichmentProportions.png)
 
+
+<p align="center">
+  <img width="460" height="300" src="https://github.com/MSeidelFed/KineticMSI/blob/master/images/EnrichmentProportions.png">
+</p>
+
 Note that only significantly changed features are named in the returned Heatmap
 
 ## Step 12 - Statistical summary of relevant results
