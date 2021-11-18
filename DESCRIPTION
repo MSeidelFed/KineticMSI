@@ -39,7 +39,8 @@ Imports:
 		testthat,
 		pvclust,
 		scales,
-		tidyverse
+		tidyverse,
+		forcats
 Maintainer: Federico Martinez-Seidel <mseidel@mpimp-golm.mpg.de>
 Description: Functions to interpret stable isotope assisted mass spectrometry imaging experiments.
 License: BSD 2-Clause License.
