@@ -334,10 +334,10 @@ kSummaryMSI <- function(kComparisonOutput,
                   ggplot2::theme_classic()+
                   ggplot2::xlim(LowerLimitsFisher, UpperLimitsFisher)+
                   ggplot2::labs(fill = "Functional Categories")+
-                  ggplot2::theme(axis.text.y = element_text(size = FisherCatAxisFontSizes),
-                                 axis.title=element_text(size= FisherAxesTitleSizes,face="bold"),
-                                 legend.text=element_text(size= FisherLegendFontSizes),
-                                 legend.title=element_text(size= FisherLegendTitleSizes,face="bold"))+
+                  ggplot2::theme(axis.text.y = ggplot2::element_text(size = FisherCatAxisFontSizes),
+                                 axis.title = ggplot2::element_text(size= FisherAxesTitleSizes,face="bold"),
+                                 legend.text = ggplot2::element_text(size= FisherLegendFontSizes),
+                                 legend.title = ggplot2::element_text(size= FisherLegendTitleSizes,face="bold"))+
                   ggplot2::theme(legend.position=FisherLegendPosition)+
                   ggplot2::guides(color = guide_legend(override.aes = list(size= FisherLegendKeySizes)))
 
