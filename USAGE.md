@@ -587,3 +587,13 @@ test_summary_subset <- kSummaryMSI(kComparisonOutput = test_kSubset_R,
                                    VolcanoLegendPosition = "right")
 
 ```
+
+The sumamry function enables insights in pixel populations and also in coherent pixel subsets as picked by our class discovery algorithm. The following exemplary results are taken from the analysis of the tracer dynamics across pixel populations:
+
+![SummaryPopulation](images/SummaryPopulation.png)
+
+Note that when comparing the means of the experimental treatments (i.e., using a generalized linear model in panel B), there are any significantly changing lipids. On the other hand when comparing the data distribution between experimental treatments (i.e., using a Kolmogorov-Smirnov test in panel A), there are lipids that significantly differ in their distribution between both treatments. in the latter case, the significant changes are taken to perform a pathway enrichment analysis based on the Fisher exact test in order to elucidate whether the group of lipids belong to a specific functional category.
+
+Similarly, the same insights can be obtained about the coherent pixel subsets that were partitioned using our class discovery algorithm. The details are exemplified in the following figure, which shows comparisons of coherent pixel subsets between thw two treatments and not within them:
+
+![SummarySubsets](images/SummarySubsets.png)
