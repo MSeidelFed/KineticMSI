@@ -21,6 +21,7 @@ Imports:
 		reshape2,
 		ggplot2,
 		ggridges,
+		ggrepel,
 		sva,
 		ComplexHeatmap,
 		circlize,
