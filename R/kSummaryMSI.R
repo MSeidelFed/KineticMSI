@@ -738,10 +738,16 @@ kSummaryMSI <- function(kComparisonOutput,
 
     return(plot_list)
 
-  } else if (returnObject == "FisherPlots") {
+  } else if (returnObject == "FisherPlots" & exists("Fisher_plots")) {
 
     return(Fisher_plots)
 
+  } else if (returnObject == "FisherPlots" & !exists("Fisher_plots")) {
+    
+    cat("...\n")
+    cat("No Plots to return due to lack of significances")
+    cat("...\n")  
+    
   } else if (returnObject == "matrices") {
 
     return(list_SubSets)
