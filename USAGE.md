@@ -4,15 +4,15 @@
 ## Usage Instructions
 KineticMSI has been divided in several steps:
 
-1.  Input data: Necessary to start are data matrices featuring normalized or ready-to-compare abundances across MSI pixels.
+1.  Input data: Completely necessary are data matrices featuring normalized or ready-to-compare abundances across MSI pixels.
 
-1.  Data preprocessing: The procedure is meant to delete potentially confounding pixels, which might be misinterpreted as enriched if left on the datasets during natural isotopic enrichment corrections.
+1.  Data pre-processing: The procedure is meant to delete potentially confounding pixels, which might be misinterpreted as enriched if left on the datasets during natural isotopic enrichment corrections.
 
 1. Correcting for natural isotopic abundance (NIA): from the corrected isotopologue pools, the enrichment percentages can be easily derived.
 
 1. Assembling of isotopic flux proxies for analyzing the tracer dynamics.
 
-1. Visualization and determination of the best isotopic flux proxies. The used proxy can vary with diverse experimental strategies, i.e., tracer used, metabolic targets, detected isotopologues, enrichment percentages, isotopic envelope shifts.
+1. Visualization and determination of the best isotopic flux proxies. The used proxies can vary with diverse experimental strategies, i.e., tracer used, metabolic targets, detected isotopologues, enrichment percentages, isotopic envelope shifts.
 
 1. Visualization of isotopic flux proxies and analyses of the tracer spatial dynamics. This step is meant to reconstruct kMSI images based on the derived proxies of isotope enrichment.
 
@@ -20,9 +20,9 @@ KineticMSI has been divided in several steps:
 
 1. Class comparison using pixel populations.
 
-1. Subsetting of consolidated data matrices into alike pixel sets. This step classifies the coordinates from individual molecular species in subclasses based on the enrichment proxies selected in order to prevent dilution of the biology by averaging an entire region. The procedure enables comparison to anatomical regions of interest obtained through unsupervised statistical methods (e.g., from [Cardinal](https://cardinalmsi.org/) SSC or [SCiLS](https://scils.de/) K-means clustering).
+1. Subsetting of consolidated data matrices into alike coherent pixel subsets. This step classifies the coordinates from individual molecular species in subclasses based on the enrichment proxies selected in order to prevent dilution of the biology by averaging an entire region. The procedure enables comparison to anatomical regions of interest obtained through unsupervised statistical methods (e.g., from [Cardinal](https://cardinalmsi.org/) SSC or [SCiLS](https://scils.de/) K-means clustering).
 
-1. Class comparison using pixel subsets. The final step entails an integrated user-assisted relative quantitation and comparison analyses of the enrichment dynamics of the labelled metabolic targets. The procedure uses the classes discovered in the previous step.
+1. Class comparison using pixel subsets: entails relative quantitation and comparison of the enrichment dynamics of the labelled metabolic targets. The procedure uses the classes discovered in the previous step.
 
 1. Class comparison using enriched pixel proportions.
 
@@ -51,7 +51,7 @@ Path2ExemplaryFiles <- system.file("extdata", package = "KineticMSI")
 
 ## Step 1 - Input matrices: normalized abundances across MSI pixels
 
-Peak picking is performed according to the user preference and the tables must be produced from the peak picking process. The input table must contain all metabolites or peptide mass features to be corrected along with their respective isotopologue envelopes. In the first column, the metabolite identifiers are followed through a floor dash to the isotopologue number starting with 0 that represents the monoisotopic peak. Each column after the first contains the peak abundance across measured pixels in a MSI experiment.
+Peak picking is performed according to the user preference and specific tables must be produced from the peak picking process. The input table must contain all metabolites or peptide mass features to be corrected along with their respective isotopologue envelopes. In the first column, the metabolite identifiers are followed through a floor dash by the isotopologue number starting with 0 that represents the monoisotopic peak. Each column after the first contains the peak abundance across measured pixels in a MSI experiment.
 
 
                         Measurements/Samples| Pixel1     | Pixel2     | Pixel3        | Pixel4         | Pixel5      |           
@@ -156,7 +156,7 @@ IsoCor input tables have the following format:
                          [6,] "Sample_X"    | "PIP2492"  | ""         | "5"           |  "0"           | "70000"     |
 
 
-The exemplary format can be obtained from the provided universal input csv format file ("IsoCorInputTable.csv").
+The exemplary format can be obtained from the provided universal input csv format [file](https://github.com/MSeidelFed/KineticMSI/blob/master/inst/extdata/IsoCorInputTable.csv).
 
 ```{r}
 
@@ -193,7 +193,7 @@ KineticMSI::IncorporationProxies(ParentDir = "OutputIsoCorrectoR/",
     
     * A file with the *de novo* synthesized pool either normalized or not
     
-    * Two files containing the steady state pools as calculated from the M<sub>0</sub> or A<sub>0</sub> + M<sub>1</sub> A<sub>1</sub> sum or the M<sub>0</sub> or A<sub>0</sub> +....+ M<sub>n</sub> or A<sub>n</sub> sum. These files are used to determine which one resembles the biology best in the step 3b. This requires an additionally matrix with non-labelled steady states, which will be used as comparison. The steady state files contain means across pixels from each molecular species in all datasets. Thus, since these are not related to a single preexisting IsoCorrectoR folder but to all folders at once, the output are allocated into a new directory that defaults to the current workspace if not specified.
+    * Two files containing the steady state pools as calculated from the M<sub>0</sub> or A<sub>0</sub> + M<sub>1</sub> A<sub>1</sub> sum or the M<sub>0</sub> or A<sub>0</sub> +....+ M<sub>n</sub> or A<sub>n</sub> sum. These files are used to determine which one resembles the biology best. This requires an additional matrix with non-labelled steady states, which is used as comparison. The steady state files contain means across pixels from each molecular species in all datasets. Thus, since these are not related to a single preexisting IsoCorrectoR folder but to all folders at once, the output are allocated into a new directory that defaults to the current workspace if not specified.
 
 ## Step 5 - Selection of isotopic flux proxies: legitimate reflection of the biological system
 
@@ -203,11 +203,11 @@ This function allows to compare the steady state pools from molecular features t
 
 Examples:
  
-   * As an example we have provided a [file](https://github.com/MSeidelFed/KineticMSI/blob/master/Data/Steady_state_pools/SteadyStatePoolsM1M0_NL.csv) containing the steady state pools from non-labelled controls compared to the labelled exemplary datasets*). The exemplary file was built based on the unlabelled features, taking the monoisotopic peak as a proxy of the feature pool. Consequently the derived labelled steady states were built by summing the non-corrected M<sub>0</sub> or A<sub>0</sub> abundances plus its corrected isotopologues (M<sub>1</sub> or A<sub>1</sub>....M<sub>n</sub> or A<sub>n</sub> or only M<sub>1</sub> or A<sub>1</sub>). Corrected M<sub>0</sub> or A<sub>0</sub> contains the NIA and thus summing it with the isotopologues would not be equivalent to the non-labelled picked M<sub>0</sub> or or A<sub>0</sub> peaks.
+   * As an example we have provided a [file](https://github.com/MSeidelFed/KineticMSI/blob/master/inst/extdata/SteadyStatePoolsM1M0_NL.csv) containing the steady state pools from non-labelled controls compared to the labelled exemplary datasets*). The exemplary file was built based on the unlabelled features, taking the monoisotopic peak as a proxy of the feature pool. Consequently the derived labelled steady states were built by summing the non-corrected M<sub>0</sub> or A<sub>0</sub> abundances plus its corrected isotopologues (M<sub>1</sub> or A<sub>1</sub>....M<sub>n</sub> or A<sub>n</sub> or only M<sub>1</sub> or A<sub>1</sub>). Corrected M<sub>0</sub> or A<sub>0</sub> contains the NIA and thus summing it with the isotopologues would not be equivalent to the non-labelled picked M<sub>0</sub> or or A<sub>0</sub> peaks.
 
    * The first step is to remove any batch effect from the steady state pools. To achieve that we provide the BatchCorrection function, which depends on ComBat correction as detailed in the [SVA package](https://rdrr.io/bioc/sva/man/ComBat.html). The procedure was defined for microarray data to correct for between chip variation. Similarly, MSI data from different days may suffer from batch effects that systemically affect abundances either positively or negatively. The function is interactive and must be run from the console in order to take advantage of its interactive features, i.e., the function progressively shows the user how the data is distributed among batches in order to decide if batch correction is actually needed. There is an option to duplicate data in case not enough Batch members exist and that precludes the correction.
     
-   * The second step is to compare both the non-labelled and the labelled steady state pools in order to determine which isotopologue envelope mimics best the biology of the actual pool changes. To achieve that we provide the *LvsNLpools* function, which needs as input the batch corrected datasets, a factor indicating the treatments to be compared, and a logical value indicating whether the treatments are averaged. The function then calculates the ratios between equivalent labelled and non-labelled steady states and plots the ratios as a heatmap. An ideal scenario would be steady state pools with a ratio of 1, which would indicate that the biology between the labelled and non-labelled dataset is fully preserved across treatments. Thus, this function provides an efficient filter to decide which molecular species to further consider for evaluation.
+   * The second step is to compare both the non-labelled and the labelled steady state pools in order to determine which isotopologue envelope mimics best the biology of the actual pool changes. To achieve that we provide the *ProxySelection.R* function, which needs as input the batch corrected datasets, a factor indicating the treatments ( we have provided an exemplary [file](https://github.com/MSeidelFed/KineticMSI/blob/master/inst/extdata/Treatments_L.csv)) to be compared, and a logical value indicating whether the treatments are averaged. The function then calculates the ratios between equivalent labelled and non-labelled steady states and plots the ratios as a heatmap. An ideal scenario would be steady state pools with a ratio of 1, which would indicate that the biology between the labelled and non-labelled dataset is fully preserved across treatments. Thus, this function provides an efficient filter to decide which molecular species to further consider for evaluation.
 
 
 ```{r}
@@ -254,11 +254,9 @@ As an example, we continue our analyses using all lipids but interpreted with ca
 
 This function allows to produce the first type of inference on the replicated datasets that KineticMSI offers. The function produces first boxplots that reflect the dispersion of the chosen isotope tracer proxy across MSI pixels and treatments. The boxplots are produced both for separate replicates and as treatment means. Afterwards the function reconstructs the MSI acquired images by extracting the coordinates from the .ibd .imzML input files and using them to build reconstructed images that reflect the isotope tracer dynamics within the samples specimen. The function has two different run possibilities, it may be run "before" or "after" the KineticMSI class discovery function. In the former case the function will build clusters during the spatial reconstruction of images using a K-mean clustering algorithm and attempting at clustering together pixels based on specific similarity or dissimilarity metrics. In the latter case the clusters are inherited from the kClassDiscoveryMSI function output when the parameter returnObject is set to "minDatasetPlusCoords".
 
-The function has a dependency to the [Cardinal](https://www.bioconductor.org/packages/release/bioc/html/Cardinal.html) R package . 
+The function has a dependency to the [Cardinal](https://www.bioconductor.org/packages/release/bioc/html/Cardinal.html) R package. 
 
 ```{r}
-
-library(viridis)
 
 example_reconstruct <- KineticMSI::kReconstructMSI(Reconstruct = "Before", 
                                                    EnrPath = ".", 
@@ -286,7 +284,7 @@ The outcome from this visual evaluation is a PDF containing the spatial dynamics
 
 ![Tracer_dynamics](images/Tracer_dynamics.png)
 
-Note that K-mean partitions signal areas of tracer incorporation when those are spatially constrained. The boxplots representing pixel enrichment dispersions are detailed in the next section. 
+Note that K-mean partitions signal areas of tracer incorporation when those are spatially constrained.
 
 ## Step 7 - Quality assesment of consolidated data matrices
 
@@ -310,7 +308,7 @@ ex_assesment <- KineticMSI::kAssesmentMSI(path = "OutputIsoCorrectoR/",
 
 ```
 
-After sorting, a plot reflecting the ratio of means from subset and entire sets is produced in order to evaluate whether the subsetting procedure is skewing the data or whether the change trends will be fully preserved (Panel B of Data Assesment Figure). Furthermore, the function returns distribution plots in a PDF file across treatments that allow interpreting shifts in data distributions that would otherwise remain unnoticed (Panel A of Data Assesment Figure). Finally, the function also averages all pixels into a single mean per treatment and evaluates the resulting numeric vector distribution to suggest a link function for the glm regression according to the procedure detailed in the [RandoDiStats](https://github.com/MSeidelFed/RandodiStats_package) R package (Panel C of Data Assesment Figure).
+After sorting, a plot reflecting the ratio of means from sampled and entire sets is produced in order to evaluate whether the sampling procedure is skewing the data or whether the change trends are fully preserved (Panel B of Data Assesment Figure). Furthermore, the function returns distribution plots in a PDF file across treatments that allow interpreting shifts in data distributions that would otherwise remain unnoticed (Panel A of Data Assesment Figure). Finally, the function also averages all pixels into a single mean per treatment and evaluates the resulting numeric vector distribution to suggest a link function for the glm regression according to the procedure detailed in the [RandoDiStats](https://github.com/MSeidelFed/RandodiStats_package) R package (Panel C of Data Assesment Figure).
 
 ![DatAssessment](images/DatAssesment.png)
 
@@ -337,7 +335,7 @@ test_kclcomp <- KineticMSI::kClassComparisonMSI(kAssesmentOutput = ex_assesment,
 
 ```
 
-The function outputs summary statistics in graphical and numerical form as detailed in the following figure:
+The function outputs summary statistics in graphical and numerical form as detailed in the following figure (Panels A, B, C and D for the summary statistics):
 
 ![ClassComparison](images/ClassComparison.png)
 
@@ -397,13 +395,13 @@ KineticMSI::kReconstructMSI(Reconstruct = "After",
                             returnObject = F)
                                              
 ```
-The class discovery procedure as performed in KineticMSI is assisted by a bootstrapped hierarchical cluster analyses and can be visualized in the following figure. Following class discovery, users may visualize the picked significant cluster subsets using the kReconstructMSI.R function with the "Reconstruct" parameter set to "After", e.g.:
+The class discovery procedure as performed in KineticMSI is assisted by a bootstrapped hierarchical cluster analysis and can be visualized in the following figure (Panels A & B). Following class discovery, users may visualize the picked significant cluster subsets using the *kReconstructMSI.R* (Panel C) function with the "Reconstruct" parameter set to "After", e.g.:
                                              
 ![ClassComparison](images/ClassDiscovery.png)
 
 Just as before, the Reconstruct = "After" parameter inside the kReconstructMSI.R function will yield PDF files with the reconstructed maps of kClassDiscovery clusters.
 
-Additionally, the fucntion returns a figure that summarizes using a densities histogram the number of coherent partitions found across the evaluated features. The figure supplements nicely the results found:
+Additionally, the fucntion returns a figure that summarizes using a density histogram the number of coherent partitions found across the evaluated features. The figure supplements nicely the results found:
 
 <p align="center">
   <img width="500" height="400" src="https://github.com/MSeidelFed/KineticMSI/blob/master/images/DensitiesFeaturePartition.png">
@@ -480,13 +478,13 @@ test_proportions <- kEnrichmentProportionsMSI(path = "OutputIsoCorrectoR/",
 
 ```
 
-In the test example, it was predefined that the proportion of pixels equal to 0% enrichment was to be compared between two treatments. The outcome is a Heatmap that shows that porportion and the P or Q values from a statistical test comparing them as exemplified in the follwoing figure:
+In the test example, it was predefined that the proportion of pixels equal to 0% enrichment was to be compared between the two treatments. The outcome is a Heatmap that shows this porportion in each treatment/molecular feature plus and adjacent column featuring the P or Q values from a statistical test comparing the proportions between treatments as has been exemplified in the following figure:
 
 <p align="center">
   <img width="600" height="600" src="https://github.com/MSeidelFed/KineticMSI/blob/master/images/EnrichmentProportions.png">
 </p>
 
-Note that only significantly changed features are named in the returned Heatmap
+Note that only significantly changed features are named in the returned Heatmap.
 
 ## Step 12 - Statistical summary of relevant results
 
@@ -588,11 +586,11 @@ test_summary_subset <- kSummaryMSI(kComparisonOutput = test_kSubset_R,
 
 ```
 
-The sumamry function enables insights in pixel populations and also in coherent pixel subsets as picked by our class discovery algorithm. The following exemplary results are taken from the analysis of the tracer dynamics across pixel populations:
+The summary function enables insights in pixel populations and also in coherent pixel subsets as picked by our class discovery algorithm. The following exemplary results are taken from the analysis of the tracer dynamics across pixel populations:
 
 ![SummaryPopulation](images/SummaryPopulation.png)
 
-Note that when comparing the means of the experimental treatments (i.e., using a generalized linear model in panel B), there are any significantly changing lipids. On the other hand when comparing the data distribution between experimental treatments (i.e., using a Kolmogorov-Smirnov test in panel A), there are lipids that significantly differ in their distribution between both treatments. in the latter case, the significant changes are taken to perform a pathway enrichment analysis based on the Fisher exact test in order to elucidate whether the group of lipids belong to a specific functional category.
+Note that when comparing the means of the experimental treatments (i.e., using a generalized linear model in panel B), there are any significantly changing lipids. On the other hand when comparing the data distribution between experimental treatments (i.e., using a Kolmogorov-Smirnov test in panel A), there are lipids that significantly differ. in the latter case, the significant changes are taken to perform a pathway enrichment analysis based on the Fisher exact test in order to elucidate whether the group of lipids belong to a specific functional category (Panel C).
 
 Similarly, the same insights can be obtained about the coherent pixel subsets that were partitioned using our class discovery algorithm. The details are exemplified in the following figure, which shows comparisons of coherent pixel subsets between thw two treatments and not within them:
 
