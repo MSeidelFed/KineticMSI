@@ -417,6 +417,10 @@ test_manual_partition <- kUserAssistedPartitionMSI(kAssesmentOutput = ex_assesme
 
 ```
 
+<p align="center">
+  <img width="460" height="300" src="https://github.com/MSeidelFed/KineticMSI/blob/master/images/UserAssistedPartition.png">
+</p>
+
 ## Step 10 - Class comparison using pixel subsets
 
 *A function that allows class comparison in replicated KineticMSI data subsets*
