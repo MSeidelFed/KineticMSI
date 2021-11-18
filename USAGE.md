@@ -409,6 +409,8 @@ Additionally, the fucntion returns a figure that summarizes using a densities hi
   <img width="500" height="400" src="https://github.com/MSeidelFed/KineticMSI/blob/master/images/DensitiesFeaturePartition.png">
 </p>
 
+Note that in the working example the majority of lipids partition into two coherent pixel clusters based on deuterium incorporation.
+
 ### Step 9' - Targeted subsetting of consolidated data matrices
 
 *A function to manually subset consolidated data matrices into alike pixel groups using their distribution*
