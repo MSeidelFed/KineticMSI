@@ -430,19 +430,19 @@ This function allows KineticMSI users to use classical class comparison algorith
 
 ```{r}
 
-test_kSubset_R <- kSubSetClassComparisonMSI(kDiscoveryFactor1 = ClassDiscovery_HD_test,
-                                            kDiscoveryFactor2 = ClassDiscovery_WT_test,
-                                            factor1 = "HD",
-                                            factor2 = "WT", 
-                                            repNumber1 = 6,
-                                            repNumber2 = 6,
-                                            PDFname = "test", 
-                                            returnGLMplots = TRUE,
-                                            patternGLMplot = "Q values",
-                                            ylabTukey = "Tukey HSD",
-                                            xlabTukey = NULL,
-                                            ylabGLM = "GLM",
-                                            xlabGLM = NULL)
+test_kSubset_R <- KineticMSI::kSubSetClassComparisonMSI(kDiscoveryFactor1 = ClassDiscovery_HD_test,
+                                                        kDiscoveryFactor2 = ClassDiscovery_WT_test,
+                                                        factor1 = "HD",
+                                                        factor2 = "WT", 
+                                                        repNumber1 = 6,
+                                                        repNumber2 = 6,
+                                                        PDFname = "test", 
+                                                        returnGLMplots = TRUE,
+                                                        patternGLMplot = "Q values",
+                                                        ylabTukey = "Tukey HSD",
+                                                        xlabTukey = NULL,
+                                                        ylabGLM = "GLM",
+                                                        xlabGLM = NULL)
 
 ```
 
