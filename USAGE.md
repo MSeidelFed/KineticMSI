@@ -472,6 +472,14 @@ test_proportions <- kEnrichmentProportionsMSI(path = "OutputIsoCorrectoR/",
 
 ```
 
+In the test example, it was predefined that the proportion of pixels equal to 0% enrichment was to be compared between two treatments. The outcome is a Heatmap that shows that porportion and the P or Q values from a statistical test comparing them as exemplified in the follwoing figure:
+
+<p align="center">
+  <img width="600" height="600" src="https://github.com/MSeidelFed/KineticMSI/blob/master/images/EnrichmentProportions.png">
+</p>
+
+Note that only significantly changed features are named in the returned Heatmap
+
 ## Step 12 - Statistical summary of relevant results
 
 *A function that allows summarizing the statistical output from KineticMSI full workflow*
