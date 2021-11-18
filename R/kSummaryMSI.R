@@ -338,8 +338,8 @@ kSummaryMSI <- function(kComparisonOutput,
                                  axis.title = ggplot2::element_text(size= FisherAxesTitleSizes,face="bold"),
                                  legend.text = ggplot2::element_text(size= FisherLegendFontSizes),
                                  legend.title = ggplot2::element_text(size= FisherLegendTitleSizes,face="bold"))+
-                  ggplot2::theme(legend.position=FisherLegendPosition)+
-                  ggplot2::guides(color = guide_legend(override.aes = list(size= FisherLegendKeySizes)))
+                  ggplot2::theme(legend.position = FisherLegendPosition)+
+                  ggplot2::guides(color = ggplot2::guide_legend(override.aes = list(size= FisherLegendKeySizes)))
 
 
     return(simplePlot)
