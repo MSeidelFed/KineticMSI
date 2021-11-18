@@ -446,6 +446,10 @@ test_kSubset_R <- KineticMSI::kSubSetClassComparisonMSI(kDiscoveryFactor1 = Clas
 
 ```
 
+As with the class comparison function for pixel populations, the same summary statistics are return here. The difference is that each cluster pair is compared and analyzed separately under the assumption that these represent coherent pixel subsets with their own distinct tracer incorporation dynamics into target metabolic pools. A summary of the outcomes can be found in the following figure: 
+
+![SubSetClassComparison](images/SubSetClassComparison.png)
+
 ## Step 11 - Class comparison using enriched pixel proportions
 
 *A function to compare proportions within selected tracer enrichment proxies across pixels in replicated KineticMSI datasets*
