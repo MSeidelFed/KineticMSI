@@ -411,9 +411,9 @@ The function is interactive and needs to be run directly from the console to enh
 
 ```{r}
 
-test_manual_partition <- kUserAssistedPartitionMSI(kAssesmentOutput = ex_assesment,
-                                                   indexVector = c(58:59),
-                                                   ZeroAction = "replace")
+test_manual_partition <- KineticMSI::kUserAssistedPartitionMSI(kAssesmentOutput = ex_assesment,
+                                                               indexVector = c(58:59),
+                                                               ZeroAction = "replace")
 
 ```
 The visual outcome of the procedure is represented in the following figure:
