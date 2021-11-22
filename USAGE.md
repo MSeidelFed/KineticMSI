@@ -6,7 +6,7 @@ KineticMSI has been divided in several steps:
 
 1.  Input data: Completely necessary are data matrices featuring normalized or ready-to-compare abundances across MSI pixels.
 
-1.  Data pre-processing: The procedure is meant to delete potentially confounding pixels, which might be misinterpreted as enriched if left on the datasets during natural isotopic enrichment corrections.
+1.  Data pre-processing: The procedure is meant to delete potentially confounding pixels, which might be misinterpreted as enriched if left within the datasets during natural isotopic enrichment corrections.
 
 1. Correcting for natural isotopic abundance (NIA): from the corrected isotopologue pools, the enrichment percentages can be easily derived.
 
