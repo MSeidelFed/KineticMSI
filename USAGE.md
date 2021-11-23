@@ -592,6 +592,6 @@ The summary function enables insights in pixel populations and also in coherent 
 
 Note that when comparing the means of the experimental treatments (i.e., using a generalized linear model in panel B), there are no significantly changing lipids. On the other hand when comparing the data distribution between experimental treatments (i.e., using a Kolmogorov-Smirnov test in panel A), there are lipids that significantly differ. In the latter case, the significant changes are taken to perform a pathway enrichment analysis based on the Fisher exact test in order to elucidate whether the group of lipids belong to a specific functional category (Panel C).
 
-Similarly, the same insights can be obtained about the coherent pixel subsets that were partitioned using our class discovery algorithm. The details are exemplified in the following figure, which shows comparisons of coherent pixel subsets between thw two treatments and not within them:
+Similarly, the same insights can be obtained about the coherent pixel subsets that were partitioned using our class discovery algorithm. The details are exemplified in the following figure, which shows comparisons of coherent pixel subsets between the two treatments and not within them:
 
 ![SummarySubsets](images/SummarySubsets.png)
