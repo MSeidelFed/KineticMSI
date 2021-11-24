@@ -68,7 +68,7 @@ Peak picking is performed according to the user preference and specific tables m
 
 *A function to crop input KineticMSI datasets*
 
-This function allows you to remove MSI pixels that would impair interpretation of true 0% enrichment in the downstream calculations. The function generates corrected .csv files and a list with the corrected matrices as a return object in the R environment.The function takes an entire directory and it grabs all .csv files within the provided directory. The function then grabs each isotopologue envelope and sets to NA all of those pixels that would produce a misinterpretation of the NIA correction leading to misinterpreted enrichment percentages. 
+This function allows you to remove MSI pixels that would impair interpretation of true 0% enrichment in the downstream calculations. The function generates corrected .csv files and a list with the corrected matrices as a return object in the R environment. The function takes an entire directory and it grabs all .csv files within the provided directory. The function then grabs each isotopologue envelope and sets to NA all of those pixels that would produce a misinterpretation of the NIA correction leading to misinterpreted enrichment percentages. 
 
 * Filtering step 1 – All pixels with M<sub>0</sub> = 0 are deleted (replaced with NA). 
 
