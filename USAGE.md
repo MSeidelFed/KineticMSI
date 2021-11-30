@@ -398,7 +398,7 @@ KineticMSI::kReconstructMSI(Reconstruct = "After",
 The class discovery procedure as performed in KineticMSI is assisted by a bootstrapped hierarchical cluster analysis and can be visualized in the following figure (Panels A & C). Additionally, the function returns a figure that summarizes using a density histogram the number of coherent partitions found across the evaluated features (Panel B). Note that in the working example the majority of lipids partition into two coherent pixel clusters based on deuterium incorporation. Thus, the figure supplements nicely the results found. Following class discovery, users may visualize the picked significant cluster subsets using the *kReconstructMSI.R* (Panel D) function with the "Reconstruct" parameter set to "After", e.g.:
 
 <p align="center">
-  <img width="700" height="1000" src="https://github.com/MSeidelFed/KineticMSI/blob/master/images/ClassDiscovery.png">
+  <img width="700" height="9000" src="https://github.com/MSeidelFed/KineticMSI/blob/master/images/ClassDiscovery.png">
 </p>
 
 Just as before, the Reconstruct = "After" parameter inside the kReconstructMSI.R function will yield PDF files with the reconstructed maps of kClassDiscovery clusters.
