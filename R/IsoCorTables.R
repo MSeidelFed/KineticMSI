@@ -126,6 +126,6 @@ IsoCorTables <- function(PathToCSV) {
   
   write.table(out_mat, file = paste0("IsoCorInput","/Data_example.tsv"), row.names = F, quote = F, sep = "\t")
 
-  return(list(Metabolites_out_table, out_mat)
+  return(list(Metabolites_out_table, out_mat))
 
 }
