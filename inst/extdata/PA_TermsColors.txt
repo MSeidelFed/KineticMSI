@@ -1,4 +1,4 @@
-Annotations_CA1	Anatomical_location	Color
+Measurements.Samples	Anatomical_location	Color
 AA	Axonal_fatty_acids	#FE9666
 ADA	Myelin_fatty_acids	#7fcdbb
 CErP361	Synaptic_lipids	#D82C20
@@ -38,6 +38,7 @@ GD2d420	Synaptic_lipids	#D82C20
 GD2d447	Synaptic_lipids	#D82C20
 GlcCer321	Axonal_lipids	#F2C80F
 Globd461	Synaptic_lipids	#D82C20
+GM1361	Synaptic_lipids	#D82C20
 GM1381	Synaptic_lipids	#D82C20
 GM1b350	Synaptic_lipids	#D82C20
 GM1b424	Synaptic_lipids	#D82C20
@@ -98,13 +99,13 @@ PE340	Axonal_lipids	#F2C80F
 PE341	Astrocyte_lipids	#FE6DB7
 PE361	Mitochondrial_lipids	#B66DFF
 PE362	Mitochondrial_lipids	#B66DFF
-PE364	Mitochondrial_lipids	#B66DFF
+PEO365	Mitochondrial_lipids	#B66DFF
 PE384	Axonal_lipids	#F2C80F
 PE385	Axonal_lipids	#F2C80F
 PE386	Mitochondrial_lipids	#B66DFF
 PE404	Mitochondrial_lipids	#B66DFF
 PE405	Mitochondrial_lipids	#B66DFF
-PE406	Mitochondrial_lipids	#B66DFF
+PEO407	Mitochondrial_lipids	#B66DFF
 PE407	Mitochondrial_lipids	#B66DFF
 PE437	Mitochondrial_lipids	#B66DFF
 PE509	Mitochondrial_lipids	#B66DFF
@@ -114,8 +115,8 @@ PEO408	Mitochondrial_lipids	#B66DFF
 PEO469	Myelin_lipids	#00B2D9
 PEO4812	Myelin_lipids	#00B2D9
 PEO5011	Myelin_lipids	#00B2D9
-PEP361	Myelin_lipids	#00B2D9
-PEP362	Myelin_lipids	#00B2D9
+PEO362	Myelin_lipids	#00B2D9
+PEO363	Myelin_lipids	#00B2D9
 PEP364	Axonal_lipids	#F2C80F
 PEP384	Myelin_lipids	#00B2D9
 PEP386	Myelin_lipids	#00B2D9
@@ -155,11 +156,11 @@ PICer442	Myelin_lipids	#00B2D9
 PICer466	Myelin_lipids	#00B2D9
 PIO341	Myelin_lipids	#00B2D9
 PIO361	Myelin_lipids	#00B2D9
-PIO362	Myelin_lipids	#00B2D9
+PI361	Myelin_lipids	#00B2D9
 PIP2340	Synaptic_lipids	#D82C20
 PIP2491	Synaptic_lipids	#D82C20
 PIP2492	Synaptic_lipids	#D82C20
-PIP351	Synaptic_lipids	#D82C20
+PI4210	Synaptic_lipids	#D82C20
 PIP384	Synaptic_lipids	#D82C20
 PIP393	Synaptic_lipids	#D82C20
 PIP407	Synaptic_lipids	#D82C20
@@ -192,6 +193,7 @@ SHexCer411	Myelin_lipids	#00B2D9
 SHexCer412	Myelin_lipids	#00B2D9
 SHexCer421	Myelin_lipids	#00B2D9
 SHexCer422	Myelin_lipids	#00B2D9
+SHexCerd422	Myelin_lipids	#00B2D9
 SHexCer423	Myelin_lipids	#00B2D9
 SHexCer432	Myelin_lipids	#00B2D9
 SHexCer466	Myelin_lipids	#00B2D9
