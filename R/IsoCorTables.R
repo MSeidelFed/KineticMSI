@@ -9,16 +9,56 @@
 #' ...
 
 
-
-
 IsoCorTables <- function(PathToCSV) {
 
   WT1 <- read.csv(file = PathToCSV, header = T)
+  
+  dir.create("IsoCorInput")
+  
+  ## metabolites table
+
+  Metabolites <- as.factor(WT1[,"Molecular.formula"])
+
+  name <- c()
+
+  formula <- c()
+
+  charge <- c()
+
+  for (i in 1:length(levels(Metabolites))) {
+  
+    test <- length(strsplit(x = levels(Metabolites)[i], split = "")[[1]])
+  
+    if (test != 0) {
+    
+      index_met_i <- which(WT1[,"Molecular.formula"] == levels(Metabolites)[i])
+    
+      if (length(index_met_i) > 1) {
+      
+        cat("...\n")
+        stop("ERROR: Duplicated features in the input table...")
+      
+      } else {
+      
+        name <- c(name, as.character(WT1[index_met_i ,"Metabolite"]))
+    
+        formula <- c(formula, as.character(WT1[index_met_i ,"Molecular.formula"]))
+    
+        charge <- c(charge, -1) 
+      
+      }
+    }
+  }
+
+  Metabolites_out_table <- cbind(name, formula, charge)
+
+  write.table(x = Metabolites_out_table, file = paste0("IsoCorInput","/Metabolites.dat"), quote = F, row.names = F, sep = "\t")
+  
+  ## data table
 
   unique_lipids <- as.character(unique(WT1[,"Metabolite"]))
 
   IsoCor_Mats <- matrix(NA, nrow = 1, ncol = 6)
-
 
   for (i in 1:length(unique_lipids)) {
 
@@ -83,7 +123,9 @@ IsoCorTables <- function(PathToCSV) {
 
   out_mat[,5] = replacement_AREA
   out_mat[,3] = replacement_DER
+  
+  write.table(out_mat, file = paste0("IsoCorInput","/Data_example.tsv"), row.names = F, quote = F, sep = "\t")
 
-  return(out_mat)
+  return(list(Metabolites_out_table, out_mat)
 
 }
