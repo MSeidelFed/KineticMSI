@@ -118,7 +118,7 @@ IsoCorTables <- function(PathToCSV) {
   }
 
   out_mat[,5] = replacement_AREA
-  out_mat[,3] = ifelse(IsoCor_test[[2]][,3], yes = "", no = "")
+  out_mat[,3] = ifelse(out_mat[,3], yes = "", no = "")
   
   write.table(out_mat, file = paste0("IsoCorInput","/Data_example.tsv"), row.names = F, quote = F, sep = "\t")
 
