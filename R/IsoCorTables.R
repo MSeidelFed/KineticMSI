@@ -116,9 +116,9 @@ IsoCorTables <- function(PathToCSV) {
 
     replacement_AREA[i] = runner
 
-    if (is.na(out_mat[i,"derivative"])) {runner = "NULL"} else {runner = out_mat[i,"area"]}
+    #if (is.na(out_mat[i,"derivative"])) {runner = ""} else {runner = out_mat[i,"area"]}
 
-    replacement_DER[i] = runner
+    #replacement_DER[i] = runner
   }
 
   out_mat[,5] = replacement_AREA
