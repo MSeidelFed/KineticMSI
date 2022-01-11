@@ -96,7 +96,7 @@ IsoCorTables <- function(PathToCSV) {
 
     IsoCor_Mat <- cbind(sample = test[,2],
                         metabolite = metabolite,
-                        derivative = rep(NA, dim(test)[1]),
+                        derivative = rep("", dim(test)[1]),
                         isotopologue = test[,1],
                         area = test[,3],
                         resolution = rep(70000, dim(test)[1]))
