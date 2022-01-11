@@ -295,7 +295,7 @@ This function allows KineticMSI users to assess the quality in terms of reproduc
 ```{r}
 
 ex_assesment <- KineticMSI::kAssesmentMSI(path = "OutputIsoCorrectoR/", 
-                                          PatternEnrichment = "MeanEnrichment_SharedFeatures", 
+                                          PatternEnrichment = "MeanEnrichment", 
                                           SubSetRepsIntensities = FALSE, 
                                           CompareSampledSet = TRUE,
                                           returnObject = "minDataset",
