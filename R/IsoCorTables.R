@@ -96,7 +96,7 @@ IsoCorTables <- function(PathToCSV) {
 
     IsoCor_Mat <- cbind(sample = test[,2],
                         metabolite = metabolite,
-                        derivative = rep("", dim(test)[1]),
+                        derivative = rep(FALSE, dim(test)[1]),
                         isotopologue = test[,1],
                         area = test[,3],
                         resolution = rep(70000, dim(test)[1]))
@@ -115,14 +115,10 @@ IsoCorTables <- function(PathToCSV) {
     if (is.na(out_mat[i,"area"])) {runner = 0} else {runner = out_mat[i,"area"]}
 
     replacement_AREA[i] = runner
-
-    #if (is.na(out_mat[i,"derivative"])) {runner = ""} else {runner = out_mat[i,"area"]}
-
-    #replacement_DER[i] = runner
   }
 
   out_mat[,5] = replacement_AREA
-  out_mat[,3] = replacement_DER
+  out_mat[,3] = ifelse(IsoCor_test[[2]][,3], yes = "", no = "")
   
   write.table(out_mat, file = paste0("IsoCorInput","/Data_example.tsv"), row.names = F, quote = F, sep = "\t")
 
