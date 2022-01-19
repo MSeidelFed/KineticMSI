@@ -307,6 +307,7 @@ kSubSetClassComparisonMSI <- function(kDiscoveryFactor1,
                                                      Factor1 = as.factor(c(rep("F1", repNumber1),
                                                                            rep("F2_GLM", repNumber2))),
                                                      Contrast = F,
+                                                     ReturnTukeyPlots = F,
                                                      TukeyReturns = "MeanComparisons",
                                                      returnObject = "OmicsTests")
 
