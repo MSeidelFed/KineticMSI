@@ -70,7 +70,7 @@ kClassComparisonMSI <- function(kAssesmentOutput,
       cat(paste0("Running on Entity No. ", i, "\n"))
       cat("...\n")
 
-      if (class(input_list[[i]]) == "matrix") {
+      if (class(input_list[[i]])[1] == "matrix") {
 
         ## NA positions from failed previous assays
 
