@@ -226,7 +226,7 @@ kReconstructMSI <- function(Reconstruct = c("After", "Before"),
   show_condition <- function(code) {
     tryCatch(code,
              error = function(c) "error",
-             warning = function(c) "warning",
+             #warning = function(c) "warning",
              message = function(c) "message"
     )
   }
