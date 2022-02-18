@@ -419,7 +419,7 @@ kSummaryMSI <- function(kComparisonOutput,
 
   for (i in 1:length(list_SubSets)) {
 
-    if(class(list_SubSets[[i]]) == "matrix") {
+    if(class(list_SubSets[[i]])[1] == "matrix") {
 
       in_mat2 <- list_SubSets[[i]]
 
