@@ -210,7 +210,7 @@ kClassComparisonMSI <- function(kAssesmentOutput,
     Pvalues_test <- RandoDiStats::OmicsUnivariateStats(class_comparison_mat = test_mat,
                                                        Factor1 = c(rep("F1", repNumber1), rep("F2_GLM", repNumber2)),
                                                        Contrast = F,
-                                                       ReturnTukeyPlots = F,
+                                                       ReturnTukeyPlots = T,
                                                        TukeyReturns = "MeanComparisons",
                                                        returnObject = "OmicsTests")
 
