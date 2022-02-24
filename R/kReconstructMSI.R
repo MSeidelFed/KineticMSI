@@ -583,6 +583,8 @@ kReconstructMSI <- function(Reconstruct = c("After", "Before"),
         #### Before class_discovery_kMSI, i.e., conventional K-means clustering
 
         ##### setting a boundary for almost empty matrices
+        
+        suppressWarnings(
 
         if (show_condition(code = ComplexHeatmap::column_order(ComplexHeatmap::Heatmap(as.numeric(enrichment_file[i,]),
                                                                                        km = kmeans)) == "error") == "error" |
@@ -665,7 +667,7 @@ kReconstructMSI <- function(Reconstruct = c("After", "Before"),
                                 paletteChosen = paletteSpatialPlots,
                                 ContrastPercent = ContrastPercentValue)
 
-        }
+        })
 
         #### return object unfiltered list
 
