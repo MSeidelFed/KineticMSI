@@ -458,7 +458,7 @@ This function allows KineticMSI users to compare the proportion of pixels that f
 
 ```{r}
 
-test_proportions <- kEnrichmentProportionsMSI(path = "OutputIsoCorrectoR/",
+test_proportions <- KineticMSI::kEnrichmentProportionsMSI(path = "OutputIsoCorrectoR/",
                                               PatternEnrichment = "MeanEnrichment_SharedFeatures", 
                                               SubSetRepsIntensities = FALSE,
                                               factorVector = c(rep("_HD", 6),
