@@ -490,7 +490,7 @@ This function allows KineticMSI users to to summarize KineticMSI output in two c
 
 ### Working with the entire dataset
 
-test_summary_dataset <- kSummaryMSI(kComparisonOutput = test_kclcomp,
+test_summary_dataset <- KineticMSI::kSummaryMSI(kComparisonOutput = test_kclcomp,
                                     Abscissa = "Cohensd",
                                     Ordinate = "KS_pAdjusted", 
                                     SigBndrie = 0.05,  
@@ -535,7 +535,7 @@ test_summary_dataset <- kSummaryMSI(kComparisonOutput = test_kclcomp,
 
 ### Working with the subsets
 
-test_summary_subset <- kSummaryMSI(kComparisonOutput = test_kSubset_R,
+test_summary_subset <- KineticMSI::kSummaryMSI(kComparisonOutput = test_kSubset_R,
                                    Abscissa = "Cohensd",
                                    Ordinate = "Factor1F2_TukeyHSD_Padj", 
                                    SigBndrie = 0.05,  
