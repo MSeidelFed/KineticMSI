@@ -138,9 +138,9 @@ kEnrichmentProportionsMSI <- function(path,
 
   ## set to null names without sig padj values
 
-  rownames(Padj_values)[which(Padj_values > 0.1)] <- "."
+  rownames(Padj_values)[which(Padj_values > 0.05)] <- "."
 
-  rownames(P_values)[which(P_values > 0.1)] <- "."
+  rownames(P_values)[which(P_values > 0.05)] <- "."
 
   if (length(unique(rownames(Padj_values))) > 1) {
 
