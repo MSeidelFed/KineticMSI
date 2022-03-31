@@ -589,3 +589,60 @@ Note that when comparing the means of the experimental treatments (i.e., using a
 Similarly, the same insights can be obtained about the coherent pixel subsets that were partitioned using our class discovery algorithm. The details are exemplified in the following figure, which shows comparisons of coherent pixel subsets between the two treatments and not within them:
 
 ![SummarySubsets](images/SummarySubsets.png)
+
+Additionally to make targeted volcanoes for specific features you can benchmark only the rownames for the desired comparison, e.g.:
+
+```{r}
+#### targeted search for specific lipids and production of targeted volcano plots: removing all rownames except the ones of interest:
+
+test_kSubset_R_croppedNames <- test_kSubset_R
+rownames(test_kSubset_R_croppedNames) <- 1:dim(test_kSubset_R)[1]
+rownames(test_kSubset_R_croppedNames)[grep("(.*PI364)(.*HD)(.*WT)", rownames(test_kSubset_R))] <- rownames(test_kSubset_R)[grep("(.*PI364)(.*HD)(.*WT)", rownames(test_kSubset_R))]
+
+#### Use the kSummaryMSI.R function in the altered object:
+
+test_summary_subset <- KineticMSI::kSummaryMSI(kComparisonOutput = test_kSubset_R_croppedNames,
+                                               Abscissa = "Cohensd",
+                                               Ordinate = "Factor1F2_GLM_P values", 
+                                               SigBndrie = 0.0000001,  
+                                               xBndrie = 40,   
+                                               label = "EntityName",  
+                                               plotTitle = "", 
+                                               factor1 = "HD", 
+                                               factor2 = "WT", 
+                                               returnPlotsPNGs = T,  
+                                               AbscissasName = "",  
+                                               OrdinatesName = expression(-Log[10]~italic(P)[adj]~ ~value),     
+                                               width = 44.45,                  
+                                               height = 27.78,          
+                                               AxesIndexSize = 10,  
+                                               AxesTitleSize = 10, 
+                                               LegendFontSize = 10,   
+                                               LegendKeySize = 5,  
+                                               LegendTitleSize = 10,
+                                               LabelSize = 1,     
+                                               ColorAllDots = T, 
+                                               DotsSize = 5,  
+                                               FisherTermsDir =  paste0(Path2ExemplaryFiles,"/PA_Terms.csv"),
+                                               returnSigFisher = F,
+                                               returnQvaluesFisher = F,  
+                                               h1Fisher = "two.sided",
+                                               ColorCategory = "Anatomical_location",
+                                               PathwayColorsDir = paste0(Path2ExemplaryFiles, "/PA_TermsColors.txt"),
+                                               returnObject = "VolcanoPlots",
+                                               BarNumbersPlot = "pSigEntInClassToTotEntInClass",
+                                               FisherCatNumSize = 3.5,
+                                               FisherCatAxisFontSize = 10,
+                                               FisherAxesTitleSize = 10,
+                                               FisherLegendFontSize = 10,
+                                               FisherLegendTitleSize = 10,
+                                               FisherLegendKeySize = 10,
+                                               LowerLimitFisher = NULL, 
+                                               UpperLimitFisher =  NULL,
+                                               LowerLimitVolcano = NULL,
+                                               UpperLimitVolcano = NULL,
+                                               FisherLegendPosition = "right",
+                                               VolcanoLegendPosition = "right")
+
+```
+This action will produce volcanoes with the exact location of only those clusters that belong to, in this exemplary case, PI364
