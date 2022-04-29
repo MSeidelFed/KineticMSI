@@ -4,7 +4,7 @@
 ## Usage Instructions
 KineticMSI has been divided into several steps:
 
-1.  Input data: Data matrices featuring normalized or ready-to-compare abundances across MSI pixels, where the input data includes isotopologue intensities is a necessity.
+1.  Input data: Data matrices featuring normalized or ready-to-compare abundances across MSI pixels, where the input data includes isotopologue intensities is required.
 
 1.  Data pre-processing: The procedure is meant to delete potentially confounding pixels, which might be misinterpreted as enriched if left within the datasets during natural isotopic enrichment corrections.
 
@@ -12,7 +12,7 @@ KineticMSI has been divided into several steps:
 
 1. Assembly of isotopic flux proxies for analyzing the tracer dynamics.
 
-1. Visualization and determination of the best isotopic flux proxies. The used proxies can vary with diverse experimental strategies, i.e., tracer used, metabolic targets, detected isotopologues, enrichment percentages, isotopic envelope shifts.
+1. Visualization and determination of the best isotopic flux proxies. The proxies chosen may vary with diverse experimental strategies, i.e., tracer used, metabolic targets, detected isotopologues, enrichment percentages, isotopic envelope shifts.
 
 1. Visualization of isotopic flux proxies and analysis of the tracer spatial dynamics. This step is meant to reconstruct kMSI images based on the derived proxies of isotope enrichment.
 
@@ -51,7 +51,7 @@ Path2ExemplaryFiles <- system.file("extdata", package = "KineticMSI")
 
 ## Step 1 - Input matrices: normalized abundances across MSI pixels
 
-Peak picking is performed according to the user preference and specific tables must be produced from the peak picking process. The input table must contain all metabolites or peptide mass features to be corrected along with their respective isotopologue envelopes. In the first column, the metabolite identifiers are followed through a floor dash by the isotopologue number starting with 0 that represents the monoisotopic peak. Each column after the first contains the peak abundance across measured pixels in a MSI experiment.
+Peak picking is performed according to the user preference and available software. Specific tables must be produced from the peak picking process to be compatible with KineticMSI. The input table must contain all metabolites or peptide mass features to be corrected along with their respective isotopologue envelopes and peak abundances. In the first column, the metabolite identifiers are followed with a floor dash by the isotopologue number starting with 0 representing the monoisotopic peak. Each column after the first contains the peak abundance across measured pixels in a MSI experiment. (In the case of LC-MS data, each column represents an individual sample or replicate.)
 
 
                         Measurements/Samples| Pixel1     | Pixel2     | Pixel3        | Pixel4         | Pixel5      |           
@@ -104,7 +104,7 @@ The procedures correct the endogenous metabolite or peptide pools for natural is
 
 *A function to correct natural isotopic abundances (NIA) from KineticMSI datasets or multiple csv files with the right format*
 
-[IsoCorrectoR](https://www.bioconductor.org/packages/release/bioc/html/IsoCorrectoR.html) has been installed and used according to the instructions provided upon releasing of the package in BioConductor.
+[IsoCorrectoR](https://www.bioconductor.org/packages/release/bioc/html/IsoCorrectoR.html) has been installed and used according to the instructions provided from BioConductor.
 
 This function allows you to correct isotopologue envelopes for NIA inheriting all specifications from the R package IsoCorrectoR. The function calculates the percentage of enrichment of a defined stable isotope as well as other important values that reflect tracer dynamics within enrichment experiments. The function takes an entire directory and grabs all the .csv files contained within in a recursive manner. Subsequently, the function generates .csv files with each of the relevant returns in the *kinetic*MSI context. Each column in the input table "MeasurementFile.csv" belongs to a single coordinate on the original image where the isotopologues could be measured and mined out.
 
@@ -165,13 +165,13 @@ IsoCor_test <- KineticMSI::IsoCorTables(PathToCSV = paste0(Path2ExemplaryFiles, 
 ```
 Subsequently, the output table can be directly used by [IsoCor](https://github.com/MetaSys-LISBP/IsoCor) following the published instructions.
 
-The following steps aim to derive various isotope incorporation proxies from the tables produced by IsoCorrectoR and determine which proxy describes best the biology of the system. In this sense, these functions are a tool to legitimate the tracer dynamics within the studied system. The procedure detailed is subdivided in two independent steps, which do not need to be completed to be useful, users may rather use one or the other depending on the data availability.
+The following steps aim to derive various isotope incorporation proxies from the tables produced by IsoCorrectoR and determine which proxy describes best the biology of the system. In this sense, these functions are a tool to legitimise the tracer dynamics within the studied system. The procedure detailed is subdivided in two independent steps, which do not need to be completed to be useful, users may rather use one or the other depending on the data availability.
 
 ## Step 4 - Assembly of isotopic flux proxies
 
 *A function to produce files that describe through different proxies the tracer dynamics within kineticMSI datasets*
 
-This function allows to calculate across MSI pixels various values that reflect different aspects of the tracer dynamics. The function tests if the molecular features are shared across all datasets, if these are not shared, the function produces files with the common features before carrying on with the calculations. This is to prevent errors in the joined steady state pool files that are generated. The function outputs the isotope incorporation proxies as .csv files to the same input directories.
+This function allows users to calculate across MSI pixels various values that reflect different aspects of the tracer dynamics. The function tests if the molecular features are shared across all datasets, if these are not shared, the function produces files with the common features before carrying on with the calculations. This is to prevent errors in the joined steady state pool files that are generated. The function outputs the isotope incorporation proxies as .csv files to the same input directories.
 
 ```{r}
 
@@ -199,7 +199,7 @@ KineticMSI::IncorporationProxies(ParentDir = "OutputIsoCorrectoR/",
 
 *A function to select an isotope proxy that best reflects the changes seen in steady state pools measured without stable isotope assisted mass spectrometry*
 
-This function allows to compare the steady state pools from molecular features that were measured through both stable assisted and conventional mass spectrometry. By contrasting the results from different isotope combinations (e.g., A<sub>0</sub> or M<sub>0</sub> to A<sub>n</sub> or M<sub>n</sub> versus A<sub>0</sub> or M<sub>0</sub>  to A<sub>1</sub> or M<sub>1</sub>) users can easily define how many isotopes reflect the actual pool changes of the target molecular features in their biological systems. The input files must have the same treatment rows while molecular feature may vary. The algorithm will select the features in common for the calculations.
+This function allows users to compare the steady state pools from molecular features that were measured through both stable assisted and conventional mass spectrometry. By contrasting the results from different isotope combinations (e.g., A<sub>0</sub> or M<sub>0</sub> to A<sub>n</sub> or M<sub>n</sub> versus A<sub>0</sub> or M<sub>0</sub>  to A<sub>1</sub> or M<sub>1</sub>) users can easily define how many isotopes reflect the actual pool changes of the target molecular features in their biological systems. The input files must have the same treatment rows while molecular feature may vary. The algorithm will select the features in common for the calculations.
 
 Examples:
  
