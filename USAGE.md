@@ -2,19 +2,19 @@
 ***Functions to interpret stable isotope assisted mass spectrometry imaging experiments***
 
 ## Usage Instructions
-KineticMSI has been divided in several steps:
+KineticMSI has been divided into several steps:
 
-1.  Input data: Completely necessary are data matrices featuring normalized or ready-to-compare abundances across MSI pixels.
+1.  Input data: Data matrices featuring normalized or ready-to-compare abundances across MSI pixels, where the input data includes isotopologue intensities is a necessity.
 
 1.  Data pre-processing: The procedure is meant to delete potentially confounding pixels, which might be misinterpreted as enriched if left within the datasets during natural isotopic enrichment corrections.
 
 1. Correcting for natural isotopic abundance (NIA): from the corrected isotopologue pools, the enrichment percentages can be easily derived.
 
-1. Assembling of isotopic flux proxies for analyzing the tracer dynamics.
+1. Assembly of isotopic flux proxies for analyzing the tracer dynamics.
 
 1. Visualization and determination of the best isotopic flux proxies. The used proxies can vary with diverse experimental strategies, i.e., tracer used, metabolic targets, detected isotopologues, enrichment percentages, isotopic envelope shifts.
 
-1. Visualization of isotopic flux proxies and analyses of the tracer spatial dynamics. This step is meant to reconstruct kMSI images based on the derived proxies of isotope enrichment.
+1. Visualization of isotopic flux proxies and analysis of the tracer spatial dynamics. This step is meant to reconstruct kMSI images based on the derived proxies of isotope enrichment.
 
 1. Quality assessment of consolidated data matrices.
 
@@ -127,7 +127,7 @@ suppressWarnings(KineticMSI::NIAcorrection(MeasurementFileDir = "rmOutput/",
 
 ```
 
-IsoCorrectoR generates warnings when there are not as many isotopologue measured abundances as potentially labelled atoms in the molecule, indicating that NIA correction may be skewed. We recommend that users run this function within the suppressWarnings() R function because in the presence of warnings and given the numerous pixels per MSI experiment, a single KineticMSI dataset could take a very long time to run. The time is mostly spent on writing the warnings to the console. Thus when warnings are suppressed, the efficiency of the function increases dramatically.
+IsoCorrectoR generates warnings when there are not as many measured isotopologue abundances as potentially labelled atoms in the molecule, indicating that NIA correction may be skewed. We recommend that users run this function within the suppressWarnings() R function because in the presence of warnings and given the numerous pixels per MSI experiment, a single KineticMSI dataset could take a very long time to run. The time is mostly spent on writing the warnings to the console. Thus when warnings are suppressed, the efficiency of the function increases dramatically.
 
 Additionally, as a cross validation step of the enrichment percentage calculations, we provide a function to transform the IsoCorrectoR tables into the format of IsoCor to be run in Python.
 
