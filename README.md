@@ -1,9 +1,9 @@
 # KineticMSI
 **Functions to interpret stable isotope assisted mass spec imaging experiments**
 ## Introduction
-KineticMSI is a collection of scripts to assist in accurate data preparing and analyses of stable isotope assisted Mass Spectrometry Imaging experiments in order to derive functional biological interpretations. The procedure has been detailed in XXXXX and XXXXX publication.
+KineticMSI is a collection of scripts to assist in accurate data preparation and analysis of stable isotope assisted (kinetic) Mass Spectrometry Imaging experiments in order to derive functional biological interpretations. Additionally, the functionality available in KineticMSI is compatibile with stable isotope assisted liquid-chromatography mass spectrometry data. See below for a link to the KineticMSI to Kinetic LCMS (KineticMSI_2_kLCMS) repository and installation. The procedures described here are detailed in XXXXX and XXXXX publication.
 
-The repo follows this file structure, in order of relevance:
+The repo follows this file structure:
 
 1. [Usage Instructions](https://github.com/MSeidelFed/KineticMSI/blob/master/USAGE.md): _detailed and recommended usage of R script code to run the analysis step-by-step._
 1. [Data](https://github.com/MSeidelFed/KineticMSI/tree/master/inst/extdata): _sample data used in the original project from which the usage examples are based. Use this to reproduce our results._
@@ -32,10 +32,12 @@ library(devtools)
 devtools::install_github("MSeidelFed/RandodiStats_package")
 library(RandoDiStats)
 
-### Install KinetiMSI
+### Install KineticMSI
 
 devtools::install_github("MSeidelFed/KineticMSI")
 library(KineticMSI)
+
+
 ```
 
 ## Getting the exemplary datasets directory after installation
@@ -43,5 +45,14 @@ library(KineticMSI)
 ```
 system.file("extdata", package = "KineticMSI")
 ```
+
+
+## Link to KineticMSI to kLCMS repository and installation
+
+https://github.com/MSeidelFed/KineticMSI_2_kLCMS
+
+### Install KineticMSI_2_kLCMS
+
+
 
 
