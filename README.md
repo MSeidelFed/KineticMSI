@@ -13,9 +13,9 @@ The repo follows this file structure:
 
 Below is an illustration of the workflow.
 
-**Workflow PART I**
+**Workflow - Module I and II**
 
-![Workflow1](images/kineticMSI1.png)
+(images/)
 
 **Workflow PART II**
 
