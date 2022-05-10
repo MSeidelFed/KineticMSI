@@ -15,12 +15,7 @@ Below is an illustration of the workflow.
 
 **Workflow - Module I and II**
 
-(images/)
-
-**Workflow PART II**
-
-![Workflow2](images/kineticMSI2.png)
-
+![Workflow - Module I and II](images/Fig2_Modified_workflow_GitHub.tif)
 
 ## Installation
 
