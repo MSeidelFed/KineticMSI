@@ -26,18 +26,24 @@ It is necessary to install [Rtools](https://cran.r-project.org/bin/windows/Rtool
 ### Installing KineticMSI
 
 ```
-library(devtools)
-
 ### Get the latest installation of RandoDiStats (KineticMSI depends on it)
 
 devtools::install_github("MSeidelFed/RandodiStats_package")
 library(RandoDiStats)
 
+### Additional packages required for KineticMSI (depending on the R version these may or may not be automatically installed with your KineticMSI installation, better to install them manually beforehand)
+
+install.packages(“BiocManager”)
+BiocManager::install("pcaMethods")
+BiocManager::install("ComplexHeatmap")
+BiocManager::install(“Cardinal”)
+BiocManager::install("sva")
+
+
 ### Install KineticMSI
 
 devtools::install_github("MSeidelFed/KineticMSI")
 library(KineticMSI)
-
 
 ```
 
@@ -47,13 +53,7 @@ library(KineticMSI)
 system.file("extdata", package = "KineticMSI")
 ```
 
-
 ## Link to KineticMSI to kLCMS repository and installation
 
 https://github.com/MSeidelFed/KineticMSI_2_kLCMS
-
-### Install KineticMSI_2_kLCMS
-
-
-
 
