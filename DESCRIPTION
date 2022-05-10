@@ -15,7 +15,7 @@ Authors@R:
              family = "Boughton",
              role = c("aut"),
              email = "Berin.Boughton@murdoch.edu.au"))
-Depends: R (>= 3.6.1), BiocGenerics (>= 0.1.12), Biobase (>= 2.5.5), BiocManager
+Depends: R (>= 3.6.1), BiocManager, BiocGenerics (>= 0.1.12), Biobase (>= 2.5.5), sva, Cardinal, IsoCorrectoR, ComplexHeatmap, pcaMethods
 Imports:		
 		reshape2,
 		ggplot2,
@@ -26,7 +26,6 @@ Imports:
 		RColorBrewer,
 		gridExtra,
 		viridis,
-		Cardinal,
 		matrixStats,
 		RandoDiStats,
 		fitdistrplus,
@@ -41,12 +40,6 @@ Imports:
 		tidyverse,
 		forcats,
 		readr
-Suggests:
-		IsoCorrectoR,
-		BiocGenerics,
-		Biobase,
-		ComplexHeatmap,
-		pcaMethods
 Maintainer: Federico Martinez-Seidel <mseidel@mpimp-golm.mpg.de>
 Description: Functions to interpret stable isotope assisted mass spectrometry imaging experiments.
 License: BSD 2-Clause License.
