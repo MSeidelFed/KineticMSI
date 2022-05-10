@@ -15,7 +15,7 @@ Authors@R:
              family = "Boughton",
              role = c("aut"),
              email = "Berin.Boughton@murdoch.edu.au"))
-Depends: R (>= 3.6.1), BiocGenerics (>= 0.1.12), Biobase (>= 2.5.5)
+Depends: R (>= 3.6.1), BiocGenerics (>= 0.1.12), Biobase (>= 2.5.5), BiocManager
 Imports:		
 		reshape2,
 		ggplot2,
