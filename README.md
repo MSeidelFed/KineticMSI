@@ -15,7 +15,7 @@ Below is an illustration of the workflow.
 
 **Workflow - Module I and II**
 
-![Workflow - Module I and II](images/Fig2_Modified_workflow_GitHub.tif)
+![Workflow - Module I and II](images/Fig2_Modified_workflow_GitHub.png)
 
 ## Installation
 
