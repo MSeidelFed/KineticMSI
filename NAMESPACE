@@ -2,7 +2,6 @@
 
 export(AcqTimeRandomSamplingMSI)
 export(ClassDistribution)
-export(EnrichmentProportions)
 export(EnrichmentSortedSamplingMSI)
 export(GLMplotCustomizedMSI)
 export(IncorporationProxies)
