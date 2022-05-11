@@ -16,6 +16,7 @@ Authors@R:
              role = c("aut"),
              email = "Berin.Boughton@murdoch.edu.au"))
 Depends: R (>= 3.6.1), BiocManager, BiocGenerics (>= 0.1.12), Biobase (>= 2.5.5), sva, Cardinal, IsoCorrectoR, ComplexHeatmap, pcaMethods
+biocViews:
 Imports:		
 		reshape2,
 		ggplot2,
