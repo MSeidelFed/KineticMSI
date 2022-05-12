@@ -17,7 +17,7 @@ Authors@R:
              email = "Berin.Boughton@murdoch.edu.au"))
 biocViews:
 Depends: R (>= 3.6.1), BiocManager, BiocGenerics (>= 0.1.12), Biobase (>= 2.5.5), sva, Cardinal, IsoCorrectoR, ComplexHeatmap, pcaMethods
-Imports:		
+Imports: 
 		reshape2,
 		ggplot2,
 		ggridges,
@@ -47,4 +47,4 @@ License: BSD 2-Clause License.
 Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.1.1
+RoxygenNote: 7.1.2
