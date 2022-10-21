@@ -1,7 +1,7 @@
 # KineticMSI
 **Functions to interpret stable isotope assisted mass spec imaging experiments**
 ## Introduction
-KineticMSI is a collection of scripts to assist in accurate data preparation and analysis of stable isotope assisted (kinetic) Mass Spectrometry Imaging experiments in order to derive functional biological interpretations. Additionally, the functionality available in KineticMSI is compatibile with stable isotope assisted liquid-chromatography mass spectrometry data. See below for a link to the KineticMSI to Kinetic LCMS (KineticMSI_2_kLCMS) repository and installation. The procedures described here are detailed in XXXXX and XXXXX publication.
+KineticMSI is a collection of scripts to assist in accurate data preparation and analysis of stable isotope assisted (kinetic) Mass Spectrometry Imaging experiments in order to derive functional biological interpretations. Additionally, the functionality available in KineticMSI is compatibile with stable isotope assisted liquid-chromatography mass spectrometry data. See below for a link to the KineticMSI to Kinetic LCMS (KineticMSI_2_kLCMS) repository and installation. The procedures described here are detailed in the [KineticMSI preprint](https://www.biorxiv.org/content/10.1101/2022.08.31.505954v1.full.pdf).
 
 The repo follows this file structure:
 
