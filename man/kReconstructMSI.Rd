@@ -8,7 +8,8 @@ kReconstructMSI(
   Reconstruct = c("After", "Before"),
   kClustersMSI,
   EnrPath,
-  MSIPath = system.file("extdata", package = "KineticMSI"),
+  GetCoords = c("Cardinal", "SCiLS"),
+  CoordsFilePath = system.file("extdata", package = "KineticMSI"),
   PatternEnrichment = "MeanEnrichment.csv",
   outpath = getwd(),
   as = c("MSImageSet", "MSImagingExperiment"),
@@ -33,8 +34,6 @@ kReconstructMSI(
 \item{Reconstruct}{either "Before" or "After". Allows defining if the reconstruction algorithm runs before or after applying the kClassDiscoveryMSI function.}
 
 \item{kClustersMSI}{only needs to be defined if the previous parameter is set to "After". the input is a kClassDiscoveryMSI output object produced with the parameter returnObject set to "minDatasetPlusCoords".}
-
-\item{MSIPath}{parent directory were all MSI files are contained, digs within recursive folders.}
 
 \item{PatternEnrichment}{defaults to "MeanEnrichment.csv". character vector used to grab input csv enrichment files}
 
@@ -71,6 +70,8 @@ kReconstructMSI(
 \item{returnObject}{defaults to TRUE. Allows to return the list of matrices to the R enviroment. When FALSE, only the output files are produced}
 
 \item{Enrpath}{parent directory were all enrichment files are contained, digs within recursive folders.}
+
+\item{MSIPath}{parent directory were all MSI files are contained, digs within recursive folders.}
 }
 \description{
 This function allows to produce the first type of inference on the replicated datasets that KineticMSI offers. The function produces first boxplots that reflect the dispersion of the chosen isotope tracer proxy across MSI pixels and treatments. The boxplots are produced both for separate replicates and as treatment means. Afterwards the function reconstructs the MSI acquired images by extracting the coordinates from the .ibd .imzML input files and using them to build reconstructed images that reflect the isotope tracer dynamics within the samples specimen. The function has two different run possibilities, it may be run "before" or "after" the KineticMSI class discovery function. In the former case the function will build clusters during the spatial reconstruction of images using a K-mean clustering algorithm and attempting at clustering together pixels based on specific similarity or dissimilarity metrics. In the latter case the clusters are inherited from the kClassDiscoveryMSI function output when the parameter returnObject is set to "minDatasetPlusCoords".
